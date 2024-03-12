@@ -12,6 +12,6 @@ FROM eclipse-temurin:17
 # Set the working directory in the container
 WORKDIR /app
 # Copy the built JAR file from the previous stage to the container
-COPY - from=build /app/target/my-application.jar .
+COPY --from=build /app/target/my-application.jar .
 # Set the command to run the application
 CMD ["java", "-jar", "my-application.jar"]
