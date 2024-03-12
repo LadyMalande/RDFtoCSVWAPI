@@ -14,4 +14,4 @@ WORKDIR /app
 # Copy the built JAR file from the previous stage to the container
 COPY --from=build /app/target/RDFtoCSVW-0.0.1-SNAPSHOT.jar.original .
 # Set the command to run the application
-CMD ["java", "-jar", "my-application.jar"]
+CMD ["java", "-jar", "/app/target/RDFtoCSVW-0.0.1-SNAPSHOT.jar.original"]
