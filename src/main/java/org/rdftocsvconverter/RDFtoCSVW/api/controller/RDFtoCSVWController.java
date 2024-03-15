@@ -22,7 +22,7 @@ public class RDFtoCSVWController {
         this.rdFtoCSVWService = rdFtoCSVWService;
     }
 
-    @CrossOrigin(origins = "http://localhost:4000")
+    @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
     @PostMapping("/rdftocsvw")
     public File getCSVW(@RequestParam MultipartFile file, @RequestParam String delimiter, @RequestParam String filename){
         return rdFtoCSVWService.getCSVW(file, delimiter, filename);

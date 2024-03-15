@@ -19,7 +19,7 @@ public class RdfToCsvwApiApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/rdftocsvw-javaconfig").allowedOrigins("http://localhost:4000");
+				registry.addMapping("/rdftocsvw-javaconfig").allowedOrigins("http://localhost:4000", "https://ladymalande.github.io/");
 			}
 		};
 	}
