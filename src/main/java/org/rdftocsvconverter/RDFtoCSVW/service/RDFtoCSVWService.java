@@ -16,9 +16,9 @@ import static org.junit.Assert.assertThat;
 
 @Service
 public class RDFtoCSVWService {
-    public File getCSVW(MultipartFile multipartFile, String configuration) {
+    public File getCSVW(MultipartFile multipartFile, String delimiter, String filename) {
         File file = new File("src/main/resources/targetFile.tmp");
-
+        File output = new File("src/main/resources/example.csv");
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());
         } catch (FileNotFoundException e) {
@@ -27,7 +27,7 @@ public class RDFtoCSVWService {
             e.printStackTrace();
         }
 
-        Path filePath = Path.of("src/main/resources/targetFile.tmp");
+        Path filePath = Path.of("src/main/resources/example.csv");
         try {
             String content = Files.readString(filePath);
             assertEquals(content, "example;csv;file");
@@ -35,6 +35,14 @@ public class RDFtoCSVWService {
             e.printStackTrace();
         }
 
-        return  new File(configuration);
+
+        try {
+            Files.copy(file.toPath(), output.toPath());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return  output;
     }
 }

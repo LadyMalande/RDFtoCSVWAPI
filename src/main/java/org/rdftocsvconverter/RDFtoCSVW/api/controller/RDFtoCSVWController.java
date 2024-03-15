@@ -24,12 +24,12 @@ public class RDFtoCSVWController {
 
     @CrossOrigin(origins = "http://localhost:4000")
     @PostMapping("/rdftocsvw")
-    public File getCSVW(@RequestParam MultipartFile file, @RequestParam String configuration){
-        return rdFtoCSVWService.getCSVW(file, configuration);
+    public File getCSVW(@RequestParam MultipartFile file, @RequestParam String delimiter, @RequestParam String filename){
+        return rdFtoCSVWService.getCSVW(file, delimiter, filename);
     }
 
     @GetMapping("/rdftocsvw-javaconfig")
-	public File getCSVWWithConfig(@RequestParam MultipartFile file, @RequestParam String configuration){
-        return rdFtoCSVWService.getCSVW(file, configuration);
+	public File getCSVWWithConfig(@RequestParam MultipartFile file, @RequestParam String delimiter, @RequestParam String filename){
+        return rdFtoCSVWService.getCSVW(file, delimiter, filename);
     }
 }
