@@ -66,10 +66,10 @@ public class RDFtoCSVWController {
         files.add(file2);
 
         // Packing files
-        for (File file : files) {
+        for (File fileVar : files) {
             // New zip entry and copying InputStream with file to ZipOutputStream, after all closing streams
             zipOutputStream.putNextEntry(new ZipEntry(file.getName()));
-            FileInputStream fileInputStream = new FileInputStream(file);
+            FileInputStream fileInputStream = new FileInputStream(fileVar);
 
             IOUtils.copy(fileInputStream, zipOutputStream);
 
