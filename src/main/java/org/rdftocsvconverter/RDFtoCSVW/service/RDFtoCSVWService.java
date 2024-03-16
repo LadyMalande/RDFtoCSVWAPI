@@ -1,15 +1,23 @@
 package org.rdftocsvconverter.RDFtoCSVW.service;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.rdftocsvconverter.RDFtoCSVW.api.model.RDFtoCSVW;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.junit.Assert;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -45,4 +53,5 @@ public class RDFtoCSVWService {
 
         return  output;
     }
+
 }
