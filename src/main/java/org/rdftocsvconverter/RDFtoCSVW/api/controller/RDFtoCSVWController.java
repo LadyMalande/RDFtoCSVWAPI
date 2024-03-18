@@ -1,5 +1,6 @@
 package org.rdftocsvconverter.RDFtoCSVW.api.controller;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.rdftocsvconverter.RDFtoCSVW.api.model.RDFtoCSVW;
 import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
@@ -21,6 +22,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -37,13 +41,43 @@ public class RDFtoCSVWController {
 
     @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
     @PostMapping("/rdftocsvw")
-    public File getCSVW(@RequestParam MultipartFile file, @RequestParam String delimiter, @RequestParam String filename){
-        return rdFtoCSVWService.getCSVW(file, delimiter, filename);
+    public byte[] getCSVW(@RequestParam MultipartFile file, @RequestParam String delimiter, @RequestParam String filename){
+        try {
+            return rdFtoCSVWService.getCSVW(file, delimiter, filename);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
+    @PostMapping("/getcsvstring")
+    public String getCSVString(@RequestParam MultipartFile file, @RequestParam String delimiter, @RequestParam String filename){
+        try {
+            return rdFtoCSVWService.getCSVString(file, delimiter, filename);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
+    @GetMapping("/getZip")
+    public void getZip(HttpServletResponse response){
+        System.out.println("Beginning of getZip path Controller");
+        try {
+           rdFtoCSVWService.getZip();
+            System.out.println("In try getZip path Controller");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/rdftocsvw-javaconfig")
-	public File getCSVWWithConfig(@RequestParam MultipartFile file, @RequestParam String delimiter, @RequestParam String filename){
-        return rdFtoCSVWService.getCSVW(file, delimiter, filename);
+	public byte[] getCSVWWithConfig(@RequestParam MultipartFile file, @RequestParam String delimiter, @RequestParam String filename){
+        try {
+            return rdFtoCSVWService.getCSVW(file, delimiter, filename);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -84,6 +118,9 @@ public class RDFtoCSVWController {
         }
         IOUtils.closeQuietly(bufferedOutputStream);
         IOUtils.closeQuietly(byteArrayOutputStream);
+
+        Path path = Paths.get("src/main/resources/example.zip");
+        Files.write(path, byteArrayOutputStream.toByteArray());
 
         return byteArrayOutputStream.toByteArray();
     }
