@@ -2,7 +2,7 @@ package org.rdftocsvconverter.RDFtoCSVW.service;
 
 import com.miklosova.rdftocsvw.convertor.RDFtoCSV;
 import com.miklosova.rdftocsvw.output_processor.FinalizedOutput;
-import convertor.CSVTableCreator;
+import com.miklosova.rdftocsvw.convertor.CSVTableCreator;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.rdftocsvconverter.RDFtoCSVW.api.model.RDFtoCSVW;
@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.junit.Assert;
-import support.Main;
+import com.miklosova.rdftocsvw.support.Main;
 
 import java.io.*;
 import java.nio.file.Files;

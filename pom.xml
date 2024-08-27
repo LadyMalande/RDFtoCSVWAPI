@@ -22,6 +22,8 @@
 			<groupId>com.miklosova</groupId>
 			<artifactId>RDFtoCSV</artifactId>
 			<version>1.0-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/RDFtoCSV-1.0-SNAPSHOT-jar-with-dependencies.jar</systemPath>
 		</dependency>
 
 
@@ -29,7 +31,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
 
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>3.4.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -64,6 +76,7 @@
                     </execution>
                 </executions>
             </plugin>
+
 			<plugin>
 			      <!-- Build an executable JAR -->
 			      <groupId>org.apache.maven.plugins</groupId>
@@ -84,6 +97,7 @@
 				<artifactId>maven-install-plugin</artifactId>
 				<version>3.1.1</version>
 				<executions>
+					<!--
 					<execution>
 						<id>install-external</id>
 						<phase>clean</phase>
@@ -99,6 +113,7 @@
 							<goal>install-file</goal>
 						</goals>
 					</execution>
+					-->
 				</executions>
 			</plugin>
 
