@@ -1,5 +1,7 @@
 package org.rdftocsvconverter.RDFtoCSVW.service;
 
+import com.miklosova.rdftocsvw.convertor.RDFtoCSV;
+import com.miklosova.rdftocsvw.output_processor.FinalizedOutput;
 import convertor.CSVTableCreator;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -31,6 +33,7 @@ public class RDFtoCSVWService {
         File file = new File("src/main/resources/targetFile.tmp");
         File input = new File("src/main/resources/" + multipartFile.getName());
         File output = new File("src/main/resources/" + filename);
+        /*
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());
         } catch (FileNotFoundException e) {
@@ -114,8 +117,14 @@ public class RDFtoCSVWService {
         CSVTableCreator ctc = new CSVTableCreator(delimiter, filename, "src/main/resources/" + multipartFile.getName());
         String result = ctc.getCSVTableAsString();
         System.out.println(output);
+        */
 
-        return byteArrayOutputStream.toByteArray();
+        RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath());
+        FinalizedOutput<byte[]> zipFileInBytes = rdftocsv.convertToZip();
+
+        return zipFileInBytes.getOutputData();
+
+        //return byteArrayOutputStream.toByteArray();
 
 
     }
