@@ -2,7 +2,6 @@ package org.rdftocsvconverter.RDFtoCSVW.api.controller;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.rdftocsvconverter.RDFtoCSVW.api.model.RDFtoCSVW;
 import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
