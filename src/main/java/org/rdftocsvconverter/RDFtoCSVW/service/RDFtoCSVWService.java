@@ -1,8 +1,10 @@
 package org.rdftocsvconverter.RDFtoCSVW.service;
 
+
+
+import com.miklosova.rdftocsvw.convertor.CSVTableCreator;
 import com.miklosova.rdftocsvw.convertor.RDFtoCSV;
 import com.miklosova.rdftocsvw.output_processor.FinalizedOutput;
-import com.miklosova.rdftocsvw.convertor.CSVTableCreator;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.rdftocsvconverter.RDFtoCSVW.api.model.RDFtoCSVW;
@@ -122,10 +124,10 @@ public class RDFtoCSVWService {
         RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath());
         FinalizedOutput<byte[]> zipFileInBytes = rdftocsv.convertToZip();
 
-        return zipFileInBytes.getOutputData();
+        //return zipFileInBytes.getOutputData();
 
         //return byteArrayOutputStream.toByteArray();
-
+        return null;
 
     }
 
