@@ -127,7 +127,7 @@ public class RDFtoCSVWService {
         //return zipFileInBytes.getOutputData();
 
         //return byteArrayOutputStream.toByteArray();
-        return null;
+        return zipFileInBytes.getOutputData();
 
     }
 
