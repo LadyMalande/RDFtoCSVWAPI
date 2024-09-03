@@ -36,7 +36,7 @@ public class RDFtoCSVWService {
         File file = new File("src/main/resources/targetFile.tmp");
         //File input = new File("src/main/resources/" + multipartFile.getOriginalFilename());
         File input = new File("./" + multipartFile.getOriginalFilename());
-
+        multipartFile.
         File output = new File("src/main/resources/" + "output.csv");
 
         try (OutputStream os = new FileOutputStream(file)) {
@@ -125,8 +125,10 @@ public class RDFtoCSVWService {
         CSVTableCreator ctc = new CSVTableCreator(delimiter, filename, "src/main/resources/" + multipartFile.getName());
         String result = ctc.getCSVTableAsString();
 */
-
+        System.out.println("C---------- ----------------- " );
+        System.out.println(getFileContent(multipartFile));
         System.out.println("Copied incoming multipart file to " + input.getAbsolutePath());
+        System.out.println("C---------- ----------------- ");
 
         Map<String, String> configMap = new HashMap<>();
         configMap.put("choice", choice);
@@ -140,6 +142,17 @@ public class RDFtoCSVWService {
 
 
 
+    }
+
+    public String getFileContent(MultipartFile file) throws IOException {
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append(System.lineSeparator());
+            }
+        }
+        return content.toString();
     }
 
     public String getCSVString(MultipartFile multipartFile, String delimiter, String filename) throws IOException {
