@@ -35,9 +35,11 @@ public class RDFtoCSVWService {
         File file = new File("src/main/resources/targetFile.tmp");
         File input = new File("src/main/resources/" + multipartFile.getName());
         File output = new File("src/main/resources/" + filename);
-        /*
+
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());
+            os.flush();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -46,12 +48,13 @@ public class RDFtoCSVWService {
 
         try (OutputStream os = new FileOutputStream(input)) {
             os.write(multipartFile.getBytes());
+            os.flush();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+  /*
         Path filePath = Path.of("src/main/resources/example.csv");
         try {
             String content = Files.readString(filePath);
@@ -118,8 +121,10 @@ public class RDFtoCSVWService {
         params[2] = filename;
         CSVTableCreator ctc = new CSVTableCreator(delimiter, filename, "src/main/resources/" + multipartFile.getName());
         String result = ctc.getCSVTableAsString();
-        System.out.println(output);
-        */
+         */
+
+        System.out.println("Copied incoming multipart file to " + input.getAbsolutePath());
+
 
         RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath());
         FinalizedOutput<byte[]> zipFileInBytes = rdftocsv.convertToZip();
