@@ -35,7 +35,7 @@ public class RDFtoCSVWService {
     public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String choice) throws IOException {
         File file = new File("src/main/resources/targetFile.tmp");
         //File input = new File("src/main/resources/" + multipartFile.getOriginalFilename());
-        File input = new File("../" + multipartFile.getOriginalFilename());
+        File input = new File("./" + multipartFile.getOriginalFilename());
 
         File output = new File("src/main/resources/" + "output.csv");
 
