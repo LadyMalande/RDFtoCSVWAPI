@@ -34,7 +34,7 @@ import static org.junit.Assert.assertThat;
 public class RDFtoCSVWService {
     public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String choice) throws IOException {
         File file = new File("src/main/resources/targetFile.tmp");
-        File input = new File("src/main/resources/" + multipartFile.getName());
+        File input = new File("src/main/resources/" + multipartFile.getOriginalFilename());
         File output = new File("src/main/resources/" + "output.csv");
 
         try (OutputStream os = new FileOutputStream(file)) {
