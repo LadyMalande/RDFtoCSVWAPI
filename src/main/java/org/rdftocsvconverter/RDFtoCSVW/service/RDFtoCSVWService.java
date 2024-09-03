@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -31,10 +32,10 @@ import static org.junit.Assert.assertThat;
 
 @Service
 public class RDFtoCSVWService {
-    public byte[] getCSVW(MultipartFile multipartFile, String delimiter, String filename) throws IOException {
+    public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String choice) throws IOException {
         File file = new File("src/main/resources/targetFile.tmp");
         File input = new File("src/main/resources/" + multipartFile.getName());
-        File output = new File("src/main/resources/" + filename);
+        File output = new File("src/main/resources/" + "output.csv");
 
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());
@@ -121,18 +122,21 @@ public class RDFtoCSVWService {
         params[2] = filename;
         CSVTableCreator ctc = new CSVTableCreator(delimiter, filename, "src/main/resources/" + multipartFile.getName());
         String result = ctc.getCSVTableAsString();
-         */
+*/
 
         System.out.println("Copied incoming multipart file to " + input.getAbsolutePath());
 
-
-        RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath());
+        Map<String, String> configMap = new HashMap<>();
+        configMap.put("choice", choice);
+        RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
         FinalizedOutput<byte[]> zipFileInBytes = rdftocsv.convertToZip();
 
         //return zipFileInBytes.getOutputData();
 
         //return byteArrayOutputStream.toByteArray();
         return zipFileInBytes.getOutputData();
+
+
 
     }
 
