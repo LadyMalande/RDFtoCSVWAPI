@@ -36,7 +36,6 @@ public class RDFtoCSVWService {
         File file = new File("src/main/resources/targetFile.tmp");
         //File input = new File("src/main/resources/" + multipartFile.getOriginalFilename());
         File input = new File("./" + multipartFile.getOriginalFilename());
-        multipartFile.
         File output = new File("src/main/resources/" + "output.csv");
 
         try (OutputStream os = new FileOutputStream(file)) {
