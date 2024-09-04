@@ -37,7 +37,7 @@ public class RDFtoCSVWService {
         //File input = new File("src/main/resources/" + multipartFile.getOriginalFilename());
         File input = new File("lib/" + multipartFile.getOriginalFilename());
         File output = new File("src/main/resources/" + "output.csv");
-
+/*
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());
             os.flush();
@@ -48,7 +48,9 @@ public class RDFtoCSVWService {
             e.printStackTrace();
         }
 
-        try (OutputStream os = new FileOutputStream(input)) {
+ */
+
+        try (OutputStream os = new FileOutputStream(input.getAbsolutePath())) {
             os.write(multipartFile.getBytes());
             os.flush();
         } catch (FileNotFoundException e) {
