@@ -35,7 +35,7 @@ public class RDFtoCSVWService {
     public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String choice) throws IOException {
         File file = new File("src/main/resources/targetFile.tmp");
         //File input = new File("src/main/resources/" + multipartFile.getOriginalFilename());
-        File input = new File(multipartFile.getOriginalFilename());
+        File input = new File("lib/" + multipartFile.getOriginalFilename());
         File output = new File("src/main/resources/" + "output.csv");
 
         try (OutputStream os = new FileOutputStream(file)) {
@@ -132,7 +132,7 @@ public class RDFtoCSVWService {
         Map<String, String> configMap = new HashMap<>();
         configMap.put("choice", choice);
         //RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
-        RDFtoCSV rdftocsv = new RDFtoCSV(input.getCanonicalPath(), configMap);
+        RDFtoCSV rdftocsv = new RDFtoCSV(input.getPath(), configMap);
         FinalizedOutput<byte[]> zipFileInBytes = rdftocsv.convertToZip();
 
         //return zipFileInBytes.getOutputData();
