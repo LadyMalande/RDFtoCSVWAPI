@@ -128,11 +128,17 @@ public class RDFtoCSVWService {
         System.out.println(getFileContent(multipartFile));
         System.out.println("Copied incoming multipart file to " + input.getAbsolutePath());
         System.out.println("C---------- ----------------- ");
+        System.out.println("input.getPath() = " + input.getPath());
+        System.out.println("input.getAbsolutePath() = " + input.getAbsolutePath());
+        System.out.println("input.getCanonicalPath() = " + input.getCanonicalPath());
+        System.out.println("input.getName() = " + input.getName());
+        ListFilesInDirectory(input.getPath());
+
 
         Map<String, String> configMap = new HashMap<>();
         configMap.put("choice", choice);
         //RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
-        RDFtoCSV rdftocsv = new RDFtoCSV(input.getPath(), configMap);
+        RDFtoCSV rdftocsv = new RDFtoCSV(input.getName(), configMap);
         FinalizedOutput<byte[]> zipFileInBytes = rdftocsv.convertToZip();
 
         //return zipFileInBytes.getOutputData();
@@ -143,6 +149,34 @@ public class RDFtoCSVWService {
 
 
     }
+
+    public void ListFilesInDirectory (String directoryPath) {
+            // Create a File object for the directory
+            File directory = new File(directoryPath);
+
+            // Check if the directory exists and is a directory
+            if (directory.exists() && directory.isDirectory()) {
+                // Get the list of files and directories in the specified directory
+                File[] filesList = directory.listFiles();
+
+                if (filesList != null) {
+                    // Write the file names to the output file
+                        for (File file : filesList) {
+                            if (file.isDirectory()) {
+                                System.out.println("Directory: " + file.getName());
+                            } else {
+                                System.out.println("File: " + file.getName());
+                            }
+                        }
+                        System.out.println("List of files written");
+                } else {
+                    System.out.println("The specified path is not a directory or an I/O error occurred.");
+                }
+            } else {
+                System.out.println("The specified path does not exist or is not a directory.");
+            }
+    }
+
 
     public String getFileContent(MultipartFile file) throws IOException {
         StringBuilder content = new StringBuilder();
