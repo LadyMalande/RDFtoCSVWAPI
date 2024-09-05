@@ -63,7 +63,7 @@ public class RDFtoCSVWService {
             e.printStackTrace();
         }
 
-        try (OutputStream os = new FileOutputStream(input.getAbsolutePath())) {
+        try (OutputStream os = new FileOutputStream(saveFile(multipartFile))) {
             os.write(multipartFile.getBytes());
             os.flush();
         } catch (FileNotFoundException e) {
@@ -71,7 +71,7 @@ public class RDFtoCSVWService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        saveFile(multipartFile);
+
   /*
         Path filePath = Path.of("src/main/resources/example.csv");
         try {
@@ -167,7 +167,7 @@ public class RDFtoCSVWService {
 
     }
 
-    public void saveFile(MultipartFile multipartFile) throws IOException {
+    public File saveFile(MultipartFile multipartFile) throws IOException {
         // Create the directory if it does not exist
         File directory = new File("lib");
         if (!directory.exists()) {
@@ -177,7 +177,8 @@ public class RDFtoCSVWService {
 
         // Now create the file in the 'lib' directory
         File file = new File(directory, multipartFile.getOriginalFilename());
-        multipartFile.transferTo(file);  // Save the file
+        //multipartFile.transferTo(file);  // Save the file
+        return file;
     }
 
     public void ListFilesInDirectory (String directoryPath) {
