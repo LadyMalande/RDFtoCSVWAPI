@@ -134,13 +134,13 @@ public class RDFtoCSVWService {
         System.out.println("input.getAbsolutePath() = " + input.getAbsolutePath());
         System.out.println("input.getCanonicalPath() = " + input.getCanonicalPath());
         System.out.println("input.getName() = " + input.getName());
-        ListFilesInDirectory("/app/lib");
+        ListFilesInDirectory("app/lib");
 
 
         Map<String, String> configMap = new HashMap<>();
         configMap.put("choice", choice);
         //RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
-        RDFtoCSV rdftocsv = new RDFtoCSV("/lib/" + input.getName(), configMap);
+        RDFtoCSV rdftocsv = new RDFtoCSV("lib/" + input.getName(), configMap);
         FinalizedOutput<byte[]> zipFileInBytes = rdftocsv.convertToZip();
 
         //return zipFileInBytes.getOutputData();
