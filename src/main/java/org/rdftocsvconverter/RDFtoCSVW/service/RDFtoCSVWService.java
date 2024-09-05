@@ -35,7 +35,7 @@ public class RDFtoCSVWService {
     public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String choice) throws IOException {
         File file = new File("src/main/resources/targetFile.tmp");
         //File input = new File("src/main/resources/" + multipartFile.getOriginalFilename());
-
+        File fileRelative = new File(multipartFile.getOriginalFilename());
         File input = new File("lib/" + multipartFile.getOriginalFilename());
         File lib = new File("lib/");
         File output = new File("src/main/resources/" + "output.csv");
@@ -52,6 +52,17 @@ public class RDFtoCSVWService {
 
  */
 
+        System.out.println("fileRelative.getAbsolutePath() = " + fileRelative.getAbsolutePath());
+        try (OutputStream os = new FileOutputStream(fileRelative)) {
+
+            os.write(multipartFile.getBytes());
+            os.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         try (OutputStream os = new FileOutputStream(input.getAbsolutePath())) {
             os.write(multipartFile.getBytes());
             os.flush();
@@ -60,6 +71,7 @@ public class RDFtoCSVWService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        saveFile(multipartFile);
   /*
         Path filePath = Path.of("src/main/resources/example.csv");
         try {
@@ -153,6 +165,19 @@ public class RDFtoCSVWService {
 
 
 
+    }
+
+    public void saveFile(MultipartFile multipartFile) throws IOException {
+        // Create the directory if it does not exist
+        File directory = new File("lib");
+        if (!directory.exists()) {
+            System.out.println("Directory " + directory.getAbsolutePath() + " does not exist ");
+            directory.mkdir();  // Create the 'lib' directory
+        }
+
+        // Now create the file in the 'lib' directory
+        File file = new File(directory, multipartFile.getOriginalFilename());
+        multipartFile.transferTo(file);  // Save the file
     }
 
     public void ListFilesInDirectory (String directoryPath) {
