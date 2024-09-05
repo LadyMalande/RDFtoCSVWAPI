@@ -134,7 +134,7 @@ public class RDFtoCSVWService {
         System.out.println("input.getAbsolutePath() = " + input.getAbsolutePath());
         System.out.println("input.getCanonicalPath() = " + input.getCanonicalPath());
         System.out.println("input.getName() = " + input.getName());
-        ListFilesInDirectory(input.getAbsolutePath());
+        ListFilesInDirectory("/app/lib");
 
 
         Map<String, String> configMap = new HashMap<>();
