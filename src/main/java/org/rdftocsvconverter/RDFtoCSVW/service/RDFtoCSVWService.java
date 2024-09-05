@@ -140,7 +140,7 @@ public class RDFtoCSVWService {
         Map<String, String> configMap = new HashMap<>();
         configMap.put("choice", choice);
         //RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
-        RDFtoCSV rdftocsv = new RDFtoCSV(input.getName(), configMap);
+        RDFtoCSV rdftocsv = new RDFtoCSV("/lib/" + input.getName(), configMap);
         FinalizedOutput<byte[]> zipFileInBytes = rdftocsv.convertToZip();
 
         //return zipFileInBytes.getOutputData();
