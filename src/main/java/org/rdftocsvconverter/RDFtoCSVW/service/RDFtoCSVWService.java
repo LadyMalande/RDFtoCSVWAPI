@@ -63,6 +63,7 @@ public class RDFtoCSVWService {
             e.printStackTrace();
         }
 
+
         try (OutputStream os = new FileOutputStream(saveFile(multipartFile))) {
             os.write(multipartFile.getBytes());
             os.flush();
@@ -71,6 +72,7 @@ public class RDFtoCSVWService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        multipartFile.transferTo(input);
 
   /*
         Path filePath = Path.of("src/main/resources/example.csv");
