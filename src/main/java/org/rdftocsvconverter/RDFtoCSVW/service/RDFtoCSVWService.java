@@ -63,7 +63,8 @@ public class RDFtoCSVWService {
             e.printStackTrace();
         }
 
-
+        File input = saveFile(multipartFile);
+        /*
         try (OutputStream os = new FileOutputStream(saveFile(multipartFile))) {
             os.write(multipartFile.getBytes());
             os.flush();
@@ -72,7 +73,9 @@ public class RDFtoCSVWService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        File input = new File("lib/" + multipartFile.getOriginalFilename());
+
+         */
+        //File input = new File("lib/" + multipartFile.getOriginalFilename());
         //transferFile(multipartFile);
 
   /*
@@ -156,9 +159,7 @@ public class RDFtoCSVWService {
         ListFilesInDirectory(lib.getAbsolutePath());
 
 
-        try (InputStream inputStream = multipartFile.getInputStream()) {
-            Files.copy(inputStream, input.toPath());
-        }
+
 
         Map<String, String> configMap = new HashMap<>();
         configMap.put("choice", choice);
@@ -185,6 +186,9 @@ public class RDFtoCSVWService {
 
         // Now create the file in the 'lib' directory
         File file = new File(directory, multipartFile.getOriginalFilename());
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Files.copy(inputStream, file.toPath());
+        }
         //multipartFile.transferTo(file);  // Save the file
         return file;
     }
