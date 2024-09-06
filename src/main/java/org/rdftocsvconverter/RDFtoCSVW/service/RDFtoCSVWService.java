@@ -185,14 +185,16 @@ public class RDFtoCSVWService {
     }
 
     public void transferFile(MultipartFile multipartFile) throws IOException {
-        // Specify the directory and file
-        File directory = new File("lib");
+        // Use absolute path for the file storage
+        String filePath = "/app/lib/";
+
+        File directory = new File(filePath);
         if (!directory.exists()) {
-            // Create the directory if it does not exist
-            directory.mkdirs();  // Creates the directory and any parent directories if needed
+            // Create the directory if it doesn't exist
+            directory.mkdirs();
         }
 
-        // Create the File object for the final path
+        // Create the full file path
         File file = new File(directory, multipartFile.getOriginalFilename());
 
         // Transfer the content of the MultipartFile to the file
