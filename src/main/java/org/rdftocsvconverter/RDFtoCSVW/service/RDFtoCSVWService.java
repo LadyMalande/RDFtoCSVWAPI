@@ -73,7 +73,7 @@ public class RDFtoCSVWService {
             e.printStackTrace();
         }
         File input = new File("lib/" + multipartFile.getOriginalFilename());
-        transferFile(multipartFile);
+        //transferFile(multipartFile);
 
   /*
         Path filePath = Path.of("src/main/resources/example.csv");
@@ -152,8 +152,13 @@ public class RDFtoCSVWService {
         System.out.println("input.getCanonicalPath() = " + input.getCanonicalPath());
         System.out.println("input.getName() = " + input.getName());
         System.out.println("lib.getAbsolutePath() = " + lib.getAbsolutePath());
+        System.out.println("multipartFile.getContentType() = " + multipartFile.getContentType());
         ListFilesInDirectory(lib.getAbsolutePath());
 
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Files.copy(inputStream, input.toPath());
+        }
 
         Map<String, String> configMap = new HashMap<>();
         configMap.put("choice", choice);
