@@ -36,7 +36,7 @@ public class RDFtoCSVWService {
         File file = new File("src/main/resources/targetFile.tmp");
         //File input = new File("src/main/resources/" + multipartFile.getOriginalFilename());
         File fileRelative = new File(multipartFile.getOriginalFilename());
-        File input = new File("lib/" + multipartFile.getOriginalFilename());
+
         File lib = new File("lib/");
         File output = new File("src/main/resources/" + "output.csv");
 /*
@@ -72,7 +72,7 @@ public class RDFtoCSVWService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        File input = new File("lib/" + multipartFile.getOriginalFilename());
         multipartFile.transferTo(input);
 
   /*
