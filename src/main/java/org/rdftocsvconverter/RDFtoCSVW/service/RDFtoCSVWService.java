@@ -72,6 +72,7 @@ public class RDFtoCSVWService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         multipartFile.transferTo(input);
 
   /*
