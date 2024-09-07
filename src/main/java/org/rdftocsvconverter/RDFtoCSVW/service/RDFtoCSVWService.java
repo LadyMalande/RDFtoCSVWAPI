@@ -5,8 +5,10 @@ package org.rdftocsvconverter.RDFtoCSVW.service;
 import com.miklosova.rdftocsvw.convertor.CSVTableCreator;
 import com.miklosova.rdftocsvw.convertor.RDFtoCSV;
 import com.miklosova.rdftocsvw.output_processor.FinalizedOutput;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+
+import org.apache.commons.io.IOUtils;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -147,6 +150,11 @@ public class RDFtoCSVWService {
         String result = ctc.getCSVTableAsString();
 */
         System.out.println("C---------- ----------------- " );
+        System.out.println("Content of the multipart file validation: " + validateFileContent(multipartFile));
+        System.out.println("Content of the multipart file has BOM: " + hasBOM(multipartFile));
+        System.out.println("Content of the multipart file CHECKSUM: " + calculateChecksum(multipartFile));
+
+
         System.out.println(getFileContent(multipartFile));
         System.out.println("Copied incoming multipart file to " + input.getAbsolutePath());
         System.out.println("C---------- ----------------- ");
@@ -174,6 +182,52 @@ public class RDFtoCSVWService {
 
 
 
+    }
+
+    public static String calculateChecksum(MultipartFile file) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            InputStream fis = file.getInputStream();
+
+            byte[] byteArray = new byte[1024];
+            int bytesCount;
+
+            while ((bytesCount = fis.read(byteArray)) != -1) {
+                digest.update(byteArray, 0, bytesCount);
+            }
+            fis.close();
+
+            byte[] bytes = digest.digest();
+            return Hex.encodeHexString(bytes);  // Return checksum as a hexadecimal string
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public boolean hasBOM(MultipartFile file) {
+        try (InputStream inputStream = file.getInputStream()) {
+            byte[] bom = new byte[3];
+            inputStream.read(bom);
+            return (bom[0] == (byte) 0xEF && bom[1] == (byte) 0xBB && bom[2] == (byte) 0xBF);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean validateFileContent(MultipartFile file) {
+        try {
+            String content = IOUtils.toString(file.getInputStream(), "UTF-8");
+            // Perform checks for unexpected characters (e.g., unexpected null characters, BOM, etc.)
+            if (content.contains("\u0000")) { // Check for null characters
+                return false;
+            }
+            return true; // Add other validation checks here
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public File saveFile(MultipartFile multipartFile) throws IOException {
