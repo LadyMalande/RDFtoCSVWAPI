@@ -23,6 +23,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -241,7 +242,7 @@ public class RDFtoCSVWService {
         // Now create the file in the 'lib' directory
         File file = new File(directory, multipartFile.getOriginalFilename());
         try (InputStream inputStream = multipartFile.getInputStream()) {
-            Files.copy(inputStream, file.toPath());
+            Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
         //multipartFile.transferTo(file);  // Save the file
         return file;
