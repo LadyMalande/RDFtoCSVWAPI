@@ -40,7 +40,7 @@ public class RDFtoCSVWController {
 
     @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
     @PostMapping("/rdftocsvw")
-    public byte[] getCSVW(@RequestParam MultipartFile file, @RequestParam String fileURL, @RequestParam String choice){
+    public byte[] getCSVW(@RequestParam("file") MultipartFile file, @RequestParam("fileURL") String fileURL, @RequestParam("choice") String choice){
         System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
         try {
             return rdFtoCSVWService.getCSVW(file, fileURL, choice);
