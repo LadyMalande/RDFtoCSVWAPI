@@ -40,7 +40,7 @@ public class RDFtoCSVWService {
         //File input = new File("src/main/resources/" + multipartFile.getOriginalFilename());
         File fileRelative = new File(multipartFile.getOriginalFilename());
 
-        File lib = new File("lib/");
+        //File lib = new File("lib/");
         File output = new File("src/main/resources/" + "output.csv");
 /*
         try (OutputStream os = new FileOutputStream(file)) {
@@ -162,9 +162,9 @@ public class RDFtoCSVWService {
         System.out.println("input.getAbsolutePath() = " + input.getAbsolutePath());
         System.out.println("input.getCanonicalPath() = " + input.getCanonicalPath());
         System.out.println("input.getName() = " + input.getName());
-        System.out.println("lib.getAbsolutePath() = " + lib.getAbsolutePath());
+        //System.out.println("lib.getAbsolutePath() = " + lib.getAbsolutePath());
         System.out.println("multipartFile.getContentType() = " + multipartFile.getContentType());
-        ListFilesInDirectory(lib.getAbsolutePath());
+        //ListFilesInDirectory(lib.getAbsolutePath());
 
 
 
