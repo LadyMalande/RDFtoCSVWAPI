@@ -150,7 +150,12 @@ public class RDFtoCSVWService {
         CSVTableCreator ctc = new CSVTableCreator(delimiter, filename, "src/main/resources/" + multipartFile.getName());
         String result = ctc.getCSVTableAsString();
 */
-
+        try {
+            Class<?> clazz = Class.forName("org.eclipse.rdf4j.rio.nquads.NQuadsParserFactory");
+            System.out.println("Class loaded: " + clazz.getName());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class not found: " + e.getMessage());
+        }
         System.out.println("C---------- ----------------- " );
         System.out.println(System.getProperty("java.class.path"));
         System.out.println("Content of the multipart file validation: " + validateFileContent(multipartFile));
