@@ -150,7 +150,9 @@ public class RDFtoCSVWService {
         CSVTableCreator ctc = new CSVTableCreator(delimiter, filename, "src/main/resources/" + multipartFile.getName());
         String result = ctc.getCSVTableAsString();
 */
+
         System.out.println("C---------- ----------------- " );
+        System.out.println(System.getProperty("java.class.path"));
         System.out.println("Content of the multipart file validation: " + validateFileContent(multipartFile));
         System.out.println("Content of the multipart file has BOM: " + hasBOM(multipartFile));
         System.out.println("Content of the multipart file CHECKSUM: " + calculateChecksum(multipartFile));
