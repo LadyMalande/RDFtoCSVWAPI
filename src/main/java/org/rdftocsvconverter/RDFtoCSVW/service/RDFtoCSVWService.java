@@ -249,10 +249,13 @@ public class RDFtoCSVWService {
         // Now create the file in the 'lib' directory
         File file = new File(directory, multipartFile.getOriginalFilename());
         try (InputStream inputStream = multipartFile.getInputStream()) {
+            /*
             if (file.exists()) {
                 // Delete the existing file before copying
                 file.delete();
             }
+
+             */
             Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
         //multipartFile.transferTo(file);  // Save the file
