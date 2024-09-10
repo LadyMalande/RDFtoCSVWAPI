@@ -55,7 +55,7 @@ public class RDFtoCSVWService {
         }
 
  */
-
+/*
         System.out.println("fileRelative.getAbsolutePath() = " + fileRelative.getAbsolutePath());
         try (OutputStream os = new FileOutputStream(fileRelative)) {
 
@@ -66,6 +66,7 @@ public class RDFtoCSVWService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
 
         File input = saveFile(multipartFile);
         /*
@@ -240,14 +241,24 @@ public class RDFtoCSVWService {
 
     public File saveFile(MultipartFile multipartFile) throws IOException {
         // Create the directory if it does not exist
+        Path directory = Paths.get("lib");
+        if (!Files.exists(directory) || !Files.isDirectory(directory)) {
+            Files.createDirectories(directory); // Ensure the directory exists
+            System.out.println("Directory " + directory + " has been created ");
+
+        }
+        /*
         File directory = new File("lib");
         if (!directory.exists()) {
             System.out.println("Directory " + directory.getAbsolutePath() + " does not exist ");
             directory.mkdir();  // Create the 'lib' directory
         }
 
+         */
+
         // Now create the file in the 'lib' directory
-        File file = new File(directory, multipartFile.getOriginalFilename());
+        //File file = new File(directory, multipartFile.getOriginalFilename());
+        Path filePath = directory.resolve(multipartFile.getOriginalFilename());
         try (InputStream inputStream = multipartFile.getInputStream()) {
             /*
             if (file.exists()) {
@@ -256,10 +267,12 @@ public class RDFtoCSVWService {
             }
 
              */
-            Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            //Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+
         }
         //multipartFile.transferTo(file);  // Save the file
-        return file;
+        return filePath.toFile();
     }
 
     public void transferFile(MultipartFile multipartFile) throws IOException {
