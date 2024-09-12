@@ -13,7 +13,7 @@ public class RdfToCsvwApiApplication {
 
 		SpringApplication.run(RdfToCsvwApiApplication.class, args);
 	}
-
+/*
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
@@ -29,5 +29,7 @@ public class RdfToCsvwApiApplication {
 		};
 	}
 
+
+ */
 
 }
