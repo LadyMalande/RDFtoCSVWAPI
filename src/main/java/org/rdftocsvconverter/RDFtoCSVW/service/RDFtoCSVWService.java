@@ -36,17 +36,12 @@ import static org.junit.Assert.assertThat;
 @Service
 public class RDFtoCSVWService {
     public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String choice) throws IOException {
-        RDFtoCSV rdftocsv;
-        Map<String, String> configMap = new HashMap<>();
-        configMap.put("choice", choice);
+        File file = new File("src/main/resources/targetFile.tmp");
+        //File input = new File("src/main/resources/" + multipartFile.getOriginalFilename());
+        File fileRelative = new File(multipartFile.getOriginalFilename());
 
-        if(fileURL.isEmpty()) {
-            File file = new File("src/main/resources/targetFile.tmp");
-            //File input = new File("src/main/resources/" + multipartFile.getOriginalFilename());
-            File fileRelative = new File(multipartFile.getOriginalFilename());
-
-            //File lib = new File("lib/");
-            File output = new File("src/main/resources/" + "output.csv");
+        //File lib = new File("lib/");
+        File output = new File("src/main/resources/" + "output.csv");
 /*
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());
@@ -72,7 +67,7 @@ public class RDFtoCSVWService {
         }
         */
 
-            File input = saveFile(multipartFile);
+        File input = saveFile(multipartFile);
         /*
         try (OutputStream os = new FileOutputStream(saveFile(multipartFile))) {
             os.write(multipartFile.getBytes());
@@ -84,8 +79,8 @@ public class RDFtoCSVWService {
         }
 
          */
-            //File input = new File("lib/" + multipartFile.getOriginalFilename());
-            //transferFile(multipartFile);
+        //File input = new File("lib/" + multipartFile.getOriginalFilename());
+        //transferFile(multipartFile);
 
   /*
         Path filePath = Path.of("src/main/resources/example.csv");
@@ -155,39 +150,37 @@ public class RDFtoCSVWService {
         CSVTableCreator ctc = new CSVTableCreator(delimiter, filename, "src/main/resources/" + multipartFile.getName());
         String result = ctc.getCSVTableAsString();
 */
-            try {
-                Class<?> clazz = Class.forName("org.eclipse.rdf4j.rio.nquads.NQuadsParserFactory");
-                System.out.println("Class loaded: " + clazz.getName());
-            } catch (ClassNotFoundException e) {
-                System.out.println("Class not found: " + e.getMessage());
-            }
-            System.out.println("C---------- ----------------- ");
-            System.out.println(System.getProperty("java.class.path"));
-            System.out.println("Content of the multipart file validation: " + validateFileContent(multipartFile));
-            System.out.println("Content of the multipart file has BOM: " + hasBOM(multipartFile));
-            System.out.println("Content of the multipart file CHECKSUM: " + calculateChecksum(multipartFile));
-
-
-            System.out.println(getFileContent(multipartFile));
-            System.out.println("Copied incoming multipart file to " + input.getAbsolutePath());
-            System.out.println("C---------- ----------------- ");
-            System.out.println("input.getPath() = " + input.getPath());
-            System.out.println("input.getAbsolutePath() = " + input.getAbsolutePath());
-            System.out.println("input.getCanonicalPath() = " + input.getCanonicalPath());
-            System.out.println("input.getName() = " + input.getName());
-            //System.out.println("lib.getAbsolutePath() = " + lib.getAbsolutePath());
-            System.out.println("multipartFile.getContentType() = " + multipartFile.getContentType());
-            //ListFilesInDirectory(lib.getAbsolutePath());
-
-
-
-
-        //RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
-        rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
-        } else {
-            rdftocsv = new RDFtoCSV(fileURL, configMap);
+        try {
+            Class<?> clazz = Class.forName("org.eclipse.rdf4j.rio.nquads.NQuadsParserFactory");
+            System.out.println("Class loaded: " + clazz.getName());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class not found: " + e.getMessage());
         }
+        System.out.println("C---------- ----------------- " );
+        System.out.println(System.getProperty("java.class.path"));
+        System.out.println("Content of the multipart file validation: " + validateFileContent(multipartFile));
+        System.out.println("Content of the multipart file has BOM: " + hasBOM(multipartFile));
+        System.out.println("Content of the multipart file CHECKSUM: " + calculateChecksum(multipartFile));
 
+
+        System.out.println(getFileContent(multipartFile));
+        System.out.println("Copied incoming multipart file to " + input.getAbsolutePath());
+        System.out.println("C---------- ----------------- ");
+        System.out.println("input.getPath() = " + input.getPath());
+        System.out.println("input.getAbsolutePath() = " + input.getAbsolutePath());
+        System.out.println("input.getCanonicalPath() = " + input.getCanonicalPath());
+        System.out.println("input.getName() = " + input.getName());
+        //System.out.println("lib.getAbsolutePath() = " + lib.getAbsolutePath());
+        System.out.println("multipartFile.getContentType() = " + multipartFile.getContentType());
+        //ListFilesInDirectory(lib.getAbsolutePath());
+
+
+
+
+        Map<String, String> configMap = new HashMap<>();
+        configMap.put("choice", choice);
+        //RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
+        RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
         FinalizedOutput<byte[]> zipFileInBytes = rdftocsv.convertToZip();
 
         //return zipFileInBytes.getOutputData();
