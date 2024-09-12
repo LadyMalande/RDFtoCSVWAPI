@@ -347,30 +347,30 @@ public class RDFtoCSVWService {
     }
 
     public void ListFilesInDirectory (String directoryPath) {
-            // Create a File object for the directory
-            File directory = new File(directoryPath);
+        // Create a File object for the directory
+        File directory = new File(directoryPath);
 
-            // Check if the directory exists and is a directory
-            if (directory.exists() && directory.isDirectory()) {
-                // Get the list of files and directories in the specified directory
-                File[] filesList = directory.listFiles();
+        // Check if the directory exists and is a directory
+        if (directory.exists() && directory.isDirectory()) {
+            // Get the list of files and directories in the specified directory
+            File[] filesList = directory.listFiles();
 
-                if (filesList != null) {
-                    // Write the file names to the output file
-                        for (File file : filesList) {
-                            if (file.isDirectory()) {
-                                System.out.println("Directory: " + file.getName());
-                            } else {
-                                System.out.println("File: " + file.getName());
-                            }
-                        }
-                        System.out.println("List of files written");
-                } else {
-                    System.out.println("The specified path is not a directory or an I/O error occurred.");
+            if (filesList != null) {
+                // Write the file names to the output file
+                for (File file : filesList) {
+                    if (file.isDirectory()) {
+                        System.out.println("Directory: " + file.getName());
+                    } else {
+                        System.out.println("File: " + file.getName());
+                    }
                 }
+                System.out.println("List of files written");
             } else {
-                System.out.println("The specified path does not exist or is not a directory.");
+                System.out.println("The specified path is not a directory or an I/O error occurred.");
             }
+        } else {
+            System.out.println("The specified path does not exist or is not a directory.");
+        }
     }
 
 
