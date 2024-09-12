@@ -27,6 +27,7 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -267,14 +268,54 @@ public class RDFtoCSVWService {
 
              */
             //Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            if (isFileLocked(filePath.toFile())) {
-                throw new FileAlreadyExistsException("The file " + filePath.toString() + " already exists, throwing error.");
-            }
+
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        } catch (FileAlreadyExistsException ex){
+            try (InputStream inputStreamInException = multipartFile.getInputStream()) {
+                Path newFilePath = adjustFilePathWithRandomNumber(filePath);
+                Files.copy(inputStreamInException, newFilePath, StandardCopyOption.REPLACE_EXISTING);
+            }
 
         }
         //multipartFile.transferTo(file);  // Save the file
         return filePath.toFile();
+    }
+
+    private Path adjustFilePathWithRandomNumber(Path filePath) {
+        long seed = System.currentTimeMillis(); // Seed can be system time or any other value
+        // Get the original file name
+        String originalFileName = filePath.toString();
+
+        // Guard against null file name
+        if (originalFileName.isEmpty()) {
+            throw new IllegalArgumentException("File name cannot be null or empty");
+        }
+
+        // Find the last dot to split the name and extension
+        int dotIndex = originalFileName.lastIndexOf('.');
+
+        String baseName;
+        String extension;
+
+        if (dotIndex == -1) {
+            // If there's no extension, treat the whole thing as the base name
+            baseName = originalFileName;
+            extension = ""; // No extension
+        } else {
+            baseName = originalFileName.substring(0, dotIndex); // Get the name part
+            extension = originalFileName.substring(dotIndex);   // Get the extension with the dot
+        }
+
+        // Generate a random number using a fixed seed
+        Random random = new Random(seed);
+        int randomNumber = random.nextInt(10000); // Generates a number between 0 and 9999
+
+        // Construct the new file name with random number
+        String newFileName = baseName + "_" + randomNumber + extension;
+
+        // Return the modified file name
+        return Path.of(newFileName);
     }
 
 
