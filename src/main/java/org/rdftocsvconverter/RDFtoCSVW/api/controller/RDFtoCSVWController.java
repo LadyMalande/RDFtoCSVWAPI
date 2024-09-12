@@ -5,6 +5,7 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,12 +42,22 @@ public class RDFtoCSVWController {
 
     @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
     @PostMapping("/rdftocsvw")
-    public byte[] getCSVW(@RequestParam("file") MultipartFile file, @RequestParam("fileURL") String fileURL, @RequestParam("choice") String choice){
-        System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
+    public ResponseEntity<byte[]> getCSVW(@RequestParam("file") MultipartFile file, @RequestParam("fileURL") String fileURL, @RequestParam("choice") String choice){
+        System.out.println("Got params for /rdftocsvw : file = " + file.getOriginalFilename() + " fileURL = " + fileURL + " choice = " + choice);
+
         try {
-            return rdFtoCSVWService.getCSVW(file, fileURL, choice);
+            byte[] fileData = rdFtoCSVWService.getCSVW(file, fileURL, choice);
+            return ResponseEntity.ok()
+                    .header("Content-Disposition", "attachment; filename=\"result.zip\"")
+                    .body(fileData);
+        } catch (FileAlreadyExistsException e) {
+            // Handle file already exists exception
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("File already exists. Please choose a different name.".getBytes());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            // Handle general IO exceptions
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while processing the file.".getBytes());
         }
     }
 

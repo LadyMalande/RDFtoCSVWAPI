@@ -20,10 +20,9 @@ import org.junit.Assert;
 import com.miklosova.rdftocsvw.support.Main;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.file.*;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -275,11 +274,25 @@ public class RDFtoCSVWService {
 
              */
             //Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            if (isFileLocked(filePath.toFile())) {
+                throw new FileAlreadyExistsException("The file " + filePath.toString() + " already exists, throwing error.");
+            }
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 
         }
         //multipartFile.transferTo(file);  // Save the file
         return filePath.toFile();
+    }
+
+
+    public static boolean isFileLocked(File file) {
+        try (FileInputStream fis = new FileInputStream(file);
+             FileChannel channel = fis.getChannel();
+             FileLock lock = channel.tryLock()) {
+            return lock == null;
+        } catch (IOException e) {
+            return true;
+        }
     }
 
     public void transferFile(MultipartFile multipartFile) throws IOException {
