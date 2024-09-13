@@ -271,9 +271,10 @@ public class RDFtoCSVWService {
 
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        } catch (FileAlreadyExistsException ex){
+        } catch (FileAlreadyExistsException | DirectoryNotEmptyException ex){
             try (InputStream inputStreamInException = multipartFile.getInputStream()) {
-                Path newFilePath = adjustFilePathWithRandomNumber(filePath);
+                Path newDirectoryPath = adjustDirectoryPathWithRandomNumber(filePath);
+                Path newFilePath = adjustFilePathWithRandomNumber(newDirectoryPath);
                 Files.copy(inputStreamInException, newFilePath, StandardCopyOption.REPLACE_EXISTING);
             }
 
@@ -318,6 +319,35 @@ public class RDFtoCSVWService {
         return Path.of(newFileName);
     }
 
+
+    private Path adjustDirectoryPathWithRandomNumber(Path filePath) {
+        long seed = System.currentTimeMillis(); // Seed for random number generation
+
+        // Get the original directory path
+        Path parentDirectory = filePath.getParent();
+        if (parentDirectory == null) {
+            throw new IllegalArgumentException("The file must reside in a directory");
+        }
+
+        // Get the file name from the original path
+        String originalFileName = filePath.getFileName().toString();
+
+        // Generate a random number using the seed
+        Random random = new Random(seed);
+        int randomNumber = random.nextInt(10000); // Generates a number between 0 and 9999
+
+        // Construct the new directory name by appending the random number to the original directory name
+        String newDirectoryName = parentDirectory.getFileName().toString() + "_" + randomNumber;
+
+        // Build the new directory path
+        Path newDirectoryPath = parentDirectory.getParent().resolve(newDirectoryName);
+
+        // Construct the final file path in the new directory
+        Path newFilePath = newDirectoryPath.resolve(originalFileName);
+
+        // Return the modified file path with the new directory
+        return newFilePath;
+    }
 
     public static boolean isFileLocked(File file) {
         try (FileInputStream fis = new FileInputStream(file);
