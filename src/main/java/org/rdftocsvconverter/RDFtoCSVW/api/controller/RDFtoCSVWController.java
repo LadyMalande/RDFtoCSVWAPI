@@ -42,6 +42,17 @@ public class RDFtoCSVWController {
 
     @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
     @PostMapping("/rdftocsvw")
+    public byte[] getCSVW(@RequestParam("file") MultipartFile file, @RequestParam("fileURL") String fileURL, @RequestParam("choice") String choice){
+        System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
+        try {
+            return rdFtoCSVWService.getCSVW(file, fileURL, choice);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+/*
+    @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
+    @PostMapping("/rdftocsvw")
     public ResponseEntity<byte[]> getCSVW(@RequestParam("file") MultipartFile file, @RequestParam("fileURL") String fileURL, @RequestParam("choice") String choice){
         System.out.println("Got params for /rdftocsvw : file = " + file.getOriginalFilename() + " fileURL = " + fileURL + " choice = " + choice);
 
@@ -60,6 +71,8 @@ public class RDFtoCSVWController {
                     .body("An error occurred while processing the file.".getBytes());
         }
     }
+
+ */
 
     @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
     @PostMapping("/getcsvstring")
