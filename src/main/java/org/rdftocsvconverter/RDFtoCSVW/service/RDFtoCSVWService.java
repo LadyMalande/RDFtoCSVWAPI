@@ -243,9 +243,12 @@ public class RDFtoCSVWService {
         // Create the directory if it does not exist
         Path directory = Paths.get("lib");
         if (!Files.exists(directory) || !Files.isDirectory(directory)) {
-            Files.createDirectories(directory); // Ensure the directory exists
-            System.out.println("Directory " + directory + " has been created ");
-
+            try {
+                Files.createDirectories(directory); // Ensure the directory exists
+                System.out.println("Directory " + directory + " has been created ");
+            } catch(FileAlreadyExistsException ex) {
+                // File already exists, continue.
+            }
         }
         /*
         File directory = new File("lib");
