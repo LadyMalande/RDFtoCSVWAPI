@@ -328,8 +328,10 @@ public class RDFtoCSVWService {
 
         // Get the original directory path
         Path parentDirectory = filePath.getParent();
+
+        // Ensure the file resides in a directory
         if (parentDirectory == null) {
-            throw new IllegalArgumentException("The file must reside in a directory");
+            throw new IllegalArgumentException("The file must reside in a directory and not at the root level.");
         }
 
         // Get the file name from the original path
@@ -342,8 +344,15 @@ public class RDFtoCSVWService {
         // Construct the new directory name by appending the random number to the original directory name
         String newDirectoryName = parentDirectory.getFileName().toString() + "_" + randomNumber;
 
-        // Build the new directory path
-        Path newDirectoryPath = parentDirectory.getParent().resolve(newDirectoryName);
+        // Check if parentDirectory is the root, i.e., no grandparent directory
+        Path newDirectoryPath;
+        if (parentDirectory.getParent() == null) {
+            // If it's at the root level, resolve the new directory from the root directly
+            newDirectoryPath = parentDirectory.getRoot().resolve(newDirectoryName);
+        } else {
+            // Otherwise, resolve from the grandparent
+            newDirectoryPath = parentDirectory.getParent().resolve(newDirectoryName);
+        }
 
         // Construct the final file path in the new directory
         Path newFilePath = newDirectoryPath.resolve(originalFileName);
