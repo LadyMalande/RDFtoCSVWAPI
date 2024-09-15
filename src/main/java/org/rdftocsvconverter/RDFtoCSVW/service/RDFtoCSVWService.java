@@ -37,120 +37,10 @@ import static org.junit.Assert.assertThat;
 @Service
 public class RDFtoCSVWService {
     public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String table) throws IOException {
-        File file = new File("src/main/resources/targetFile.tmp");
-        //File input = new File("src/main/resources/" + multipartFile.getOriginalFilename());
-        File fileRelative = new File(multipartFile.getOriginalFilename());
-
-        //File lib = new File("lib/");
-        File output = new File("src/main/resources/" + "output.csv");
-/*
-        try (OutputStream os = new FileOutputStream(file)) {
-            os.write(multipartFile.getBytes());
-            os.flush();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        File input = null;
+        if(multipartFile != null) {
+            input = saveFile(multipartFile);
         }
-
- */
-/*
-        System.out.println("fileRelative.getAbsolutePath() = " + fileRelative.getAbsolutePath());
-        try (OutputStream os = new FileOutputStream(fileRelative)) {
-
-            os.write(multipartFile.getBytes());
-            os.flush();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-
-        File input = saveFile(multipartFile);
-        /*
-        try (OutputStream os = new FileOutputStream(saveFile(multipartFile))) {
-            os.write(multipartFile.getBytes());
-            os.flush();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-         */
-        //File input = new File("lib/" + multipartFile.getOriginalFilename());
-        //transferFile(multipartFile);
-
-  /*
-        Path filePath = Path.of("src/main/resources/example.csv");
-        try {
-            String content = Files.readString(filePath);
-            assertEquals(content, "example;csv;file");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        try {
-            Files.copy(file.toPath(), output.toPath());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(byteArrayOutputStream);
-        ZipOutputStream zipOutputStream = new ZipOutputStream(bufferedOutputStream);
-
-        // Simple file list, just for tests
-        ArrayList<File> files = new ArrayList<>(2);
-        File file1 = new File("src/main/resources/targetFile.tmp");
-        File file2 = new File("src/main/resources/example.csv");
-        files.add(file1);
-        files.add(file2);
-
-    // Packing files
-    for (File fileVar : files) {
-        // New zip entry and copying InputStream with file to ZipOutputStream, after all closing streams
-        zipOutputStream.putNextEntry(new ZipEntry(file.getName()));
-        FileInputStream fileInputStream = new FileInputStream(fileVar);
-
-        IOUtils.copy(fileInputStream, zipOutputStream);
-
-        fileInputStream.close();
-        zipOutputStream.closeEntry();
-    }
-
-    if (zipOutputStream != null) {
-        zipOutputStream.finish();
-        zipOutputStream.flush();
-        IOUtils.closeQuietly(zipOutputStream);
-    }
-    IOUtils.closeQuietly(bufferedOutputStream);
-    IOUtils.closeQuietly(byteArrayOutputStream);
-
-
-    System.out.println("at the end of rdftocsvw");
-    Path path = Paths.get("src/main/resources/" + filename);
-    Files.write(path, byteArrayOutputStream.toByteArray());
-
-
-
-        File fileThatCame = new File("src/main/resources/tempFileForMultipart.tmp");
-
-        try (OutputStream os = new FileOutputStream(fileThatCame)) {
-            os.write(multipartFile.getBytes());
-            os.flush();
-        }
-        String[] params = new String[3];
-        params[0] = "src/main/resources/tempFileForMultipart.tmp";
-        params[1] = delimiter;
-        params[2] = filename;
-        CSVTableCreator ctc = new CSVTableCreator(delimiter, filename, "src/main/resources/" + multipartFile.getName());
-        String result = ctc.getCSVTableAsString();
-*/
 
         try {
             Class<?> clazz = Class.forName("org.eclipse.rdf4j.rio.nquads.NQuadsParserFactory");
@@ -158,6 +48,7 @@ public class RDFtoCSVWService {
         } catch (ClassNotFoundException e) {
             System.out.println("Class not found: " + e.getMessage());
         }
+        /*
         System.out.println("C---------- ----------------- " );
         System.out.println(System.getProperty("java.class.path"));
         System.out.println("Content of the multipart file validation: " + validateFileContent(multipartFile));
@@ -177,10 +68,14 @@ public class RDFtoCSVWService {
         //ListFilesInDirectory(lib.getAbsolutePath());
 
 
+         */
 
+        Map<String, String> configMap = null;
+        if(table != null){
+            configMap = new HashMap<>();
+            configMap.put("table", table);
+        }
 
-        Map<String, String> configMap = new HashMap<>();
-        configMap.put("table", table);
         //RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
         RDFtoCSV rdftocsv;
         if(fileURL != null){
