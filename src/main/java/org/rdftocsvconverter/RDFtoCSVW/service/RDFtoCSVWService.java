@@ -426,5 +426,42 @@ public class RDFtoCSVWService {
     }
 
 
+    public Map<String, String> prepareConfigParameter(String table, String param2, String param3, String param4, String param5, String param6) {
 
+        // Prepare map for config parameters
+        Map<String, String> config = new HashMap<>();
+        // Log optional parameters if they are present
+        if (table != null) config.put("table", table);
+        if (param2 != null) config.put("param2", param2);
+        if (param3 != null) config.put("param3", param3);
+        if (param4 != null) config.put("param4", param4);
+        if (param5 != null) config.put("param5", param5);
+        if (param6 != null) config.put("param6", param6);
+
+        return config;
+    }
+
+    public byte[] getCSVFileFromURL(String url, Map<String, String> config) throws IOException {
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(url, config);
+        return rdFtoCSV.getCSVTableAsFile().getOutputData();
+    }
+
+    public byte[] getCSVFileFromFile(MultipartFile multipartFile, Map<String, String> config) throws IOException {
+        File input = saveFile(multipartFile);
+
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(input.getAbsolutePath(), config);
+        return rdFtoCSV.getCSVTableAsFile().getOutputData();
+    }
+
+    public byte[] getMetadataFileFromURL(String url, Map<String, String> config) throws IOException {
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(url, config);
+        return rdFtoCSV.getMetadataAsFile().getOutputData();
+    }
+
+    public byte[] getMetadataFileFromFile(MultipartFile multipartFile, Map<String, String> config) throws IOException {
+        File input = saveFile(multipartFile);
+
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(input.getAbsolutePath(), config);
+        return rdFtoCSV.getMetadataAsFile().getOutputData();
+    }
 }

@@ -58,7 +58,7 @@ public class RDFtoCSVWController {
         }
     }
 
-    @GetMapping("/rdftocsv")
+    @GetMapping("/rdftocsv/string")
     public ResponseEntity<String> convertRDFToCSV(
             @RequestParam("url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
@@ -71,17 +71,7 @@ public class RDFtoCSVWController {
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv with URL: " + url);
 
-        // Prepare map for config parameters
-        Map<String, String> config = new HashMap<>();
-        // Log optional parameters if they are present
-        if (table != null) config.put("table", table);
-        if (param2 != null) System.out.println("table: " + param2);
-        if (param3 != null) System.out.println("param3: " + param3);
-        if (param4 != null) System.out.println("param4: " + param4);
-        if (param5 != null) System.out.println("param5: " + param5);
-        if (param6 != null) System.out.println("param6: " + param6);
-
-
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, param3, param4, param5, param6);
 
         // Example of using the parameters
         try {
@@ -94,7 +84,7 @@ public class RDFtoCSVWController {
         }
     }
 
-    @PostMapping("/rdftocsv")
+    @PostMapping("/rdftocsv/string")
     public ResponseEntity<String> convertRDFToCSV(
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
@@ -107,58 +97,70 @@ public class RDFtoCSVWController {
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
 
-        // Prepare map for config parameters
-        Map<String, String> config = new HashMap<>();
-        // Log optional parameters if they are present
-        if (table != null) config.put("table", table);
-        if (param2 != null) System.out.println("param2: " + param2);
-        if (param3 != null) System.out.println("param3: " + param3);
-        if (param4 != null) System.out.println("param4: " + param4);
-        if (param5 != null) System.out.println("param5: " + param5);
-        if (param6 != null) System.out.println("param6: " + param6);
-
-        // Handle the file if it is present
-        if (!file.isEmpty()) {
-            // Process the file as needed
-            System.out.println("Received file: " + file.getOriginalFilename());
-            // You may want to pass the file to the service if needed
-            // e.g., rdFtoCSVWService.processFile(file);
-        }
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, param3, param4, param5, param6);
 
         // Example of using the parameters
         try {
             // Assuming getCSVString method can handle file and URL as needed
             String responseMessage = rdFtoCSVWService.getCSVStringFromFile(file, config);
-
             // Return response with appropriate status
             return ResponseEntity.ok(responseMessage);
         } catch (IOException ex) {
             return ResponseEntity.badRequest().body("There has been a problem with parsing your request");
         }
     }
-/*
-    @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
-    @PostMapping("/rdftocsvw")
-    public ResponseEntity<byte[]> getCSVW(@RequestParam("file") MultipartFile file, @RequestParam("fileURL") String fileURL, @RequestParam("choice") String choice){
-        System.out.println("Got params for /rdftocsvw : file = " + file.getOriginalFilename() + " fileURL = " + fileURL + " choice = " + choice);
 
+    @PostMapping("/rdftocsv")
+    public ResponseEntity<byte[]> convertRDFToCSVFile(
+            @RequestParam("file") MultipartFile file,  // Required file parameter
+            @RequestParam(value = "table", required = false) String table, // Optional parameters
+            @RequestParam(value = "param2", required = false) String param2,
+            @RequestParam(value = "param3", required = false) String param3,
+            @RequestParam(value = "param4", required = false) String param4,
+            @RequestParam(value = "param5", required = false) String param5,
+            @RequestParam(value = "param6", required = false) String param6) {  // Optional file parameter
+
+        // Log the incoming request
+        System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
+
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, param3, param4, param5, param6);
+
+        // Example of using the parameters
         try {
-            byte[] fileData = rdFtoCSVWService.getCSVW(file, fileURL, choice);
-            return ResponseEntity.ok()
-                    .header("Content-Disposition", "attachment; filename=\"result.zip\"")
-                    .body(fileData);
-        } catch (FileAlreadyExistsException e) {
-            // Handle file already exists exception
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("File already exists. Please choose a different name.".getBytes());
-        } catch (IOException e) {
-            // Handle general IO exceptions
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An error occurred while processing the file.".getBytes());
+            // Assuming getCSVString method can handle file and URL as needed
+            byte[] generatedFile = rdFtoCSVWService.getCSVFileFromFile(file, config);
+            // Return response with appropriate status
+            return ResponseEntity.ok(generatedFile);
+        } catch (IOException ex) {
+            return ResponseEntity.badRequest().body(null);
         }
     }
 
- */
+    @GetMapping("/rdftocsv")
+    public ResponseEntity<byte[]> convertRDFToCSVFile(
+            @RequestParam("url") String url,  // Required URL parameter
+            @RequestParam(value = "table", required = false) String table, // Optional parameters
+            @RequestParam(value = "param2", required = false) String param2,
+            @RequestParam(value = "param3", required = false) String param3,
+            @RequestParam(value = "param4", required = false) String param4,
+            @RequestParam(value = "param5", required = false) String param5,
+            @RequestParam(value = "param6", required = false) String param6) {
+
+        // Log the incoming request
+        System.out.println("Received GET request for /rdftocsv with URL: " + url);
+
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, param3, param4, param5, param6);
+
+        // Example of using the parameters
+        try {
+            // Assuming getCSVString method can handle file and URL as needed
+            byte[] generatedFile = rdFtoCSVWService.getCSVFileFromURL(url, config);
+            // Return response with appropriate status
+            return ResponseEntity.ok(generatedFile);
+        } catch (IOException ex) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
 
     @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
     @PostMapping("/getcsvstring")
