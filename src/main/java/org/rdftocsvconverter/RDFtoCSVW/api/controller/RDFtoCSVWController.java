@@ -96,7 +96,7 @@ public class RDFtoCSVWController {
 
     @PostMapping("/rdftocsv")
     public ResponseEntity<String> convertRDFToCSV(
-            @RequestParam(value = "file") MultipartFile file,  // Required file parameter
+            @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
             @RequestParam(value = "param2", required = false) String param2,
             @RequestParam(value = "param3", required = false) String param3,
