@@ -461,7 +461,8 @@ public class RDFtoCSVWService {
 
     /**
      * This method returns only CSV string, no metadata and its not in .zip. This method is possible only with
-     * "basicQuery" aka one table creation. Unable to return multiple csvs in one string at the moment.
+     * "basicQuery" aka one table creation. If multiple files are requested, it will pUt the csvs into one string and
+     * divide them with visible horizontal delimiter
      * @param url
      * @param config
      * @return
