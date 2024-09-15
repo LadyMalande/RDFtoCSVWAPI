@@ -22,7 +22,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -70,7 +69,7 @@ public class RDFtoCSVWController {
             @RequestParam(value = "param6", required = false) String param6) {
 
         // Log the incoming request
-        System.out.println("Received request for /rdftocsv with URL: " + url);
+        System.out.println("Received GET request for /rdftocsv with URL: " + url);
 
         // Prepare map for config parameters
         Map<String, String> config = new HashMap<>();
@@ -91,6 +90,49 @@ public class RDFtoCSVWController {
             // Return response with appropriate status
             return ResponseEntity.ok(responseMessage);
         } catch(IOException ex){
+            return ResponseEntity.badRequest().body("There has been a problem with parsing your request");
+        }
+    }
+
+    @PostMapping("/rdftocsv")
+    public ResponseEntity<String> convertRDFToCSV(
+            @RequestParam(value = "file") MultipartFile file,  // Required file parameter
+            @RequestParam(value = "table", required = false) String table, // Optional parameters
+            @RequestParam(value = "param2", required = false) String param2,
+            @RequestParam(value = "param3", required = false) String param3,
+            @RequestParam(value = "param4", required = false) String param4,
+            @RequestParam(value = "param5", required = false) String param5,
+            @RequestParam(value = "param6", required = false) String param6) {  // Optional file parameter
+
+        // Log the incoming request
+        System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
+
+        // Prepare map for config parameters
+        Map<String, String> config = new HashMap<>();
+        // Log optional parameters if they are present
+        if (table != null) config.put("table", table);
+        if (param2 != null) System.out.println("param2: " + param2);
+        if (param3 != null) System.out.println("param3: " + param3);
+        if (param4 != null) System.out.println("param4: " + param4);
+        if (param5 != null) System.out.println("param5: " + param5);
+        if (param6 != null) System.out.println("param6: " + param6);
+
+        // Handle the file if it is present
+        if (!file.isEmpty()) {
+            // Process the file as needed
+            System.out.println("Received file: " + file.getOriginalFilename());
+            // You may want to pass the file to the service if needed
+            // e.g., rdFtoCSVWService.processFile(file);
+        }
+
+        // Example of using the parameters
+        try {
+            // Assuming getCSVString method can handle file and URL as needed
+            String responseMessage = rdFtoCSVWService.getCSVStringFromFile(file, config);
+
+            // Return response with appropriate status
+            return ResponseEntity.ok(responseMessage);
+        } catch (IOException ex) {
             return ResponseEntity.badRequest().body("There has been a problem with parsing your request");
         }
     }

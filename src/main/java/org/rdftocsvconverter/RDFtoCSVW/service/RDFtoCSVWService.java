@@ -467,9 +467,9 @@ public class RDFtoCSVWService {
     }
 
     /**
-     * This method returns only CSV string, no metadata and its not in .zip. This method is possible only with
-     * "basicQuery" aka one table creation. If multiple files are requested, it will pUt the csvs into one string and
-     * divide them with visible horizontal delimiter
+     * This method returns only CSV string, no metadata and it is not in .zip. This method is only possible with
+     * RDF file URL. If multiple files are requested, it will pUt the csvs into one string and
+     * divide them with visible horizontal delimiter.
      * @param url
      * @param config
      * @return
@@ -478,6 +478,25 @@ public class RDFtoCSVWService {
     public String getCSVString(String url, Map<String, String> config) throws IOException {
 
         RDFtoCSV rdFtoCSV = new RDFtoCSV(url, config);
+        String result = rdFtoCSV.getCSVTableAsString();
+        System.out.println(result);
+        return result;
+    }
+
+    /**
+     * This method returns only CSV string, no metadata and it is not in .zip. This method is possible only with
+     * "basicQuery" aka one table creation. If multiple files are requested, it will pUt the csvs into one string and
+     * divide them with visible horizontal delimiter
+     * @param multipartFile
+     * @param config
+     * @return
+     * @throws IOException
+     */
+    public String getCSVStringFromFile(MultipartFile multipartFile, Map<String, String> config) throws IOException {
+
+        File input = saveFile(multipartFile);
+
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(input.getAbsolutePath(), config);
         String result = rdFtoCSV.getCSVTableAsString();
         System.out.println(result);
         return result;
