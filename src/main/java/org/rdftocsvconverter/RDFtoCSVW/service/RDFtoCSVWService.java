@@ -151,6 +151,7 @@ public class RDFtoCSVWService {
         CSVTableCreator ctc = new CSVTableCreator(delimiter, filename, "src/main/resources/" + multipartFile.getName());
         String result = ctc.getCSVTableAsString();
 */
+
         try {
             Class<?> clazz = Class.forName("org.eclipse.rdf4j.rio.nquads.NQuadsParserFactory");
             System.out.println("Class loaded: " + clazz.getName());
@@ -181,7 +182,13 @@ public class RDFtoCSVWService {
         Map<String, String> configMap = new HashMap<>();
         configMap.put("table", table);
         //RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
-        RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
+        RDFtoCSV rdftocsv;
+        if(fileURL != null){
+            rdftocsv = new RDFtoCSV(fileURL, configMap);
+        } else{
+            rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
+        }
+
         FinalizedOutput<byte[]> zipFileInBytes = rdftocsv.convertToZip();
 
         //return zipFileInBytes.getOutputData();
