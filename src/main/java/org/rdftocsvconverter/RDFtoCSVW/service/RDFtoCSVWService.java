@@ -397,6 +397,38 @@ public class RDFtoCSVWService {
         return result;
     }
 
+    /**
+     * This method returns only CSVW Metadata string, no CSV and it is not in .zip.
+     * @param url
+     * @param config
+     * @return
+     * @throws IOException
+     */
+    public String getMetadataString(String url, Map<String, String> config) throws IOException {
+
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(url, config);
+        String result = rdFtoCSV.getMetadataAsString();
+        System.out.println(result);
+        return result;
+    }
+
+    /**
+     * This method returns only CSVW Metadata string, no CSV and it is not in .zip.
+     * @param multipartFile
+     * @param config
+     * @return
+     * @throws IOException
+     */
+    public String getMetadataStringFromFile(MultipartFile multipartFile, Map<String, String> config) throws IOException {
+
+        File input = saveFile(multipartFile);
+
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(input.getAbsolutePath(), config);
+        String result = rdFtoCSV.getMetadataAsString();
+        System.out.println(result);
+        return result;
+    }
+
     public void getZip() throws IOException {
         byte[] buffer = new byte[1024];
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
