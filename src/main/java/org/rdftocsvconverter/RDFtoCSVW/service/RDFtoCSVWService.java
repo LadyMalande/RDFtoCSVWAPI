@@ -36,7 +36,7 @@ import static org.junit.Assert.assertThat;
 
 @Service
 public class RDFtoCSVWService {
-    public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String choice) throws IOException {
+    public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String table) throws IOException {
         File file = new File("src/main/resources/targetFile.tmp");
         //File input = new File("src/main/resources/" + multipartFile.getOriginalFilename());
         File fileRelative = new File(multipartFile.getOriginalFilename());
@@ -179,7 +179,7 @@ public class RDFtoCSVWService {
 
 
         Map<String, String> configMap = new HashMap<>();
-        configMap.put("choice", choice);
+        configMap.put("table", table);
         //RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
         RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
         FinalizedOutput<byte[]> zipFileInBytes = rdftocsv.convertToZip();
@@ -457,6 +457,22 @@ public class RDFtoCSVWService {
         System.out.println(result);
         return result;
 
+    }
+
+    /**
+     * This method returns only CSV string, no metadata and its not in .zip. This method is possible only with
+     * "basicQuery" aka one table creation. Unable to return multiple csvs in one string at the moment.
+     * @param url
+     * @param config
+     * @return
+     * @throws IOException
+     */
+    public String getCSVString(String url, Map<String, String> config) throws IOException {
+
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(url, config);
+        String result = rdFtoCSV.getCSVTableAsString();
+        System.out.println(result);
+        return result;
     }
 
     public void getZip() throws IOException {

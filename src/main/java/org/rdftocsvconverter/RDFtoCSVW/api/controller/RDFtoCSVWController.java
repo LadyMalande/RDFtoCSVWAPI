@@ -27,6 +27,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -48,6 +50,42 @@ public class RDFtoCSVWController {
             return rdFtoCSVWService.getCSVW(file, fileURL, choice);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/rdftocsv")
+    public ResponseEntity<String> convertRDFToCSV(
+            @RequestParam("url") String url,  // Required URL parameter
+            @RequestParam(value = "table", required = false) String table, // Optional parameters
+            @RequestParam(value = "param2", required = false) String param2,
+            @RequestParam(value = "param3", required = false) String param3,
+            @RequestParam(value = "param4", required = false) String param4,
+            @RequestParam(value = "param5", required = false) String param5,
+            @RequestParam(value = "param6", required = false) String param6) {
+
+        // Log the incoming request
+        System.out.println("Received request for /rdftocsv with URL: " + url);
+
+        // Prepare map for config parameters
+        Map<String, String> config = new HashMap<>();
+        // Log optional parameters if they are present
+        if (table != null) config.put("table", table);
+        if (param2 != null) System.out.println("table: " + param2);
+        if (param3 != null) System.out.println("param3: " + param3);
+        if (param4 != null) System.out.println("param4: " + param4);
+        if (param5 != null) System.out.println("param5: " + param5);
+        if (param6 != null) System.out.println("param6: " + param6);
+
+
+
+        // Example of using the parameters
+        try {
+            String responseMessage = rdFtoCSVWService.getCSVString(url, config);
+
+            // Return response with appropriate status
+            return ResponseEntity.ok(responseMessage);
+        } catch(IOException ex){
+            return ResponseEntity.badRequest().body("There has been a problem with parsing your request");
         }
     }
 /*
