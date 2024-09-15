@@ -34,7 +34,7 @@ class MockTest {
     @Test
     void rdftocsv_string_byUrl() throws Exception {
         // Perform GET request with URL parameters
-        mockMvc.perform(get("/rdftocsv/string")
+        mockMvc.perform(get("/csv/string")
                         .param("url", url)
                         .param("table", table))
                 .andExpect(status().isOk())  // Check that status is OK
@@ -58,7 +58,7 @@ class MockTest {
     void rdftocsv_string_byFile() throws Exception {
         // Perform GET request with URL parameters
         // TODO
-        mockMvc.perform(get("/rdftocsv/string")
+        mockMvc.perform(get("/csv/string")
                         .param("url", url)
                         .param("table", table))
                 .andExpect(status().isOk())  // Check that status is OK
@@ -80,7 +80,7 @@ class MockTest {
     @Test
     void rdftocsvwmetadata_string_byUrl() throws Exception {
         // Perform GET request with URL parameters
-        mockMvc.perform(get("/rdftocsvwmetadata/string")
+        mockMvc.perform(get("/metadata/string")
                         .param("url", url)
                         .param("table", table))
                 .andExpect(status().isOk())  // Check that status is OK
@@ -93,7 +93,7 @@ class MockTest {
     @Test
     void rdftocsvwmetadata_byUrl() throws Exception {
         // Perform GET request with URL parameters
-        mockMvc.perform(get("/rdftocsvwmetadata")
+        mockMvc.perform(get("/metadata")
                         .param("url", url)
                         .param("table", table))
                 .andExpect(status().isOk())  // Check that status is OK
@@ -126,7 +126,7 @@ class MockTest {
         String param1 = "one";
 
         // Perform POST request with file and parameters
-        mockMvc.perform(multipart("/rdftocsvwmetadata/string")
+        mockMvc.perform(multipart("/metadata/string")
                         .file(mockMultipartFile)
                         .param("table", param1))
                 .andExpect(status().isOk())  // Check that status is OK
@@ -136,7 +136,7 @@ class MockTest {
     @Test
     void rdftocsv_byUrl() throws Exception {
         // Perform GET request with URL parameters
-        mockMvc.perform(get("/rdftocsv")
+        mockMvc.perform(get("/csv")
                         .param("url", url)
                         .param("table", table))
                 .andExpect(status().isOk())  // Check that status is OK

@@ -1,5 +1,11 @@
 package org.rdftocsvconverter.RDFtoCSVW.api.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
@@ -17,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.awt.print.Book;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -31,6 +38,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+@Tag(name = "RDF to CSV", description = "API for calling available parts of the output for conversion of RDF data to CSV on the Web")
 @RestController
 public class RDFtoCSVWController {
 
@@ -39,6 +47,14 @@ public class RDFtoCSVWController {
     @Autowired
     public RDFtoCSVWController(RDFtoCSVWService rdFtoCSVWService){
         this.rdFtoCSVWService = rdFtoCSVWService;
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<String> sanityCheck() {
+        String responseMessage = "Hello from RDFtoCSV";
+
+        // Return response with appropriate status
+        return ResponseEntity.ok(responseMessage);
     }
 
     @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
@@ -58,7 +74,7 @@ public class RDFtoCSVWController {
         }
     }
 
-    @GetMapping("/rdftocsv/string")
+    @GetMapping("/csv/string")
     public ResponseEntity<String> convertRDFToCSV(
             @RequestParam("url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
@@ -84,7 +100,7 @@ public class RDFtoCSVWController {
         }
     }
 
-    @PostMapping("/rdftocsv/string")
+    @PostMapping("/csv/string")
     public ResponseEntity<String> convertRDFToCSV(
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
@@ -110,7 +126,7 @@ public class RDFtoCSVWController {
         }
     }
 
-    @PostMapping("/rdftocsv")
+    @PostMapping("/csv")
     public ResponseEntity<byte[]> convertRDFToCSVFile(
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
@@ -136,7 +152,7 @@ public class RDFtoCSVWController {
         }
     }
 
-    @GetMapping("/rdftocsv")
+    @GetMapping("/csv")
     public ResponseEntity<byte[]> convertRDFToCSVFile(
             @RequestParam("url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
@@ -162,7 +178,7 @@ public class RDFtoCSVWController {
         }
     }
 
-    @PostMapping("/rdftocsvwmetadata")
+    @PostMapping("/metadata")
     public ResponseEntity<byte[]> convertRDFToCSVWMetadataFile(
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
@@ -188,7 +204,7 @@ public class RDFtoCSVWController {
         }
     }
 
-    @GetMapping("/rdftocsvwmetadata")
+    @GetMapping("/metadata")
     public ResponseEntity<byte[]> convertRDFToCSVWMetadataFile(
             @RequestParam("url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
@@ -214,7 +230,7 @@ public class RDFtoCSVWController {
         }
     }
 
-    @GetMapping("/rdftocsvwmetadata/string")
+    @GetMapping("/metadata/string")
     public ResponseEntity<String> convertRDFToCSVWMetadata(
             @RequestParam("url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
@@ -240,7 +256,15 @@ public class RDFtoCSVWController {
         }
     }
 
-    @PostMapping("/rdftocsvwmetadata/string")
+    @Operation(summary = "Get metadata.json as string", description = "Get the contents of generated metadata.json as string, that was created by conversion of the given RDF file")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Generated metadata.json contents",
+                    content = { @Content(mediaType = "text/plain;charset=UTF-8")}),
+            @ApiResponse(responseCode = "400", description = "Invalid RDF file",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Trouble at the backend part",
+                    content = @Content) })
+    @PostMapping("/metadata/string")
     public ResponseEntity<String> convertRDFToCSVWMetadata(
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
@@ -264,82 +288,6 @@ public class RDFtoCSVWController {
         } catch (IOException ex) {
             return ResponseEntity.badRequest().body("There has been a problem with parsing your request");
         }
-    }
-
-    @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
-    @PostMapping("/getcsvstring")
-    public String getCSVString(@RequestParam MultipartFile file, @RequestParam String delimiter, @RequestParam String filename){
-        try {
-            return rdFtoCSVWService.getCSVString(file, delimiter, filename);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
-    @GetMapping("/getZip")
-    public void getZip(HttpServletResponse response){
-        System.out.println("Beginning of getZip path Controller");
-        try {
-           rdFtoCSVWService.getZip();
-            System.out.println("In try getZip path Controller");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @GetMapping("/rdftocsvw-javaconfig")
-	public byte[] getCSVWWithConfig(@RequestParam MultipartFile file, @RequestParam String delimiter, @RequestParam String filename){
-        try {
-            return rdFtoCSVWService.getCSVW(file, delimiter, filename);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
-    @RequestMapping(value = "/zip", produces="application/zip")
-    public byte[] zipFiles(@RequestParam MultipartFile file, @RequestParam String delimiter, @RequestParam String filename, HttpServletResponse response) throws IOException {
-        // Setting HTTP headers
-        response.addHeader("Content-Disposition", "attachment; filename=\"test.zip\"");
-
-        // Creating byteArray stream, make it bufferable and passing this buffer to ZipOutputStream
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(byteArrayOutputStream);
-        ZipOutputStream zipOutputStream = new ZipOutputStream(bufferedOutputStream);
-
-        // Simple file list, just for tests
-        ArrayList<File> files = new ArrayList<>(2);
-        File file1 = new File("src/main/resources/targetFile.tmp");
-        File file2 = new File("src/main/resources/example.csv");
-        files.add(file1);
-        files.add(file2);
-
-        // Packing files
-        for (File fileVar : files) {
-            // New zip entry and copying InputStream with file to ZipOutputStream, after all closing streams
-            zipOutputStream.putNextEntry(new ZipEntry(file.getName()));
-            FileInputStream fileInputStream = new FileInputStream(fileVar);
-
-            IOUtils.copy(fileInputStream, zipOutputStream);
-
-            fileInputStream.close();
-            zipOutputStream.closeEntry();
-        }
-
-        if (zipOutputStream != null) {
-            zipOutputStream.finish();
-            zipOutputStream.flush();
-            IOUtils.closeQuietly(zipOutputStream);
-        }
-        IOUtils.closeQuietly(bufferedOutputStream);
-        IOUtils.closeQuietly(byteArrayOutputStream);
-
-        Path path = Paths.get("src/main/resources/example.zip");
-        Files.write(path, byteArrayOutputStream.toByteArray());
-
-        return byteArrayOutputStream.toByteArray();
     }
 
 
