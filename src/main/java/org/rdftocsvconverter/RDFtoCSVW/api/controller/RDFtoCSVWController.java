@@ -78,12 +78,15 @@ public class RDFtoCSVWController {
 
         try {
             if(file != null && !fileURL.isEmpty()){
-                System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice);
+                System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null && !fileURL.isEmpty()");
                 return rdFtoCSVWService.getCSVW(null, fileURL, choice);
 
-            } else{
-                System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice);
+            } else if(file != null){
+                System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null branch");
                 return rdFtoCSVWService.getCSVW(file, fileURL, choice);
+            } else{
+                System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " else branch");
+                return rdFtoCSVWService.getCSVW(null, fileURL, choice);
             }
 
         } catch (IOException e) {
