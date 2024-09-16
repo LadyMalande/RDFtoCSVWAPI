@@ -77,9 +77,12 @@ public class RDFtoCSVWController {
         System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
 
         try {
-            if(file != null && fileURL != null){
+            if(file != null && !fileURL.isEmpty()){
+                System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice);
                 return rdFtoCSVWService.getCSVW(null, fileURL, choice);
+
             } else{
+                System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice);
                 return rdFtoCSVWService.getCSVW(file, fileURL, choice);
             }
 
