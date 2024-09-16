@@ -49,6 +49,12 @@ public class RDFtoCSVWController {
         this.rdFtoCSVWService = rdFtoCSVWService;
     }
 
+    @Operation(summary = "Get welcoming string", description = "Get a welcoming string to test the availability of the web service easily")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Welcoming string is returned as text",
+                    content = { @Content(mediaType = "text/plain;charset=UTF-8")}),
+            @ApiResponse(responseCode = "500", description = "Trouble at the backend part",
+                    content = @Content) })
     @GetMapping("/")
     public ResponseEntity<String> sanityCheck() {
         String responseMessage = "Hello from RDFtoCSV";
@@ -57,6 +63,14 @@ public class RDFtoCSVWController {
         return ResponseEntity.ok(responseMessage);
     }
 
+    @Operation(summary = "Get full CSVW content as .zip", description = "Get the generated rdf-data.csv(s) as file(s) along with appropriate metadata.json file, all of them zipped in a ZIP archive.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns ZIP file containing x CSV files and metadata.json file",
+                    content = { @Content(mediaType = "application/octet-stream")}),
+            @ApiResponse(responseCode = "400", description = "Invalid RDF file",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Trouble at the backend part",
+                    content = @Content) })
     @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
     @PostMapping("/rdftocsvw")
     public byte[] getCSVW(@RequestParam("file") MultipartFile file, @RequestParam("fileURL") String fileURL, @RequestParam("choice") String choice){
@@ -74,6 +88,14 @@ public class RDFtoCSVWController {
         }
     }
 
+    @Operation(summary = "Get rdf-data.csv as file", description = "Get the contents of generated rdf-data.csv as string, that was created by conversion of the given RDF data URL. If the option to generate more tables is chosen and the output produces more tables, all the CSV files string outputs will be in one file, visually separated in vertical succession.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv file",
+                    content = { @Content(mediaType = "text/plain;charset=UTF-8")}),
+            @ApiResponse(responseCode = "400", description = "Invalid RDF file",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Trouble at the backend part",
+                    content = @Content) })
     @GetMapping("/csv/string")
     public ResponseEntity<String> convertRDFToCSV(
             @RequestParam("url") String url,  // Required URL parameter
@@ -100,6 +122,14 @@ public class RDFtoCSVWController {
         }
     }
 
+    @Operation(summary = "Get rdf-data.csv as string", description = "Get the contents of generated rdf-data.csv as string, that was created by conversion of the given RDF file. If the option to generate more tables is chosen and the output produces more tables, all the CSV files string outputs will be in one file, visually separated in vertical succession.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv as string",
+                    content = { @Content(mediaType = "text/plain;charset=UTF-8")}),
+            @ApiResponse(responseCode = "400", description = "Invalid RDF file",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Trouble at the backend part",
+                    content = @Content) })
     @PostMapping("/csv/string")
     public ResponseEntity<String> convertRDFToCSV(
             @RequestParam("file") MultipartFile file,  // Required file parameter
@@ -126,6 +156,14 @@ public class RDFtoCSVWController {
         }
     }
 
+    @Operation(summary = "Get rdf-data.csv as file", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF file")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv file",
+                    content = { @Content(mediaType = "application/octet-stream")}),
+            @ApiResponse(responseCode = "400", description = "Invalid RDF file",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Trouble at the backend part",
+                    content = @Content) })
     @PostMapping("/csv")
     public ResponseEntity<byte[]> convertRDFToCSVFile(
             @RequestParam("file") MultipartFile file,  // Required file parameter
@@ -152,6 +190,14 @@ public class RDFtoCSVWController {
         }
     }
 
+    @Operation(summary = "Get rdf-data.csv as file", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF data URL")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv file",
+                    content = { @Content(mediaType = "application/octet-stream")}),
+            @ApiResponse(responseCode = "400", description = "Invalid RDF file",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Trouble at the backend part",
+                    content = @Content) })
     @GetMapping("/csv")
     public ResponseEntity<byte[]> convertRDFToCSVFile(
             @RequestParam("url") String url,  // Required URL parameter
@@ -178,6 +224,14 @@ public class RDFtoCSVWController {
         }
     }
 
+    @Operation(summary = "Get metadata.json as file", description = "Get the contents of generated metadata.json as file, that was created by conversion of the given RDF file in the body of the request")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Generated metadata.json file",
+                    content = { @Content(mediaType = "application/octet-stream")}),
+            @ApiResponse(responseCode = "400", description = "Invalid RDF file",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Trouble at the backend part",
+                    content = @Content) })
     @PostMapping("/metadata")
     public ResponseEntity<byte[]> convertRDFToCSVWMetadataFile(
             @RequestParam("file") MultipartFile file,  // Required file parameter
@@ -204,6 +258,14 @@ public class RDFtoCSVWController {
         }
     }
 
+    @Operation(summary = "Get metadata.json as file", description = "Get the contents of generated metadata.json as file, that was created by conversion of the given RDF data URL")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Generated metadata.json file",
+                    content = { @Content(mediaType = "application/octet-stream")}),
+            @ApiResponse(responseCode = "400", description = "Invalid RDF file",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Trouble at the backend part",
+                    content = @Content) })
     @GetMapping("/metadata")
     public ResponseEntity<byte[]> convertRDFToCSVWMetadataFile(
             @RequestParam("url") String url,  // Required URL parameter
@@ -230,6 +292,14 @@ public class RDFtoCSVWController {
         }
     }
 
+    @Operation(summary = "Get metadata.json as string", description = "Get the contents of generated metadata.json as string, that was created by conversion of the given RDF data URL")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Generated metadata.json contents",
+                    content = { @Content(mediaType = "text/plain;charset=UTF-8")}),
+            @ApiResponse(responseCode = "400", description = "Invalid RDF file",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Trouble at the backend part",
+                    content = @Content) })
     @GetMapping("/metadata/string")
     public ResponseEntity<String> convertRDFToCSVWMetadata(
             @RequestParam("url") String url,  // Required URL parameter
