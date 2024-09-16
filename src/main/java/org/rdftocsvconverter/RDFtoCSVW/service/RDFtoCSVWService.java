@@ -79,10 +79,11 @@ public class RDFtoCSVWService {
 
         //RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
         RDFtoCSV rdftocsv;
-        System.out.println("input.getAbsolutePath() = " + input.getAbsolutePath());
+
         if(!fileURL.isEmpty()){
             rdftocsv = new RDFtoCSV(fileURL, configMap);
         } else{
+            System.out.println("input.getAbsolutePath() = " + input.getAbsolutePath());
             rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
         }
 
