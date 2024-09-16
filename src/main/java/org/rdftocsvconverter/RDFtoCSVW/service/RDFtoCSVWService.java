@@ -39,6 +39,7 @@ public class RDFtoCSVWService {
     public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String table) throws IOException {
         File input = null;
         if(multipartFile != null) {
+            System.out.println("multipartFile != null ");
             input = saveFile(multipartFile);
         }
 
@@ -78,6 +79,7 @@ public class RDFtoCSVWService {
 
         //RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
         RDFtoCSV rdftocsv;
+        System.out.println("input.getAbsolutePath() = " + input.getAbsolutePath());
         if(fileURL != null){
             rdftocsv = new RDFtoCSV(fileURL, configMap);
         } else{
