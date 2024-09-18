@@ -79,7 +79,7 @@ public class RDFtoCSVWController {
     @PostMapping("/rdftocsvw")
     public byte[] getCSVW(@RequestParam("file") MultipartFile file, @RequestParam("fileURL") String fileURL, @RequestParam("choice") String choice){
         System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
-
+        briefingController.sendManualBriefing("At the beginning of the /rdftocsvw method");
         try {
             if(file != null && !fileURL.isEmpty()){
                 System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null && !fileURL.isEmpty()");
