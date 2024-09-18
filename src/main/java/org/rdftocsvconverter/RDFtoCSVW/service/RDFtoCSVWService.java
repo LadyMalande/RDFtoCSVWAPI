@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import static org.junit.Assert.assertEquals;
@@ -96,6 +97,33 @@ public class RDFtoCSVWService {
 
 
 
+    }
+
+    public static int countFilesInZip(byte[] zippedBytes) throws IOException {
+        // Step 1: Convert the byte array into a ByteArrayInputStream
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(zippedBytes);
+
+        // Step 2: Wrap the InputStream in a ZipInputStream to read the ZIP contents
+        ZipInputStream zipInputStream = new ZipInputStream(byteArrayInputStream);
+
+        // Step 3: Initialize a counter for the number of files
+        int fileCount = 0;
+
+        // Step 4: Iterate through each entry in the ZIP file
+        ZipEntry entry;
+        while ((entry = zipInputStream.getNextEntry()) != null) {
+            // Ignore directories
+            if (!entry.isDirectory()) {
+                fileCount++;
+            }
+        }
+
+        // Step 5: Close the streams
+        zipInputStream.close();
+        byteArrayInputStream.close();
+
+        // Step 6: Return the count
+        return fileCount;
     }
 
     public static String calculateChecksum(MultipartFile file) {

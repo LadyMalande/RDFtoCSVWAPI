@@ -20,6 +20,11 @@ public class BriefingController {
         //return Flux.interval(Duration.ofSeconds(1)).map(seq -> "Briefing update " + seq);
     }
 
+    // This is the method to be called by other components/services to trigger the message
+    public void sendManualBriefing(String message) {
+        briefingSink.tryEmitNext(message);
+    }
+
     // This method triggers a briefing message from another request
     @GetMapping("/triggerBriefing")
     public String triggerBriefing() {

@@ -38,15 +38,19 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import static org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService.countFilesInZip;
+
 @Tag(name = "RDF to CSV", description = "API for calling available parts of the output for conversion of RDF data to CSV on the Web")
 @RestController
 public class RDFtoCSVWController {
 
-    private RDFtoCSVWService rdFtoCSVWService;
+    private final RDFtoCSVWService rdFtoCSVWService;
+    private final BriefingController briefingController;
 
     @Autowired
-    public RDFtoCSVWController(RDFtoCSVWService rdFtoCSVWService){
+    public RDFtoCSVWController(RDFtoCSVWService rdFtoCSVWService, BriefingController briefingController){
         this.rdFtoCSVWService = rdFtoCSVWService;
+        this.briefingController = briefingController;
     }
 
     @Operation(summary = "Get welcoming string", description = "Get a welcoming string to test the availability of the web service easily")
@@ -79,7 +83,13 @@ public class RDFtoCSVWController {
         try {
             if(file != null && !fileURL.isEmpty()){
                 System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null && !fileURL.isEmpty()");
-                return rdFtoCSVWService.getCSVW(null, fileURL, choice);
+                byte[] zippedBytes = rdFtoCSVWService.getCSVW(null, fileURL, choice);
+                int numberOfFiles = countFilesInZip(zippedBytes);
+                if(choice.equalsIgnoreCase("more") && numberOfFiles < 3){
+                    // Send message to say that the number of files is given by the characteristics of the RDF data
+                    briefingController.sendManualBriefing("Could not produce more tables based on the RDF data provided.");
+                }
+                return zippedBytes;
 
             } else if(file != null){
                 System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null branch");
