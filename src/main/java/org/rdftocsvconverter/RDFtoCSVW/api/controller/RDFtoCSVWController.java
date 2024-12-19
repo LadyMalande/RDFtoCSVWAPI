@@ -1,44 +1,18 @@
 package org.rdftocsvconverter.RDFtoCSVW.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.rdftocsvconverter.RDFtoCSVW.enums.TableChoice;
 import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.awt.print.Book;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import static org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService.countFilesInZip;
 
@@ -69,6 +43,13 @@ public class RDFtoCSVWController {
         return ResponseEntity.ok(responseMessage);
     }
 
+    /**
+     * @param file
+     * @param fileURL
+     * @param choice
+     * @param tables
+     * @return
+     */
     @Operation(summary = "Get full CSVW content as .zip", description = "Get the generated rdf-data.csv(s) as file(s) along with appropriate metadata.json file, all of them zipped in a ZIP archive.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns ZIP file containing x CSV files and metadata.json file",
@@ -82,8 +63,8 @@ public class RDFtoCSVWController {
     public byte[] getCSVW(@RequestParam("file") MultipartFile file, @RequestParam("fileURL") String fileURL,
                           //@Parameter(description = "The number of CSV tables created during conversion", schema = @Schema(implementation = TableChoice.class))
                           //@Parameter(description = "The number of CSV tables created during conversion", example = "ONE")
-                              @RequestParam(value = "choice", required = true) String choice,
-                          @RequestParam(value = "tables", required = true) String tables){
+                              @RequestParam(value = "choice") String choice,
+                          @RequestParam(value = "tables") String tables){
         System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
         briefingController.sendManualBriefing("At the beginning of the /rdftocsvw method");
         try {
@@ -101,7 +82,7 @@ public class RDFtoCSVWController {
                 System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null branch");
                 return rdFtoCSVWService.getCSVW(file, fileURL, choice, tables);
             } else{
-                System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " else branch");
+                System.out.println("Got params for /rdftocsvw : file=null fileURL = " + fileURL + " choice=" + choice + " else branch");
                 return rdFtoCSVWService.getCSVW(null, fileURL, choice, tables);
             }
 
@@ -122,16 +103,13 @@ public class RDFtoCSVWController {
     public ResponseEntity<String> convertRDFToCSV(
             @RequestParam("url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
-            @RequestParam(value = "method", required = false) String param2,
-            @RequestParam(value = "param3", required = false) String param3,
-            @RequestParam(value = "param4", required = false) String param4,
-            @RequestParam(value = "param5", required = false) String param5,
-            @RequestParam(value = "param6", required = false) String param6) {
+            @RequestParam(value = "conversionMethod", required = false) String conversionMethod,
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, param3, param4, param5, param6);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, conversionMethod, firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -157,15 +135,12 @@ public class RDFtoCSVWController {
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
             @RequestParam(value = "param2", required = false) String param2,
-            @RequestParam(value = "param3", required = false) String param3,
-            @RequestParam(value = "param4", required = false) String param4,
-            @RequestParam(value = "param5", required = false) String param5,
-            @RequestParam(value = "param6", required = false) String param6) {  // Optional file parameter
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, param3, param4, param5, param6);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -191,15 +166,12 @@ public class RDFtoCSVWController {
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
             @RequestParam(value = "param2", required = false) String param2,
-            @RequestParam(value = "param3", required = false) String param3,
-            @RequestParam(value = "param4", required = false) String param4,
-            @RequestParam(value = "param5", required = false) String param5,
-            @RequestParam(value = "param6", required = false) String param6) {  // Optional file parameter
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, param3, param4, param5, param6);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -225,15 +197,12 @@ public class RDFtoCSVWController {
             @RequestParam("url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
             @RequestParam(value = "param2", required = false) String param2,
-            @RequestParam(value = "param3", required = false) String param3,
-            @RequestParam(value = "param4", required = false) String param4,
-            @RequestParam(value = "param5", required = false) String param5,
-            @RequestParam(value = "param6", required = false) String param6) {
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv with URL: " + url);
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, param3, param4, param5, param6);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -259,15 +228,12 @@ public class RDFtoCSVWController {
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
             @RequestParam(value = "param2", required = false) String param2,
-            @RequestParam(value = "param3", required = false) String param3,
-            @RequestParam(value = "param4", required = false) String param4,
-            @RequestParam(value = "param5", required = false) String param5,
-            @RequestParam(value = "param6", required = false) String param6) {  // Optional file parameter
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, param3, param4, param5, param6);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -293,15 +259,12 @@ public class RDFtoCSVWController {
             @RequestParam("url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
             @RequestParam(value = "param2", required = false) String param2,
-            @RequestParam(value = "param3", required = false) String param3,
-            @RequestParam(value = "param4", required = false) String param4,
-            @RequestParam(value = "param5", required = false) String param5,
-            @RequestParam(value = "param6", required = false) String param6) {
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv with URL: " + url);
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, param3, param4, param5, param6);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -327,15 +290,12 @@ public class RDFtoCSVWController {
             @RequestParam("url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
             @RequestParam(value = "param2", required = false) String param2,
-            @RequestParam(value = "param3", required = false) String param3,
-            @RequestParam(value = "param4", required = false) String param4,
-            @RequestParam(value = "param5", required = false) String param5,
-            @RequestParam(value = "param6", required = false) String param6) {
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, param3, param4, param5, param6);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -361,15 +321,12 @@ public class RDFtoCSVWController {
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
             @RequestParam(value = "param2", required = false) String param2,
-            @RequestParam(value = "param3", required = false) String param3,
-            @RequestParam(value = "param4", required = false) String param4,
-            @RequestParam(value = "param5", required = false) String param5,
-            @RequestParam(value = "param6", required = false) String param6) {  // Optional file parameter
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, param3, param4, param5, param6);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
 
         // Example of using the parameters
         try {

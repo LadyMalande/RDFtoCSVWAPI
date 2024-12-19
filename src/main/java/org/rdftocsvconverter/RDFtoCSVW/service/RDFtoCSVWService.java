@@ -22,6 +22,7 @@ import com.miklosova.rdftocsvw.support.Main;
 import java.io.*;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -161,12 +162,10 @@ public class RDFtoCSVWService {
 
     public boolean validateFileContent(MultipartFile file) {
         try {
-            String content = IOUtils.toString(file.getInputStream(), "UTF-8");
+            String content = IOUtils.toString(file.getInputStream(), StandardCharsets.UTF_8);
             // Perform checks for unexpected characters (e.g., unexpected null characters, BOM, etc.)
-            if (content.contains("\u0000")) { // Check for null characters
-                return false;
-            }
-            return true; // Add other validation checks here
+            // Check for null characters
+            return !content.contains("\u0000");// Add other validation checks here
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -490,17 +489,14 @@ public class RDFtoCSVWService {
     }
 
 
-    public Map<String, String> prepareConfigParameter(String table, String param2, String param3, String param4, String param5, String param6) {
+    public Map<String, String> prepareConfigParameter(String table, String conversionMethod, Boolean firstNormalForm) {
 
         // Prepare map for config parameters
         Map<String, String> config = new HashMap<>();
         // Log optional parameters if they are present
         if (table != null) config.put("table", table);
-        if (param2 != null) config.put("param2", param2);
-        if (param3 != null) config.put("param3", param3);
-        if (param4 != null) config.put("param4", param4);
-        if (param5 != null) config.put("param5", param5);
-        if (param6 != null) config.put("param6", param6);
+        if (conversionMethod != null) config.put("conversionMethod", conversionMethod);
+        if (firstNormalForm != null) config.put("firstNormalForm", String.valueOf(firstNormalForm));
 
         return config;
     }
