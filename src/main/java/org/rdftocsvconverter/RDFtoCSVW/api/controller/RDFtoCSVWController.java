@@ -80,7 +80,8 @@ public class RDFtoCSVWController {
     @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
     @PostMapping("/rdftocsvw")
     public byte[] getCSVW(@RequestParam("file") MultipartFile file, @RequestParam("fileURL") String fileURL,
-                          @Parameter(description = "The number of CSV tables created during conversion", schema = @Schema(implementation = TableChoice.class)) @RequestParam("tables") String choice){
+                          //@Parameter(description = "The number of CSV tables created during conversion", schema = @Schema(implementation = TableChoice.class))
+                          @RequestParam("tables") String choice){
         System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
         briefingController.sendManualBriefing("At the beginning of the /rdftocsvw method");
         try {
