@@ -81,7 +81,7 @@ public class RDFtoCSVWController {
     @PostMapping("/rdftocsvw")
     public byte[] getCSVW(@RequestParam("file") MultipartFile file, @RequestParam("fileURL") String fileURL,
                           //@Parameter(description = "The number of CSV tables created during conversion", schema = @Schema(implementation = TableChoice.class))
-                          @Parameter(description = "The number of CSV tables created during conversion", example = "ONE")
+                          //@Parameter(description = "The number of CSV tables created during conversion", example = "ONE")
                               @RequestParam TableChoice choice){
         System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
         briefingController.sendManualBriefing("At the beginning of the /rdftocsvw method");
