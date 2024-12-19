@@ -37,7 +37,7 @@ import static org.junit.Assert.assertThat;
 
 @Service
 public class RDFtoCSVWService {
-    public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String table) throws IOException {
+    public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String choice, String table) throws IOException {
         File input = null;
         if(multipartFile != null) {
             System.out.println("multipartFile != null ");
@@ -76,6 +76,7 @@ public class RDFtoCSVWService {
         if(table != null){
             configMap = new HashMap<>();
             configMap.put("table", table);
+            configMap.put("choice", choice);
         }
 
         //RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
