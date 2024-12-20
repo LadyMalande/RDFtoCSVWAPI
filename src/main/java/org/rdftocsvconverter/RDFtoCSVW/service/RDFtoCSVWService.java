@@ -38,7 +38,7 @@ import static org.junit.Assert.assertThat;
 
 @Service
 public class RDFtoCSVWService {
-    public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String choice, String table) throws IOException {
+    public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String choice, String table, Boolean firstNormalForm) throws IOException {
         File input = null;
         if(multipartFile != null) {
             System.out.println("multipartFile != null ");
@@ -77,7 +77,9 @@ public class RDFtoCSVWService {
         if(table != null){
             configMap = new HashMap<>();
             configMap.put("table", table);
-            configMap.put("choice", choice);
+            configMap.put("readMethod", choice);
+            configMap.put("firstNormalForm", String.valueOf(firstNormalForm));
+
         }
 
         //RDFtoCSV rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
@@ -495,7 +497,7 @@ public class RDFtoCSVWService {
         Map<String, String> config = new HashMap<>();
         // Log optional parameters if they are present
         if (table != null) config.put("table", table);
-        if (conversionMethod != null) config.put("conversionMethod", conversionMethod);
+        if (conversionMethod != null) config.put("readMethod", conversionMethod);
         if (firstNormalForm != null) config.put("firstNormalForm", String.valueOf(firstNormalForm));
 
         return config;
@@ -514,6 +516,7 @@ public class RDFtoCSVWService {
     }
 
     public byte[] getMetadataFileFromURL(String url, Map<String, String> config) throws IOException {
+        System.out.println("url " + url  + config.toString());
         RDFtoCSV rdFtoCSV = new RDFtoCSV(url, config);
         return rdFtoCSV.getMetadataAsFile().getOutputData();
     }

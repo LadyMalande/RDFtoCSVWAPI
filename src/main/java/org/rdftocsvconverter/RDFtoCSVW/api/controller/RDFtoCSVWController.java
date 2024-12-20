@@ -64,13 +64,14 @@ public class RDFtoCSVWController {
                           //@Parameter(description = "The number of CSV tables created during conversion", schema = @Schema(implementation = TableChoice.class))
                           //@Parameter(description = "The number of CSV tables created during conversion", example = "ONE")
                               @RequestParam(value = "choice") String choice,
-                          @RequestParam(value = "tables") String tables){
+                          @RequestParam(value = "tables") String tables,
+                          @RequestParam(value = "firstNormalForm") Boolean firstNormalForm){
         System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
         briefingController.sendManualBriefing("At the beginning of the /rdftocsvw method");
         try {
             if(file != null && !fileURL.isEmpty()){
                 System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null && !fileURL.isEmpty()");
-                byte[] zippedBytes = rdFtoCSVWService.getCSVW(null, fileURL, choice, tables);
+                byte[] zippedBytes = rdFtoCSVWService.getCSVW(null, fileURL, choice, tables, firstNormalForm);
                 int numberOfFiles = countFilesInZip(zippedBytes);
                 if(choice.equalsIgnoreCase("more") && numberOfFiles < 3){
                     // Send message to say that the number of files is given by the characteristics of the RDF data
@@ -80,10 +81,10 @@ public class RDFtoCSVWController {
 
             } else if(file != null){
                 System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null branch");
-                return rdFtoCSVWService.getCSVW(file, fileURL, choice, tables);
+                return rdFtoCSVWService.getCSVW(file, fileURL, choice, tables, firstNormalForm);
             } else{
                 System.out.println("Got params for /rdftocsvw : file=null fileURL = " + fileURL + " choice=" + choice + " else branch");
-                return rdFtoCSVWService.getCSVW(null, fileURL, choice, tables);
+                return rdFtoCSVWService.getCSVW(null, fileURL, choice, tables, firstNormalForm);
             }
 
         } catch (IOException e) {
