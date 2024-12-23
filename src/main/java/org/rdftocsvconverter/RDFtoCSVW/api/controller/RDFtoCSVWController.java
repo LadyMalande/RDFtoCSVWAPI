@@ -60,12 +60,12 @@ public class RDFtoCSVWController {
                     content = @Content) })
     @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
     @PostMapping("/rdftocsvw")
-    public byte[] getCSVW(@RequestParam("file") MultipartFile file, @RequestParam("fileURL") String fileURL,
+    public byte[] getCSVW(@RequestParam(value = "file", required = false) MultipartFile file, @RequestParam(value = "fileURL", required = false) String fileURL,
                           //@Parameter(description = "The number of CSV tables created during conversion", schema = @Schema(implementation = TableChoice.class))
                           //@Parameter(description = "The number of CSV tables created during conversion", example = "ONE")
-                              @RequestParam(value = "choice") String choice,
-                          @RequestParam(value = "tables") String tables,
-                          @RequestParam(value = "firstNormalForm") Boolean firstNormalForm){
+                          @RequestParam(value = "choice", required = false) String choice,
+                          @RequestParam(value = "tables", required = false) String tables,
+                          @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm){
         System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
         briefingController.sendManualBriefing("At the beginning of the /rdftocsvw method");
         try {
@@ -288,10 +288,10 @@ public class RDFtoCSVWController {
                     content = @Content) })
     @GetMapping("/metadata/string")
     public ResponseEntity<String> convertRDFToCSVWMetadata(
-            @RequestParam("url") String url,  // Required URL parameter
-            @RequestParam(value = "table", required = false) String table, // Optional parameters
-            @RequestParam(value = "param2", required = false) String param2,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
+            @RequestParam("URL") String url,  // Required URL parameter
+            @RequestParam(value = "Table(s)", required = false) String table, // Optional parameters
+            @RequestParam(value = "Conversion Method", required = false) String param2,
+            @RequestParam(value = "First Normal Form", required = false) Boolean firstNormalForm) {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
