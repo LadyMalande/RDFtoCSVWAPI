@@ -60,7 +60,7 @@ public class RDFtoCSVWController {
                     content = @Content) })
     @CrossOrigin(origins = {"http://localhost:4000", "https://ladymalande.github.io/"})
     @PostMapping("/rdftocsvw")
-    public byte[] getCSVW(@RequestParam(value = "file", required = false) MultipartFile file, @RequestParam(value = "fileURL", required = false) String fileURL,
+    public ResponseEntity<byte[]> getCSVW(@RequestParam(value = "file", required = false) MultipartFile file, @RequestParam(value = "fileURL", required = false) String fileURL,
                           //@Parameter(description = "The number of CSV tables created during conversion", schema = @Schema(implementation = TableChoice.class))
                           //@Parameter(description = "The number of CSV tables created during conversion", example = "ONE")
                           @RequestParam(value = "choice", required = false) String choice,
