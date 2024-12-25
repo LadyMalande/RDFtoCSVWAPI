@@ -226,7 +226,7 @@ public class RDFtoCSVWController {
                     content = @Content) })
     @PostMapping("/metadata")
     public ResponseEntity<byte[]> convertRDFToCSVWMetadataFile(
-            @RequestParam("file") MultipartFile file,  // Required file parameter
+            @RequestParam(value = "file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false) String param2,
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
@@ -257,7 +257,7 @@ public class RDFtoCSVWController {
                     content = @Content) })
     @GetMapping("/metadata")
     public ResponseEntity<byte[]> convertRDFToCSVWMetadataFile(
-            @RequestParam("url") String url,  // Required URL parameter
+            @RequestParam(value = "url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false) String param2,
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
@@ -288,7 +288,7 @@ public class RDFtoCSVWController {
                     content = @Content) })
     @GetMapping("/metadata/string")
     public ResponseEntity<String> convertRDFToCSVWMetadata(
-            @RequestParam("URL") String url,  // Required URL parameter
+            @RequestParam(value = "url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) String table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false) String param2,
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
