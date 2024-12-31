@@ -14,26 +14,35 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Map;
 
-import static org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService.countFilesInZip;
-
+/**
+ * The RDFtoCSVWController class that contains GET/POST methods to initiate conversions and get send results back.
+ */
 @Tag(name = "RDF to CSV", description = "API for calling available parts of the output for conversion of RDF data to CSV on the Web")
 @RestController
 public class RDFtoCSVWController {
 
     private final RDFtoCSVWService rdFtoCSVWService;
-    private final BriefingController briefingController;
 
+    /**
+     * Instantiates a new RDFtoCSVWController with endpoints and methods to get converter results.
+     *
+     * @param rDFtoCSVWService the RDFtoCSVWService with methods to help the mapped endpoints to serve the conversion.
+     */
     @Autowired
-    public RDFtoCSVWController(RDFtoCSVWService rdFtoCSVWService, BriefingController briefingController){
-        this.rdFtoCSVWService = rdFtoCSVWService;
-        this.briefingController = briefingController;
+    public RDFtoCSVWController(RDFtoCSVWService rDFtoCSVWService){
+        this.rdFtoCSVWService = rDFtoCSVWService;
     }
 
-    @Operation(summary = "Get welcoming string", description = "Get a welcoming string to test the availability of the web service easily")
+    /**
+     * Sanity check response entity. For checking whether the service is up and running and available for other operations.
+     *
+     * @return the response entity returning a welcoming String
+     */
+    @Operation(summary = "Get welcoming string", description = "Get a welcoming string to test the availability of the web service easily.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Welcoming string is returned as text",
+            @ApiResponse(responseCode = "200", description = "Welcoming string is returned as text.",
                     content = { @Content(mediaType = "text/plain;charset=UTF-8")}),
-            @ApiResponse(responseCode = "500", description = "Trouble at the backend part",
+            @ApiResponse(responseCode = "500", description = "Trouble at the backend part, service is momentarily unavailable.",
                     content = @Content) })
     @GetMapping("/")
     public ResponseEntity<String> sanityCheck() {
@@ -44,11 +53,14 @@ public class RDFtoCSVWController {
     }
 
     /**
-     * @param file
-     * @param fileURL
-     * @param choice
-     * @param tables
-     * @return
+     * Get CSVW byte [ ] (.zip) format containing all converted files - CSVs and .json metadata file.
+     *
+     * @param file            The RDF file to convert
+     * @param fileURL         The RDF file url to convert
+     * @param choice          The choice of parsing method
+     * @param tables          How many tables to produce - one or more
+     * @param firstNormalForm The first normal form - whether to produce the resulting CSVs in 1NF (cells containing atomic values)
+     * @return byte [ ] Returns .zip format of all the converted parts - CSVs and .json metadata file.
      */
     @Operation(summary = "Get full CSVW content as .zip", description = "Get the generated rdf-data.csv(s) as file(s) along with appropriate metadata.json file, all of them zipped in a ZIP archive.")
     @ApiResponses(value = {
@@ -67,17 +79,11 @@ public class RDFtoCSVWController {
                           @RequestParam(value = "tables", required = false) String tables,
                           @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm){
         System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
-        briefingController.sendManualBriefing("At the beginning of the /rdftocsvw method");
         try {
             if(file != null && !fileURL.isEmpty()){
                 System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null && !fileURL.isEmpty()");
-                byte[] zippedBytes = rdFtoCSVWService.getCSVW(null, fileURL, choice, tables, firstNormalForm);
-                int numberOfFiles = countFilesInZip(zippedBytes);
-                if(choice.equalsIgnoreCase("more") && numberOfFiles < 3){
-                    // Send message to say that the number of files is given by the characteristics of the RDF data
-                    briefingController.sendManualBriefing("Could not produce more tables based on the RDF data provided.");
-                }
-                return zippedBytes;
+
+                return rdFtoCSVWService.getCSVW(null, fileURL, choice, tables, firstNormalForm);
 
             } else if(file != null){
                 System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null branch");
@@ -92,6 +98,15 @@ public class RDFtoCSVWController {
         }
     }
 
+    /**
+     * Convert rdf to csv response entity.
+     *
+     * @param url              the url
+     * @param table            the table
+     * @param conversionMethod the conversion method
+     * @param firstNormalForm  the first normal form
+     * @return the response entity
+     */
     @Operation(summary = "Get rdf-data.csv as file", description = "Get the contents of generated rdf-data.csv as string, that was created by conversion of the given RDF data URL. If the option to generate more tables is chosen and the output produces more tables, all the CSV files string outputs will be in one file, visually separated in vertical succession.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv file",
@@ -123,6 +138,15 @@ public class RDFtoCSVWController {
         }
     }
 
+    /**
+     * Convert rdf to csv response entity.
+     *
+     * @param file            the file
+     * @param table           the table
+     * @param param2          the param 2
+     * @param firstNormalForm the first normal form
+     * @return the response entity
+     */
     @Operation(summary = "Get rdf-data.csv as string", description = "Get the contents of generated rdf-data.csv as string, that was created by conversion of the given RDF file. If the option to generate more tables is chosen and the output produces more tables, all the CSV files string outputs will be in one file, visually separated in vertical succession.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv as string",
@@ -154,6 +178,15 @@ public class RDFtoCSVWController {
         }
     }
 
+    /**
+     * Convert rdf to csv file response entity.
+     *
+     * @param file            the file
+     * @param table           the table
+     * @param param2          the param 2
+     * @param firstNormalForm the first normal form
+     * @return the response entity
+     */
     @Operation(summary = "Get rdf-data.csv as file", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF file")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv file",
@@ -185,6 +218,15 @@ public class RDFtoCSVWController {
         }
     }
 
+    /**
+     * Convert rdf to csv file response entity.
+     *
+     * @param url             the url
+     * @param table           the table
+     * @param param2          the param 2
+     * @param firstNormalForm the first normal form
+     * @return the response entity
+     */
     @Operation(summary = "Get rdf-data.csv as file", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF data URL")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv file",
@@ -216,6 +258,15 @@ public class RDFtoCSVWController {
         }
     }
 
+    /**
+     * Convert rdf to csvw metadata file response entity.
+     *
+     * @param file            the file
+     * @param table           the table
+     * @param param2          the param 2
+     * @param firstNormalForm the first normal form
+     * @return the response entity
+     */
     @Operation(summary = "Get metadata.json as file", description = "Get the contents of generated metadata.json as file, that was created by conversion of the given RDF file in the body of the request")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated metadata.json file",
@@ -247,6 +298,15 @@ public class RDFtoCSVWController {
         }
     }
 
+    /**
+     * Convert rdf to csvw metadata file response entity.
+     *
+     * @param url             the url
+     * @param table           the table
+     * @param param2          the param 2
+     * @param firstNormalForm the first normal form
+     * @return the response entity
+     */
     @Operation(summary = "Get metadata.json as file", description = "Get the contents of generated metadata.json as file, that was created by conversion of the given RDF data URL")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated metadata.json file",
@@ -278,6 +338,15 @@ public class RDFtoCSVWController {
         }
     }
 
+    /**
+     * Convert rdf to csvw metadata response entity.
+     *
+     * @param url             the url
+     * @param table           the table
+     * @param param2          the param 2
+     * @param firstNormalForm the first normal form
+     * @return the response entity
+     */
     @Operation(summary = "Get metadata.json as string", description = "Get the contents of generated metadata.json as string, that was created by conversion of the given RDF data URL")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated metadata.json contents",
@@ -309,6 +378,15 @@ public class RDFtoCSVWController {
         }
     }
 
+    /**
+     * Convert rdf to csvw metadata response entity.
+     *
+     * @param file            the file
+     * @param table           the table
+     * @param param2          the param 2
+     * @param firstNormalForm the first normal form
+     * @return the response entity
+     */
     @Operation(summary = "Get metadata.json as string", description = "Get the contents of generated metadata.json as string, that was created by conversion of the given RDF file")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated metadata.json contents",
@@ -332,7 +410,7 @@ public class RDFtoCSVWController {
         // Example of using the parameters
         try {
             // Assuming getCSVString method can handle file and URL as needed
-            String responseMessage = rdFtoCSVWService.getCSVStringFromFile(file, config);
+            String responseMessage = rdFtoCSVWService.getMetadataStringFromFile(file, config);
             // Return response with appropriate status
             return ResponseEntity.ok(responseMessage);
         } catch (IOException ex) {
