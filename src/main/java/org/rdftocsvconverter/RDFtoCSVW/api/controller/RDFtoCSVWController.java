@@ -1,7 +1,9 @@
 package org.rdftocsvconverter.RDFtoCSVW.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -398,7 +400,8 @@ public class RDFtoCSVWController {
     @PostMapping("/metadata/string")
     public ResponseEntity<String> convertRDFToCSVWMetadata(
             @RequestParam("file") MultipartFile file,  // Required file parameter
-            @RequestParam(value = "table", required = false) String table, // Optional parameters
+            //@RequestParam(value = "table", required = false) String table, // Optional parameters
+            @Parameter(name = "table", description = "Number of created CSV tables", schema=@Schema(type="string", allowableValues={"one","more"}, defaultValue = "one")) String table,
             @RequestParam(value = "conversionMethod", required = false) String param2,
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
 
