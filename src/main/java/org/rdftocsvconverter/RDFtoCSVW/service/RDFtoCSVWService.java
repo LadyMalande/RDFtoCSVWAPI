@@ -1,23 +1,13 @@
 package org.rdftocsvconverter.RDFtoCSVW.service;
 
-
-
-import com.miklosova.rdftocsvw.convertor.CSVTableCreator;
 import com.miklosova.rdftocsvw.convertor.RDFtoCSV;
 import com.miklosova.rdftocsvw.output_processor.FinalizedOutput;
 import org.apache.commons.codec.binary.Hex;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 
 import org.apache.commons.io.IOUtils;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.servlet.http.HttpServletResponse;
-
-import org.junit.Assert;
-import com.miklosova.rdftocsvw.support.Main;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
@@ -25,7 +15,6 @@ import java.nio.channels.FileLock;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.security.MessageDigest;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -360,38 +349,6 @@ public class RDFtoCSVWService {
             }
         }
         return content.toString();
-    }
-
-    public String getCSVString(MultipartFile multipartFile, String delimiter, String filename) throws IOException {
-
-        File input = new File("src/main/resources/" + multipartFile.getName());
-        File output = new File("src/main/resources/" + filename);
-
-        try (OutputStream os = new FileOutputStream(input)) {
-            os.write(multipartFile.getBytes());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("at the end of rdftocsvw");
-
-        File fileThatCame = new File("src/main/resources/tempFileForMultipart.tmp");
-
-        try (OutputStream os = new FileOutputStream(fileThatCame)) {
-            os.write(multipartFile.getBytes());
-            os.flush();
-        }
-        String[] params = new String[3];
-        params[0] = "src/main/resources/" + multipartFile.getName();
-        params[1] = delimiter;
-        params[2] = filename;
-        CSVTableCreator ctc = new CSVTableCreator(delimiter, filename, params[0]);
-        String result = ctc.getCSVTableAsString();
-        System.out.println(result);
-        return result;
-
     }
 
     /**
