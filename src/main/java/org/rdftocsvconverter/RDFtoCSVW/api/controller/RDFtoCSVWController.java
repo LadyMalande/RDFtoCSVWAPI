@@ -1,12 +1,12 @@
 package org.rdftocsvconverter.RDFtoCSVW.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
+import org.rdftocsvconverter.RDFtoCSVW.enums.TableChoice;
 import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -77,22 +77,22 @@ public class RDFtoCSVWController {
     public byte[] getCSVW(@RequestParam(value = "file", required = false) MultipartFile file, @RequestParam(value = "fileURL", required = false) String fileURL,
                           //@Parameter(description = "The number of CSV tables created during conversion", schema = @Schema(implementation = TableChoice.class))
                           //@Parameter(description = "The number of CSV tables created during conversion", example = "ONE")
-                          @RequestParam(value = "choice", required = false) String choice,
-                          @RequestParam(value = "tables", required = false) String tables,
+                          @RequestParam(value = "choice", required = false) ParsingChoice choice,
+                          @RequestParam(value = "tables", required = false) TableChoice tables,
                           @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm){
         System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
         try {
             if(file != null && !fileURL.isEmpty()){
                 System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null && !fileURL.isEmpty()");
 
-                return rdFtoCSVWService.getCSVW(null, fileURL, choice, tables, firstNormalForm);
+                return rdFtoCSVWService.getCSVW(null, fileURL, String.valueOf(choice), String.valueOf(tables), firstNormalForm);
 
             } else if(file != null){
                 System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null branch");
-                return rdFtoCSVWService.getCSVW(file, fileURL, choice, tables, firstNormalForm);
+                return rdFtoCSVWService.getCSVW(file, fileURL, String.valueOf(choice), String.valueOf(tables), firstNormalForm);
             } else{
                 System.out.println("Got params for /rdftocsvw : file=null fileURL = " + fileURL + " choice=" + choice + " else branch");
-                return rdFtoCSVWService.getCSVW(null, fileURL, choice, tables, firstNormalForm);
+                return rdFtoCSVWService.getCSVW(null, fileURL, String.valueOf(choice), String.valueOf(tables), firstNormalForm);
             }
 
         } catch (IOException e) {
@@ -109,7 +109,7 @@ public class RDFtoCSVWController {
      * @param firstNormalForm  the first normal form
      * @return the response entity
      */
-    @Operation(summary = "Get rdf-data.csv as file", description = "Get the contents of generated rdf-data.csv as string, that was created by conversion of the given RDF data URL. If the option to generate more tables is chosen and the output produces more tables, all the CSV files string outputs will be in one file, visually separated in vertical succession.")
+    @Operation(summary = "Get converted CSV file as string response", description = "Get the contents of generated rdf-data.csv as string, that was created by conversion of the given RDF data URL. If the option to generate more tables is chosen and the output produces more tables, all the CSV files string outputs will be in one file, visually separated in vertical succession.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv file",
                     content = { @Content(mediaType = "text/plain;charset=UTF-8")}),
@@ -120,14 +120,14 @@ public class RDFtoCSVWController {
     @GetMapping("/csv/string")
     public ResponseEntity<String> convertRDFToCSV(
             @RequestParam("url") String url,  // Required URL parameter
-            @RequestParam(value = "table", required = false) String table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) String conversionMethod,
+            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false) ParsingChoice conversionMethod,
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, conversionMethod, firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(conversionMethod), firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -145,11 +145,11 @@ public class RDFtoCSVWController {
      *
      * @param file            the file
      * @param table           the table
-     * @param param2          the param 2
+     * @param parsingMethod          the param 2
      * @param firstNormalForm the first normal form
      * @return the response entity
      */
-    @Operation(summary = "Get rdf-data.csv as string", description = "Get the contents of generated rdf-data.csv as string, that was created by conversion of the given RDF file. If the option to generate more tables is chosen and the output produces more tables, all the CSV files string outputs will be in one file, visually separated in vertical succession.")
+    @Operation(summary = "Get converted CSV file as string", description = "Get the contents of generated rdf-data.csv as string, that was created by conversion of the given RDF file. If the option to generate more tables is chosen and the output produces more tables, all the CSV files string outputs will be in one file, visually separated in vertical succession.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv as string",
                     content = { @Content(mediaType = "text/plain;charset=UTF-8")}),
@@ -160,14 +160,14 @@ public class RDFtoCSVWController {
     @PostMapping("/csv/string")
     public ResponseEntity<String> convertRDFToCSV(
             @RequestParam("file") MultipartFile file,  // Required file parameter
-            @RequestParam(value = "table", required = false) String table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) String param2,
+            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -185,11 +185,11 @@ public class RDFtoCSVWController {
      *
      * @param file            the file
      * @param table           the table
-     * @param param2          the param 2
+     * @param parsingMethod          the param 2
      * @param firstNormalForm the first normal form
      * @return the response entity
      */
-    @Operation(summary = "Get rdf-data.csv as file", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF file")
+    @Operation(summary = "Get converted CSV file as file", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF file")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv file",
                     content = { @Content(mediaType = "application/octet-stream")}),
@@ -200,14 +200,14 @@ public class RDFtoCSVWController {
     @PostMapping("/csv")
     public ResponseEntity<byte[]> convertRDFToCSVFile(
             @RequestParam("file") MultipartFile file,  // Required file parameter
-            @RequestParam(value = "table", required = false) String table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) String param2,
+            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -225,11 +225,11 @@ public class RDFtoCSVWController {
      *
      * @param url             the url
      * @param table           the table
-     * @param param2          the param 2
+     * @param parsingMethod          the param 2
      * @param firstNormalForm the first normal form
      * @return the response entity
      */
-    @Operation(summary = "Get rdf-data.csv as file", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF data URL")
+    @Operation(summary = "Get converted CSV file as file", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF data URL")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv file",
                     content = { @Content(mediaType = "application/octet-stream")}),
@@ -240,14 +240,11 @@ public class RDFtoCSVWController {
     @GetMapping("/csv")
     public ResponseEntity<byte[]> convertRDFToCSVFile(
             @RequestParam("url") String url,  // Required URL parameter
-            @RequestParam(value = "table", required = false) String table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) String param2,
+            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
 
-        // Log the incoming request
-        System.out.println("Received GET request for /rdftocsv with URL: " + url);
-
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -265,11 +262,11 @@ public class RDFtoCSVWController {
      *
      * @param file            the file
      * @param table           the table
-     * @param param2          the param 2
+     * @param parsingMethod          the param 2
      * @param firstNormalForm the first normal form
      * @return the response entity
      */
-    @Operation(summary = "Get metadata.json as file", description = "Get the contents of generated metadata.json as file, that was created by conversion of the given RDF file in the body of the request")
+    @Operation(summary = "Get created metadata as file", description = "Get the contents of generated metadata.json as file, that was created by conversion of the given RDF file in the body of the request")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated metadata.json file",
                     content = { @Content(mediaType = "application/octet-stream")}),
@@ -280,14 +277,14 @@ public class RDFtoCSVWController {
     @PostMapping("/metadata")
     public ResponseEntity<byte[]> convertRDFToCSVWMetadataFile(
             @RequestParam(value = "file") MultipartFile file,  // Required file parameter
-            @RequestParam(value = "table", required = false) String table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) String param2,
+            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -305,7 +302,7 @@ public class RDFtoCSVWController {
      *
      * @param url             the url
      * @param table           the table
-     * @param param2          the param 2
+     * @param parsingMethod          the param 2
      * @param firstNormalForm the first normal form
      * @return the response entity
      */
@@ -320,14 +317,14 @@ public class RDFtoCSVWController {
     @GetMapping("/metadata")
     public ResponseEntity<byte[]> convertRDFToCSVWMetadataFile(
             @RequestParam(value = "url") String url,  // Required URL parameter
-            @RequestParam(value = "table", required = false) String table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) String param2,
+            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv with URL: " + url);
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -345,11 +342,11 @@ public class RDFtoCSVWController {
      *
      * @param url             the url
      * @param table           the table
-     * @param param2          the param 2
+     * @param parsingMethod          the param 2
      * @param firstNormalForm the first normal form
      * @return the response entity
      */
-    @Operation(summary = "Get metadata.json as string", description = "Get the contents of generated metadata.json as string, that was created by conversion of the given RDF data URL")
+    @Operation(summary = "Get  created metadata as string response", description = "Get the contents of generated metadata.json as string, that was created by conversion of the given RDF data URL")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated metadata.json contents",
                     content = { @Content(mediaType = "text/plain;charset=UTF-8")}),
@@ -360,14 +357,14 @@ public class RDFtoCSVWController {
     @GetMapping("/metadata/string")
     public ResponseEntity<String> convertRDFToCSVWMetadata(
             @RequestParam(value = "url") String url,  // Required URL parameter
-            @RequestParam(value = "table", required = false) String table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) String param2,
+            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
 
         // Example of using the parameters
         try {
@@ -385,11 +382,11 @@ public class RDFtoCSVWController {
      *
      * @param file            the file
      * @param table           the table
-     * @param param2          the param 2
+     * @param parsingMethod          the param 2
      * @param firstNormalForm the first normal form
      * @return the response entity
      */
-    @Operation(summary = "Get metadata.json as string", description = "Get the contents of generated metadata.json as string, that was created by conversion of the given RDF file")
+    @Operation(summary = "Get  created metadata as string response", description = "Get the contents of generated metadata.json as string, that was created by conversion of the given RDF file")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated metadata.json contents",
                     content = { @Content(mediaType = "text/plain;charset=UTF-8")}),
@@ -400,15 +397,15 @@ public class RDFtoCSVWController {
     @PostMapping("/metadata/string")
     public ResponseEntity<String> convertRDFToCSVWMetadata(
             @RequestParam("file") MultipartFile file,  // Required file parameter
-            //@RequestParam(value = "table", required = false) String table, // Optional parameters
-            @Parameter(name = "table", description = "Number of created CSV tables", schema=@Schema(type="string", allowableValues={"one","more"}, defaultValue = "one")) String table,
-            @RequestParam(value = "conversionMethod", required = false) String param2,
+            @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
+            //@Parameter(name = "table", description = "Number of created CSV tables", schema=@Schema(type="string", allowableValues={"one","more"}, defaultValue = "one")) TableChoice table,
+            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(table, param2, firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(String.valueOf(table)).toLowerCase(), String.valueOf(parsingMethod).toLowerCase(), firstNormalForm);
 
         // Example of using the parameters
         try {
