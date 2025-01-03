@@ -1,6 +1,6 @@
 package org.rdftocsvconverter.RDFtoCSVW.service;
 
-import com.miklosova.rdftocsvw.convertor.RDFtoCSV;
+import com.miklosova.rdftocsvw.converter.RDFtoCSV;
 import com.miklosova.rdftocsvw.output_processor.FinalizedOutput;
 
 
