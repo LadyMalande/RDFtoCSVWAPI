@@ -4,6 +4,8 @@ import com.miklosova.rdftocsvw.converter.RDFtoCSV;
 import com.miklosova.rdftocsvw.output_processor.FinalizedOutput;
 
 
+import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
+import org.rdftocsvconverter.RDFtoCSVW.enums.TableChoice;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -426,19 +428,29 @@ public class RDFtoCSVWService {
     /**
      * Prepare config parameter map to initialize RDFtoCSV from the depended on library.
      *
-     * @param table            the table
-     * @param conversionMethod the conversion method
-     * @param firstNormalForm  the first normal form
-     * @return the map
+     * @param table            the table parameter (ONE/MORE)
+     * @param conversionMethod the conversion method parameter (RDF4J/STREAMING/BIGFILESTREAMING)
+     * @param firstNormalForm  the first normal form - true if first normal form is to be activated
+     * @return the configuration map of parameters for the conversion
      */
     public Map<String, String> prepareConfigParameter(String table, String conversionMethod, Boolean firstNormalForm) {
-
+        System.out.println("conversionMethod" + conversionMethod);
         // Prepare map for config parameters
         Map<String, String> config = new HashMap<>();
         // Log optional parameters if they are present
-        if (table != null) config.put("table", table);
-        if (conversionMethod != null) config.put("readMethod", conversionMethod);
-        if (firstNormalForm != null) config.put("firstNormalForm", String.valueOf(firstNormalForm));
+        if (table != null && !table.equalsIgnoreCase("null")) {config.put("table", table);}
+                else {
+            config.put("table", String.valueOf(TableChoice.ONE));
+        };
+        if(conversionMethod != null && !conversionMethod.equalsIgnoreCase("null")){
+            config.put("readMethod", conversionMethod);}
+                else {
+            config.put("readMethod", String.valueOf(ParsingChoice.RDF4J));
+        };
+        if (firstNormalForm != null) {config.put("firstNormalForm", String.valueOf(firstNormalForm));}
+        else {
+            config.put("firstNormalForm", "false");
+        }
 
         return config;
     }

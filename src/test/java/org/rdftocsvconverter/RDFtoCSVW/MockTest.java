@@ -10,6 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
+import org.rdftocsvconverter.RDFtoCSVW.enums.TableChoice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +30,9 @@ class MockTest {
     private MockMvc mockMvc;
 
     private static final String fileName = "simpsons.ttl";
-    private static final String table = "one";
+    private static final String table = String.valueOf(TableChoice.ONE);
+
+    private static final String conversionMethod = String.valueOf(ParsingChoice.RDF4J);
     private static final String url = "https://w3c.github.io/csvw/tests/test005.ttl";
 
     @Test
@@ -36,7 +40,9 @@ class MockTest {
         // Perform GET request with URL parameters
         mockMvc.perform(get("/csv/string")
                         .param("url", url)
-                        .param("table", table))
+                        .param("table", table)
+                        .param("conversionMethod", conversionMethod))
+
                 .andExpect(status().isOk())  // Check that status is OK
                 .andExpect(content().string("Subjekt,FamilyName,Surname,child_id,id\n" +
                         "2,Simpson,Homer,3,1\n" +
@@ -138,6 +144,29 @@ class MockTest {
         // Perform GET request with URL parameters
         mockMvc.perform(get("/csv")
                         .param("url", url)
+                        .param("table", table))
+                .andExpect(status().isOk())  // Check that status is OK
+                .andExpect(content().contentType("application/octet-stream"))
+                .andExpect(content().string("Subjekt,FamilyName,Surname,child_id,id\n" +
+                        "2,Simpson,Homer,3,1\n" +
+                        "4,Simpson,Homer,4,1\n" +
+                        "6,Simpson,Homer,5,1\n" +
+                        "8,Simpson,Marge,3,2\n" +
+                        "10,Simpson,Marge,4,2\n" +
+                        "12,Simpson,Marge,5,2\n" +
+                        "14,Simpson,Bart,,3\n" +
+                        "16,Simpson,Lisa,,4\n" +
+                        "18,Simpson,Maggie,,5\n" +
+                        "20,Flanders,Ned,,6\n" +
+                        "22,the Clown,Krusty,,7\n" +
+                        "24,Smithers,Waylon,,8\n"));
+    }
+
+    @Test
+    void rdftocsv_byUrl2() throws Exception {
+        // Perform GET request with URL parameters
+        mockMvc.perform(get("/csv")
+                        .param("url", "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/examples/MissingDataExample.ttl")
                         .param("table", table))
                 .andExpect(status().isOk())  // Check that status is OK
                 .andExpect(content().contentType("application/octet-stream"))
