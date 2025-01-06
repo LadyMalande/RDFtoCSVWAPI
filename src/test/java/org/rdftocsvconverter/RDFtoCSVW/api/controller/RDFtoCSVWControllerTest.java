@@ -56,7 +56,7 @@ class RDFtoCSVWControllerTest {
     void testGetCSVW() throws Exception {
         byte[] mockResponse = "Mock CSVW content".getBytes();
         when(rdFtoCSVWService.getCSVW(any(), anyString(), anyString(), anyString(), any())).thenReturn(mockResponse);
-        MockMultipartFile file = new MockMultipartFile("file", "test.rdf", "text/plain", """
+        MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", """
                 <http://example.org/foo> <http://example.org/bar> _:v .\n
                 _:v <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> _:c .\n
                 _:c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Datatype> .""".getBytes());
@@ -80,7 +80,7 @@ class RDFtoCSVWControllerTest {
         Map<String, String> mockConfig = new HashMap<>();
         when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(mockConfig);
         when(rdFtoCSVWService.getCSVStringFromFile(any(), anyMap())).thenReturn(mockCSVString);
-        MockMultipartFile file = new MockMultipartFile("file", "test.rdf", "text/plain", testContent.getBytes());
+        MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
         mockMvc.perform(MockMvcRequestBuilders.multipart("/csv/string").file(file).param("table", String.valueOf(TableChoice.ONE)).param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().string(mockCSVString));
     }
 
@@ -91,7 +91,7 @@ class RDFtoCSVWControllerTest {
         Map<String, String> mockConfig = new HashMap<>();
         when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(mockConfig);
         when(rdFtoCSVWService.getCSVFileFromFile(any(), anyMap())).thenReturn(mockCSVFile);
-        MockMultipartFile file = new MockMultipartFile("file", "test.rdf", "text/plain", testContent.getBytes());
+        MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
         mockMvc.perform(MockMvcRequestBuilders.multipart("/csv").file(file).param("table", String.valueOf(TableChoice.MORE)).param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().bytes(mockCSVFile));
     }
 
@@ -112,7 +112,7 @@ class RDFtoCSVWControllerTest {
         Map<String, String> mockConfig = new HashMap<>();
         when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(mockConfig);
         when(rdFtoCSVWService.getMetadataFileFromFile(any(), anyMap())).thenReturn(mockMetadataFile);
-        MockMultipartFile file = new MockMultipartFile("file", "test.rdf", "text/plain", testContent.getBytes());
+        MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
         mockMvc.perform(MockMvcRequestBuilders.multipart("/metadata").file(file).param("table", String.valueOf(TableChoice.MORE)).param("conversionMethod", String.valueOf(ParsingChoice.STREAMING) ).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().bytes(mockMetadataFile));
     }
 
@@ -143,7 +143,7 @@ class RDFtoCSVWControllerTest {
         Map<String, String> mockConfig = new HashMap<>();
         when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(mockConfig);
         when(rdFtoCSVWService.getMetadataStringFromFile(any(), anyMap())).thenReturn(mockMetadataString);
-        MockMultipartFile file = new MockMultipartFile("file", "test.rdf", "text/plain", testContent.getBytes());
+        MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
         mockMvc.perform(MockMvcRequestBuilders.multipart("/metadata/string").file(file).param("table", String.valueOf(TableChoice.ONE)).param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().string(mockMetadataString));
     }
 

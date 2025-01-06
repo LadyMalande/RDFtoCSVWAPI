@@ -32,19 +32,17 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
 
-<h3 align="center">Best-README-Template</h3>
+
+<h3 align="center">RDFtoCSVWAPI</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    RDF to CSVW data converter web service
     <br />
     <a href="https://github.com/LadyMalande/RDFtoCSV"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://ladymalande.github.io/rdf-to-csv.github.io/">View Live Instance</a>
+    <a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">View Live Instance</a>
     ·
    </p>
 </div>
@@ -78,16 +76,12 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+RDFtoCSVWAPI is a web service built on the RDFtoCSV library. It is a part of thesis.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+It allows users to convert RDF files to CSV on the Web (CSVW). Or just its part (CSV/metadata JSON).
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
+To try out live web service, go to: [Swagger UI RDFtoCSV](https://rdf-to-csvw.onrender.com/swagger-ui/index.html).
 
-Use the `BLANK_README.md` to get started.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -95,10 +89,14 @@ Use the `BLANK_README.md` to get started.
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+The web service is ready to deploy with Dockerfile or run locally on docker.
+
+There is Swagger UI generator in the app that creates easy to use UI for users.
+
+The CORS setting in this time in WebConfig only allows local requests and requests from the web application built upon this live web service instance.
 
 * [![Next][Java]][Java-url]
-* [![React][Maven]][Maven-url]
+* Maven
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -107,8 +105,6 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
@@ -150,14 +146,31 @@ To build the project yourself:
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+Available methods:
+  <a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">
+    <img src="images/swaggerUIRDFtoCSVWAPI.png" alt="Swagger UI" >
+  </a>
 
+Parameters shared among all methods:
 
+* table (optional): choice of ONE of MORE tables to be made. DEFAULT: ONE
+* conversionMethod (optional): choice of RDF4J, STREAMING and BIGFILESTREAMING. More about these methods in library RDFtoCSV documentation. DEFAULT: RDF4J.
+* firstNormalForm (optional): true/false. If true, if a cell would contain a list of values, it is instead made into multiple lines in the CSV. Each cell contains only atomic value. DEFAULT: false.
+
+Parameters for GET:
+* url (required): a URL of an RDF file for conversion
+
+Parameters for POST: 
+* file (required): a file object. For trying out the POST methods with a file, it is recommended to use some kind of UI, for example Postman, to create the correct file representation for the user when sending the request.
+
+<a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">
+<img src="images/GETparameters.png" alt="GET parameters" >
+</a>
 
 Project Link for this web service: [https://github.com/LadyMalande/RDFtoCSVWAPI](https://github.com/LadyMalande/RDFtoCSVWAPI)
 
 Project link for web application using this web service: [https://github.com/LadyMalande/rdf-to-csv.github.io](https://github.com/LadyMalande/rdf-to-csv.github.io)
 
-_For more examples, please refer to the [Documentation]()_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
