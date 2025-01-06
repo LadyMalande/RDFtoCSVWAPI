@@ -20,14 +20,6 @@
 -->
 
 <!-- This md template has been copied from https://github.com/othneildrew/Best-README-Template -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![Unlicense License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-
 
 <!-- PROJECT LOGO -->
 <br />
@@ -108,38 +100,39 @@ The CORS setting in this time in WebConfig only allows local requests and reques
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+Have these installed:
+* Docker (Linux)
+* Docker Desktop (Windows)
+* Git
 
 ### Installation for use
 
-Prerequisities are having Maven and Java 17 or 19 on your device.
+Prerequisites are having Maven and Java 17 or 19 on your device.
 
-1. Get a JAR of this project (either build this one or get one [here](https://github.com/LadyMalande/RDFtoCSV-JAR))
+1. (For Windows) Open Docker Desktop
 
-To build the project yourself:
-
-1. Clone the repo
+2. Clone the repo
    ```sh
-   git clone https://github.com/LadyMalande/RDFtoCSV.git
+   git clone https://github.com/LadyMalande/RDFtoCSVWAPI.git
    ```
-2. Install NPM packages
-   ```sh
-   npm install
-   ```
-3. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-4. Change git remote url to avoid accidental pushes to base project
-   ```sh
-   git remote set-url origin github_username/repo_name
-   git remote -v # confirm the changes
-   ```
+3. Open command line and navigate to the directory containing the cloned project RDFtoCSVWAPI
 
+4. Enter this to your command line to build docker image. It can take several minutes.:
+   ```sh
+   docker -t rdf-to-csv-api .
+    ```
+5. Check that you see rdf-to-csv-api in the list of docker images after inputting this to command line:
+   ```sh
+    docker images
+   ```
+6. Run the image with this:
+    ```sh
+    docker run -p 8080:8080 rdf-to-csv-api
+   ```
+7. You should see a logo of Spring in your terminal right now.
+8. If you open your web browser, you can try checking out the web service running on http://localhost:8080/.
+    The Web page should greet you with a simple text.
+9. To navigate to the Swagger UI, go to this URL: http://localhost:8080/swagger-ui/index.html
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
