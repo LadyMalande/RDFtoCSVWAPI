@@ -69,7 +69,7 @@ public class RDFtoCSVWService {
 
         RDFtoCSV rdftocsv;
 
-        if(!fileURL.isEmpty()){
+        if(fileURL != null && !fileURL.isEmpty()){
             rdftocsv = new RDFtoCSV(fileURL, configMap);
         } else{
             assert input != null;

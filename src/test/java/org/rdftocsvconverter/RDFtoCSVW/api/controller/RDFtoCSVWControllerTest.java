@@ -147,6 +147,16 @@ class RDFtoCSVWControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.multipart("/metadata/string").file(file).param("table", String.valueOf(TableChoice.ONE)).param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().string(mockMetadataString));
     }
 
+    @Test
+    void testConvertRDFToCSVWMetadataStringPostNOK() throws Exception {
+        String mockMetadataString = "{\"@context\": \"http://www.w3.org/ns/csvw\"}";
+        Map<String, String> mockConfig = new HashMap<>();
+        when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(mockConfig);
+        when(rdFtoCSVWService.getMetadataStringFromFile(any(), anyMap())).thenReturn(mockMetadataString);
+        MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/metadata/string").file(file).param("table", "badParam").param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().is4xxClientError()).andExpect(content().string(""));
+    }
+
     @SpringBootApplication(scanBasePackageClasses = RDFtoCSVWController.class)
     static class RDFtoCSVWControllerBaseRockGeneratedTestConfig {
     }
