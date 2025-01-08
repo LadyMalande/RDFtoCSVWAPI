@@ -1,18 +1,18 @@
 package org.rdftocsvconverter.RDFtoCSVW.service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.miklosova.rdftocsvw.converter.RDFtoCSV;
 import com.miklosova.rdftocsvw.output_processor.FinalizedOutput;
-
-
 import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
 import org.rdftocsvconverter.RDFtoCSVW.enums.TableChoice;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
-
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.*;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -37,7 +37,7 @@ public class RDFtoCSVWService {
      */
     public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String choice, String table, Boolean firstNormalForm) throws IOException {
         File input = null;
-        if(multipartFile != null) {
+        if (multipartFile != null) {
             System.out.println("multipartFile != null ");
             input = saveFile(multipartFile);
         }
@@ -50,7 +50,7 @@ public class RDFtoCSVWService {
         }
 
         Map<String, String> configMap = null;
-        if(table != null){
+        if (table != null) {
             configMap = new HashMap<>();
             configMap.put("table", table);
             configMap.put("readMethod", choice);
@@ -60,9 +60,9 @@ public class RDFtoCSVWService {
 
         RDFtoCSV rdftocsv;
 
-        if(fileURL != null && !fileURL.isEmpty()){
+        if (fileURL != null && !fileURL.isEmpty()) {
             rdftocsv = new RDFtoCSV(fileURL, configMap);
-        } else{
+        } else {
             assert input != null;
             System.out.println("input.getAbsolutePath() = " + input.getAbsolutePath());
             rdftocsv = new RDFtoCSV(input.getAbsolutePath(), configMap);
@@ -158,7 +158,7 @@ public class RDFtoCSVWService {
             try {
                 Files.createDirectories(directory); // Ensure the directory exists
                 System.out.println("Directory " + directory + " has been created ");
-            } catch(FileAlreadyExistsException ex) {
+            } catch (FileAlreadyExistsException ex) {
                 // File already exists, continue.
             }
         }
@@ -167,7 +167,7 @@ public class RDFtoCSVWService {
         try (InputStream inputStream = multipartFile.getInputStream()) {
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        } catch (FileAlreadyExistsException | DirectoryNotEmptyException ex){
+        } catch (FileAlreadyExistsException | DirectoryNotEmptyException ex) {
             try (InputStream inputStreamInException = multipartFile.getInputStream()) {
                 Path newDirectoryPath = adjustDirectoryPathWithRandomNumber(filePath);
                 Path newFilePath = adjustFilePathWithRandomNumber(newDirectoryPath);
@@ -368,7 +368,7 @@ public class RDFtoCSVWService {
         RDFtoCSV rdFtoCSV = new RDFtoCSV(url, config);
         String result = rdFtoCSV.getMetadataAsString();
         System.out.println(result);
-        return result;
+        return prettyPrintStringFromLibrary(result);
     }
 
     /**
@@ -385,8 +385,8 @@ public class RDFtoCSVWService {
 
         RDFtoCSV rdFtoCSV = new RDFtoCSV(input.getAbsolutePath(), config);
         String result = rdFtoCSV.getMetadataAsString();
-        System.out.println(result);
-        return result;
+        //System.out.println(result);
+        return prettyPrintStringFromLibrary(result);
     }
 
 //    public void getZip() throws IOException {
@@ -399,21 +399,7 @@ public class RDFtoCSVWService {
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
-//        int length;
-//        File file2 = new File("src/main/resources/example.csv");
-//        FileInputStream fileInputStream = new FileInputStream(file2);
-//        System.out.println("before while cycle");
-//        while((length = fileInputStream.read(buffer)) > 0)
-//        {
-//            System.out.println("In while cycle writing");
-//            zout.write(buffer, 0, length);
-//        }
-//        zout.flush();
-//        zout.finish();
-//        bos.flush();
-//        zout.close();
-//        bos.close();
-//    }
+//
 
 
     /**
@@ -429,17 +415,19 @@ public class RDFtoCSVWService {
         // Prepare map for config parameters
         Map<String, String> config = new HashMap<>();
         // Log optional parameters if they are present
-        if (table != null && !table.equalsIgnoreCase("null")) {config.put("table", table);}
-                else {
+        if (table != null && !table.equalsIgnoreCase("null")) {
+            config.put("table", table);
+        } else {
             config.put("table", String.valueOf(TableChoice.ONE));
         }
-        if(conversionMethod != null && !conversionMethod.equalsIgnoreCase("null")){
-            config.put("readMethod", conversionMethod);}
-                else {
+        if (conversionMethod != null && !conversionMethod.equalsIgnoreCase("null")) {
+            config.put("readMethod", conversionMethod);
+        } else {
             config.put("readMethod", String.valueOf(ParsingChoice.RDF4J));
         }
-        if (firstNormalForm != null) {config.put("firstNormalForm", String.valueOf(firstNormalForm));}
-        else {
+        if (firstNormalForm != null) {
+            config.put("firstNormalForm", String.valueOf(firstNormalForm));
+        } else {
             config.put("firstNormalForm", "false");
         }
 
@@ -483,7 +471,7 @@ public class RDFtoCSVWService {
      * @throws IOException the io exception
      */
     public byte[] getMetadataFileFromURL(String url, Map<String, String> config) throws IOException {
-        System.out.println("url " + url  + config.toString());
+        System.out.println("url " + url + config.toString());
         RDFtoCSV rdFtoCSV = new RDFtoCSV(url, config);
         return rdFtoCSV.getMetadataAsFile().getOutputData();
     }
@@ -501,5 +489,16 @@ public class RDFtoCSVWService {
 
         RDFtoCSV rdFtoCSV = new RDFtoCSV(input.getAbsolutePath(), config);
         return rdFtoCSV.getMetadataAsFile().getOutputData();
+    }
+
+    /**
+     * Makes JSON string from plain string to pretty print JSON string.
+     * @param jsonStringNotPretty String of JSON, that is not prettified
+     * @return Prettified JSON String
+     */
+    public String prettyPrintStringFromLibrary(String jsonStringNotPretty) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Object json = gson.fromJson(jsonStringNotPretty, Object.class);
+        return gson.toJson(json);
     }
 }

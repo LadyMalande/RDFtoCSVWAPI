@@ -58,7 +58,12 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li><a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#swagger-ui">Swagger UI</a></li>
+        <li><a href="#curl">cURL</a></li>
+      </ul>
+    </li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -105,7 +110,7 @@ Have these installed:
 * Docker Desktop (Windows)
 * Git
 
-### Installation for use
+### Installation
 
 Prerequisites are having Maven and Java 17 or 19 on your device.
 
@@ -164,10 +169,37 @@ Project Link for this web service: [https://github.com/LadyMalande/RDFtoCSVWAPI]
 
 Project link for web application using this web service: [https://github.com/LadyMalande/rdf-to-csv.github.io](https://github.com/LadyMalande/rdf-to-csv.github.io)
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Using cURL
+### Swagger UI
+
+You can either use the live service: [Swagger UI RDFtoCSV](https://rdf-to-csvw.onrender.com/swagger-ui/index.html)
+
+Or after the Installation, you can open the Swagger UI in you browser on localhost: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+Choose one of the GETs or POST /rdftoscvw.
+
+<a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">
+<img src="images/simpsons_post_parameters.png" alt="POST /rdftocsvw parameters" >
+</a>
+
+Input RDF file URL in the correct parameter. RDF4J choice parameter works best. Then execute.
+
+If you chose to GET /csv or /metadata or POST /rdftocsvw, you will see a line with a link to the prepared file. 
+You can download it by clicking on the link.
+
+<a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">
+<img src="images/simpsons_post_download.png" alt="download button" >
+</a>
+
+If you choose to try out one of the /csv/string or /metadata/string, your response will look similar to this:
+
+Here the dataset of Payment portal from Lombardia: https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/performance_tests_RDF_data/lombardia.rdf
+<a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">
+<img src="images/metadata_string_response.png" alt="string response" >
+</a>
+
+### cURL
 To call the web service, it is also possible to use cURL. You can either use one of your own making or get one generated 
 when using Swagger UI.
 
