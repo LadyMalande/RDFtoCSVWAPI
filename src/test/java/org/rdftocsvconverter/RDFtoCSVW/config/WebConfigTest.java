@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-
+/**
+ * Test WebConfig is loading.
+ */
 class WebConfigTest {
 
     //BaseRock generated method id: ${testCorsConfigurer}, hash: 6CE756B18D7190A0D5C51A1AC7AC5492

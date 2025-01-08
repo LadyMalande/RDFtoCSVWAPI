@@ -23,12 +23,12 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
+<div>
 
 
 <h3 align="center">RDFtoCSVWAPI</h3>
 
-  <p align="center">
+  <p>
     RDF to CSVW data converter web service
     <br />
     <a href="https://github.com/LadyMalande/RDFtoCSV"><strong>Explore the docs »</strong></a>
@@ -67,7 +67,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
+<div id=“about-the-project”></div>
 RDFtoCSVWAPI is a web service built on the RDFtoCSV library. It is a part of thesis.
 
 It allows users to convert RDF files to CSV on the Web (CSVW). Or just its part (CSV/metadata JSON).
@@ -75,12 +75,12 @@ It allows users to convert RDF files to CSV on the Web (CSVW). Or just its part 
 To try out live web service, go to: [Swagger UI RDFtoCSV](https://rdf-to-csvw.onrender.com/swagger-ui/index.html).
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p>(<a href="#readme-top">back to top</a>)</p>
 
 
 
 ### Built With
-
+<div id=“built-with”></div>
 The web service is ready to deploy with Dockerfile or run locally on docker.
 
 There is Swagger UI generator in the app that creates easy to use UI for users.
@@ -166,6 +166,44 @@ Project link for web application using this web service: [https://github.com/Lad
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Using cURL
+To call the web service, it is also possible to use cURL. You can either use one of your own making or get one generated 
+when using Swagger UI.
+
+<a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">
+<img src="images/onlycURL.png" alt="curl usage in cmd line" >
+</a>
+
+Generated cURL is located under the parameters of method. You need to first click on Try it out, fill in the desired parameters 
+and then click on Execute. Then the cURL is generated:
+```sh
+curl -X 'GET' 'http://localhost:8080/csv?url=https%3A%2F%2Fw3c.github.io%2Fcsvw%2Ftests%2Ftest005.ttl' -H 'accept: application/octet-stream'
+```
+
+If you use Windows, you need to make a slight adjustments to the generated cURL (delete single quotation marks around GET and 
+change single quotations marks for double quotation marks elsewhere):
+
+```sh
+curl -X GET "http://localhost:8080/csv?url=https%3A%2F%2Fw3c.github.io%2Fcsvw%2Ftests%2Ftest005.ttl" -H "accept: application/octet-stream"
+```
+When you use the cURL, you will see the returned CSV string:
+
+<a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">
+<img src="images/curlUsedInCMDLineOnWindowsCSV.png" alt="curl usage in cmd line" >
+</a>
+
+To actually get the command line to download the incoming response as a proper file, you need to tweak the cURL more:
+```sh
+curl -X GET "http://localhost:8080/csv?url=https%3A%2F%2Fw3c.github.io%2Fcsvw%2Ftests%2Ftest005.ttl" -H "accept: application/octet-stream" -o simpsons.csv
+```
+<a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">
+<img src="images/curlToDownloadTheFile.png" alt="curl usage in cmd line download" >
+</a>
+
+After this the fetched CSV is saved as "simpsons.csv" in the same active directory as the command was executed.
+
+
 
 
 <!-- CONTACT -->

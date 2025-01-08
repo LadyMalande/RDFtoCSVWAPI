@@ -1,8 +1,16 @@
 package org.rdftocsvconverter.RDFtoCSVW.enums;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 
-
+/**
+ * The class gives a choice of two parameter values for how to set parameters to convert the RDF data into ONE or MORE CSV files.
+ */
 public enum TableChoice {
-    ONE, MORE
+    /**
+     * Parameter for creating only one table during the conversion.
+     */
+    ONE,
+    /**
+     * Parameter for creating more tables if possible during the conversion.
+     */
+    MORE
 }

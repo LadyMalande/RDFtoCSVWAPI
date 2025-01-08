@@ -1,14 +1,10 @@
 package org.rdftocsvconverter.RDFtoCSVW;
 
-
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
@@ -22,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -30,10 +27,20 @@ class MockTest extends BaseTest{
     @Autowired
     private MockMvc mockMvc;
 
-    private String testContent = """
-                <http://example.org/foo> <http://example.org/bar> _:v .
-                _:v <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> _:c .
-                _:c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Datatype> .""";
+    private final String simpsons = """
+            Subject,FamilyName,Surname,child_id,id
+            2,Simpson,Homer,3,1
+            4,Simpson,Homer,4,1
+            6,Simpson,Homer,5,1
+            8,Simpson,Marge,3,2
+            10,Simpson,Marge,4,2
+            12,Simpson,Marge,5,2
+            14,Simpson,Bart,,3
+            16,Simpson,Lisa,,4
+            18,Simpson,Maggie,,5
+            20,Flanders,Ned,,6
+            22,the Clown,Krusty,,7
+            24,Smithers,Waylon,,8""";
     private static final String fileName = "simpsons.ttl";
     private static final String table = String.valueOf(TableChoice.ONE);
 
@@ -46,22 +53,10 @@ class MockTest extends BaseTest{
         mockMvc.perform(get("/csv/string")
                         .param("url", url)
                         .param("table", table)
-                        .param("conversionMethod", conversionMethod))
+                        .param("conversionMethod", String.valueOf(ParsingChoice.BIGFILESTREAMING)))
 
                 .andExpect(status().isOk())  // Check that status is OK
-                .andExpect(content().string("Subject,FamilyName,Surname,child_id,id\n" +
-                        "2,Simpson,Homer,3,1\n" +
-                        "4,Simpson,Homer,4,1\n" +
-                        "6,Simpson,Homer,5,1\n" +
-                        "8,Simpson,Marge,3,2\n" +
-                        "10,Simpson,Marge,4,2\n" +
-                        "12,Simpson,Marge,5,2\n" +
-                        "14,Simpson,Bart,,3\n" +
-                        "16,Simpson,Lisa,,4\n" +
-                        "18,Simpson,Maggie,,5\n" +
-                        "20,Flanders,Ned,,6\n" +
-                        "22,the Clown,Krusty,,7\n" +
-                        "24,Smithers,Waylon,,8"));
+                .andExpect(content().string(simpsons));
     }
 
     @Test
@@ -72,19 +67,7 @@ class MockTest extends BaseTest{
                         .param("url", url)
                         .param("table", table))
                 .andExpect(status().isOk())  // Check that status is OK
-                .andExpect(content().string("Subject,FamilyName,Surname,child_id,id\n" +
-                        "2,Simpson,Homer,3,1\n" +
-                        "4,Simpson,Homer,4,1\n" +
-                        "6,Simpson,Homer,5,1\n" +
-                        "8,Simpson,Marge,3,2\n" +
-                        "10,Simpson,Marge,4,2\n" +
-                        "12,Simpson,Marge,5,2\n" +
-                        "14,Simpson,Bart,,3\n" +
-                        "16,Simpson,Lisa,,4\n" +
-                        "18,Simpson,Maggie,,5\n" +
-                        "20,Flanders,Ned,,6\n" +
-                        "22,the Clown,Krusty,,7\n" +
-                        "24,Smithers,Waylon,,8"));
+                .andExpect(content().string(simpsons));
     }
 
     @Test
@@ -121,7 +104,7 @@ class MockTest extends BaseTest{
         File file = new File(path);
         System.out.println(path);
         byte[] fileContent = Files.readAllBytes(file.toPath());
-        System.out.println(fileContent.toString());
+        System.out.println(Arrays.toString(fileContent));
         System.out.println(file.getName());
         System.out.println(file.toPath());
 
@@ -145,7 +128,7 @@ class MockTest extends BaseTest{
         File file = new File(path);
         System.out.println(path);
         byte[] fileContent = Files.readAllBytes(file.toPath());
-        System.out.println(fileContent.toString());
+        System.out.println(Arrays.toString(fileContent));
         System.out.println(file.getName());
         System.out.println(file.toPath());
 
@@ -159,7 +142,7 @@ class MockTest extends BaseTest{
                         .file(mockMultipartFile)
                         .param("table", param1))
                 .andExpect(status().isOk())  // Check that status is OK
-                .andExpect(content().string(expectedSimpsonsCSV));  // Check response content
+                .andExpect(content().string(simpsons));  // Check response content
     }
 
     @Test
@@ -169,7 +152,7 @@ class MockTest extends BaseTest{
         File file = new File(path);
         System.out.println(path);
         byte[] fileContent = Files.readAllBytes(file.toPath());
-        System.out.println(fileContent.toString());
+        System.out.println(Arrays.toString(fileContent));
         System.out.println(file.getName());
         System.out.println(file.toPath());
 
@@ -193,19 +176,7 @@ class MockTest extends BaseTest{
                         .param("table", table))
                 .andExpect(status().isOk())  // Check that status is OK
                 .andExpect(content().contentType("application/octet-stream"))
-                .andExpect(content().string("Subject,FamilyName,Surname,child_id,id\n" +
-                        "2,Simpson,Homer,3,1\n" +
-                        "4,Simpson,Homer,4,1\n" +
-                        "6,Simpson,Homer,5,1\n" +
-                        "8,Simpson,Marge,3,2\n" +
-                        "10,Simpson,Marge,4,2\n" +
-                        "12,Simpson,Marge,5,2\n" +
-                        "14,Simpson,Bart,,3\n" +
-                        "16,Simpson,Lisa,,4\n" +
-                        "18,Simpson,Maggie,,5\n" +
-                        "20,Flanders,Ned,,6\n" +
-                        "22,the Clown,Krusty,,7\n" +
-                        "24,Smithers,Waylon,,8"));
+                .andExpect(content().string(simpsons));
     }
 
     @Test
@@ -216,36 +187,8 @@ class MockTest extends BaseTest{
                         .param("table", table))
                 .andExpect(status().isOk())  // Check that status is OK
                 .andExpect(content().contentType("application/octet-stream"))
-                .andExpect(content().string("Subject,FamilyName,Surname,child_id,id\n" +
-                        "2,Simpson,Homer,3,1\n" +
-                        "4,Simpson,Homer,4,1\n" +
-                        "6,Simpson,Homer,5,1\n" +
-                        "8,Simpson,Marge,3,2\n" +
-                        "10,Simpson,Marge,4,2\n" +
-                        "12,Simpson,Marge,5,2\n" +
-                        "14,Simpson,Bart,,3\n" +
-                        "16,Simpson,Lisa,,4\n" +
-                        "18,Simpson,Maggie,,5\n" +
-                        "20,Flanders,Ned,,6\n" +
-                        "22,the Clown,Krusty,,7\n" +
-                        "24,Smithers,Waylon,,8"));
+                .andExpect(content().string(simpsons));
     }
-
-
-
-    public final String expectedSimpsonsCSV = "Subject,FamilyName,Surname,child_id,id\n" +
-            "2,Simpson,Homer,3,1\n" +
-            "4,Simpson,Homer,4,1\n" +
-            "6,Simpson,Homer,5,1\n" +
-            "8,Simpson,Marge,3,2\n" +
-            "10,Simpson,Marge,4,2\n" +
-            "12,Simpson,Marge,5,2\n" +
-            "14,Simpson,Bart,,3\n" +
-            "16,Simpson,Lisa,,4\n" +
-            "18,Simpson,Maggie,,5\n" +
-            "20,Flanders,Ned,,6\n" +
-            "22,the Clown,Krusty,,7\n" +
-            "24,Smithers,Waylon,,8";
 
 }
 

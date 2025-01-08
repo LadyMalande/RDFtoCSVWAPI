@@ -6,14 +6,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Test that created application is not null.
+ */
 @SpringBootTest
 class RDFToCSVWApiApplicationTest {
 
     @Autowired
     private RDFToCSVWApiApplication app;
 
+    /**
+     * App starts.
+     *
+     */
     @Test
-    void appStarts() throws Exception {
+    void appStarts() {
         assertThat(app).isNotNull();
     }
 }

@@ -1,131 +1,139 @@
 package org.rdftocsvconverter.RDFtoCSVW;
 
+/**
+ * The Base class for tests offering common field.
+ */
 public class BaseTest {
-    public static final String fileContents = "@prefix : <test005.csv#> .\n" +
-            "@prefix csvw: <http://www.w3.org/ns/csvw#> .\n" +
-            "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
-            "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n" +
-            "\n" +
-            " [\n" +
-            "    a csvw:TableGroup;\n" +
-            "    csvw:table [\n" +
-            "      a csvw:Table;\n" +
-            "      csvw:row [\n" +
-            "        a csvw:Row;\n" +
-            "        csvw:describes [\n" +
-            "          :FamilyName \"Simpson\";\n" +
-            "          :Surname \"Homer\";\n" +
-            "          :child_id \"3\";\n" +
-            "          :id \"1\"\n" +
-            "        ];\n" +
-            "        csvw:rownum 1;\n" +
-            "        csvw:url <test005.csv#row=2>\n" +
-            "      ],  [\n" +
-            "        a csvw:Row;\n" +
-            "        csvw:describes [\n" +
-            "          :FamilyName \"Simpson\";\n" +
-            "          :Surname \"Homer\";\n" +
-            "          :child_id \"4\";\n" +
-            "          :id \"1\"\n" +
-            "        ];\n" +
-            "        csvw:rownum 2;\n" +
-            "        csvw:url <test005.csv#row=3>\n" +
-            "      ],  [\n" +
-            "        a csvw:Row;\n" +
-            "        csvw:describes [\n" +
-            "          :FamilyName \"Simpson\";\n" +
-            "          :Surname \"Homer\";\n" +
-            "          :child_id \"5\";\n" +
-            "          :id \"1\"\n" +
-            "        ];\n" +
-            "        csvw:rownum 3;\n" +
-            "        csvw:url <test005.csv#row=4>\n" +
-            "      ],  [\n" +
-            "        a csvw:Row;\n" +
-            "        csvw:describes [\n" +
-            "          :FamilyName \"Simpson\";\n" +
-            "          :Surname \"Marge\";\n" +
-            "          :child_id \"3\";\n" +
-            "          :id \"2\"\n" +
-            "        ];\n" +
-            "        csvw:rownum 4;\n" +
-            "        csvw:url <test005.csv#row=5>\n" +
-            "      ],  [\n" +
-            "        a csvw:Row;\n" +
-            "        csvw:describes [\n" +
-            "          :FamilyName \"Simpson\";\n" +
-            "          :Surname \"Marge\";\n" +
-            "          :child_id \"4\";\n" +
-            "          :id \"2\"\n" +
-            "        ];\n" +
-            "        csvw:rownum 5;\n" +
-            "        csvw:url <test005.csv#row=6>\n" +
-            "      ],  [\n" +
-            "        a csvw:Row;\n" +
-            "        csvw:describes [\n" +
-            "          :FamilyName \"Simpson\";\n" +
-            "          :Surname \"Marge\";\n" +
-            "          :child_id \"5\";\n" +
-            "          :id \"2\"\n" +
-            "        ];\n" +
-            "        csvw:rownum 6;\n" +
-            "        csvw:url <test005.csv#row=7>\n" +
-            "      ],  [\n" +
-            "        a csvw:Row;\n" +
-            "        csvw:describes [\n" +
-            "          :FamilyName \"Simpson\";\n" +
-            "          :Surname \"Bart\";\n" +
-            "          :id \"3\"\n" +
-            "        ];\n" +
-            "        csvw:rownum 7;\n" +
-            "        csvw:url <test005.csv#row=8>\n" +
-            "      ],  [\n" +
-            "        a csvw:Row;\n" +
-            "        csvw:describes [\n" +
-            "          :FamilyName \"Simpson\";\n" +
-            "          :Surname \"Lisa\";\n" +
-            "          :id \"4\"\n" +
-            "        ];\n" +
-            "        csvw:rownum 8;\n" +
-            "        csvw:url <test005.csv#row=9>\n" +
-            "      ],  [\n" +
-            "        a csvw:Row;\n" +
-            "        csvw:describes [\n" +
-            "          :FamilyName \"Simpson\";\n" +
-            "          :Surname \"Maggie\";\n" +
-            "          :id \"5\"\n" +
-            "        ];\n" +
-            "        csvw:rownum 9;\n" +
-            "        csvw:url <test005.csv#row=10>\n" +
-            "      ],  [\n" +
-            "        a csvw:Row;\n" +
-            "        csvw:describes [\n" +
-            "          :FamilyName \"Flanders\";\n" +
-            "          :Surname \"Ned\";\n" +
-            "          :id \"6\"\n" +
-            "        ];\n" +
-            "        csvw:rownum 10;\n" +
-            "        csvw:url <test005.csv#row=11>\n" +
-            "      ],  [\n" +
-            "        a csvw:Row;\n" +
-            "        csvw:describes [\n" +
-            "          :FamilyName \"the Clown\";\n" +
-            "          :Surname \"Krusty\";\n" +
-            "          :id \"7\"\n" +
-            "        ];\n" +
-            "        csvw:rownum 11;\n" +
-            "        csvw:url <test005.csv#row=12>\n" +
-            "      ],  [\n" +
-            "        a csvw:Row;\n" +
-            "        csvw:describes [\n" +
-            "          :FamilyName \"Smithers\";\n" +
-            "          :Surname \"Waylon\";\n" +
-            "          :id \"8\"\n" +
-            "        ];\n" +
-            "        csvw:rownum 12;\n" +
-            "        csvw:url <test005.csv#row=13>\n" +
-            "      ];\n" +
-            "      csvw:url <test005.csv>\n" +
-            "    ]\n" +
-            " ] .\n";
+    /**
+     * The constant fileContents.
+     */
+    public static final String fileContents = """
+            @prefix : <test005.csv#> .
+            @prefix csvw: <http://www.w3.org/ns/csvw#> .
+            @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+            @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+             [
+                a csvw:TableGroup;
+                csvw:table [
+                  a csvw:Table;
+                  csvw:row [
+                    a csvw:Row;
+                    csvw:describes [
+                      :FamilyName "Simpson";
+                      :Surname "Homer";
+                      :child_id "3";
+                      :id "1"
+                    ];
+                    csvw:rownum 1;
+                    csvw:url <test005.csv#row=2>
+                  ],  [
+                    a csvw:Row;
+                    csvw:describes [
+                      :FamilyName "Simpson";
+                      :Surname "Homer";
+                      :child_id "4";
+                      :id "1"
+                    ];
+                    csvw:rownum 2;
+                    csvw:url <test005.csv#row=3>
+                  ],  [
+                    a csvw:Row;
+                    csvw:describes [
+                      :FamilyName "Simpson";
+                      :Surname "Homer";
+                      :child_id "5";
+                      :id "1"
+                    ];
+                    csvw:rownum 3;
+                    csvw:url <test005.csv#row=4>
+                  ],  [
+                    a csvw:Row;
+                    csvw:describes [
+                      :FamilyName "Simpson";
+                      :Surname "Marge";
+                      :child_id "3";
+                      :id "2"
+                    ];
+                    csvw:rownum 4;
+                    csvw:url <test005.csv#row=5>
+                  ],  [
+                    a csvw:Row;
+                    csvw:describes [
+                      :FamilyName "Simpson";
+                      :Surname "Marge";
+                      :child_id "4";
+                      :id "2"
+                    ];
+                    csvw:rownum 5;
+                    csvw:url <test005.csv#row=6>
+                  ],  [
+                    a csvw:Row;
+                    csvw:describes [
+                      :FamilyName "Simpson";
+                      :Surname "Marge";
+                      :child_id "5";
+                      :id "2"
+                    ];
+                    csvw:rownum 6;
+                    csvw:url <test005.csv#row=7>
+                  ],  [
+                    a csvw:Row;
+                    csvw:describes [
+                      :FamilyName "Simpson";
+                      :Surname "Bart";
+                      :id "3"
+                    ];
+                    csvw:rownum 7;
+                    csvw:url <test005.csv#row=8>
+                  ],  [
+                    a csvw:Row;
+                    csvw:describes [
+                      :FamilyName "Simpson";
+                      :Surname "Lisa";
+                      :id "4"
+                    ];
+                    csvw:rownum 8;
+                    csvw:url <test005.csv#row=9>
+                  ],  [
+                    a csvw:Row;
+                    csvw:describes [
+                      :FamilyName "Simpson";
+                      :Surname "Maggie";
+                      :id "5"
+                    ];
+                    csvw:rownum 9;
+                    csvw:url <test005.csv#row=10>
+                  ],  [
+                    a csvw:Row;
+                    csvw:describes [
+                      :FamilyName "Flanders";
+                      :Surname "Ned";
+                      :id "6"
+                    ];
+                    csvw:rownum 10;
+                    csvw:url <test005.csv#row=11>
+                  ],  [
+                    a csvw:Row;
+                    csvw:describes [
+                      :FamilyName "the Clown";
+                      :Surname "Krusty";
+                      :id "7"
+                    ];
+                    csvw:rownum 11;
+                    csvw:url <test005.csv#row=12>
+                  ],  [
+                    a csvw:Row;
+                    csvw:describes [
+                      :FamilyName "Smithers";
+                      :Surname "Waylon";
+                      :id "8"
+                    ];
+                    csvw:rownum 12;
+                    csvw:url <test005.csv#row=13>
+                  ];
+                  csvw:url <test005.csv>
+                ]
+             ] .
+            """;
 }

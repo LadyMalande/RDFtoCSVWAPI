@@ -1,6 +1,7 @@
 package org.rdftocsvconverter.RDFtoCSVW.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -9,6 +10,7 @@ import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
 import org.rdftocsvconverter.RDFtoCSVW.enums.TableChoice;
 import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,14 +57,14 @@ public class RDFtoCSVWController {
     }
 
     /**
-     * Get CSVW byte [ ] (.zip) format containing all converted files - CSVs and .json metadata file.
+     * Get CSVW byte [] (.zip) format containing all converted files - CSVs and .json metadata file.
      *
      * @param file            The RDF file to convert
      * @param fileURL         The RDF file url to convert
      * @param choice          The choice of parsing method
      * @param tables          How many tables to produce - one or more
      * @param firstNormalForm The first normal form - whether to produce the resulting CSVs in 1NF (cells containing atomic values)
-     * @return byte [ ] Returns .zip format of all the converted parts - CSVs and .json metadata file.
+     * @return byte [] Returns .zip format of all the converted parts - CSVs and .json metadata file.
      */
     @Operation(summary = "Get full CSVW content as .zip", description = "Get the generated rdf-data.csv(s) as file(s) along with appropriate metadata.json file, all of them zipped in a ZIP archive.")
     @ApiResponses(value = {
@@ -102,11 +104,11 @@ public class RDFtoCSVWController {
     /**
      * Convert rdf to csv response entity.
      *
-     * @param url              the url
-     * @param table            the table
-     * @param conversionMethod the conversion method
-     * @param firstNormalForm  the first normal form
-     * @return the response entity
+     * @param url              the url of RDF file for conversion
+     * @param table            the parameter for choosing how many tables to create
+     * @param conversionMethod the conversion method choosing from RDF4J/STREAMING/BIGFILESTREAMING
+     * @param firstNormalForm  if true, the final tables will be in first normal form
+     * @return the Response entity
      */
     @Operation(summary = "Get converted CSV file as string response", description = "Get the contents of generated rdf-data.csv as string, that was created by conversion of the given RDF data URL. If the option to generate more tables is chosen and the output produces more tables, all the CSV files string outputs will be in one file, visually separated in vertical succession.")
     @ApiResponses(value = {
@@ -140,13 +142,13 @@ public class RDFtoCSVWController {
     }
 
     /**
-     * Convert rdf to csv response entity.
+     * Convert rdf to csv string.
      *
-     * @param file            the file
-     * @param table           the table
-     * @param parsingMethod          the param 2
-     * @param firstNormalForm the first normal form
-     * @return the response entity
+     * @param file            the RDF file to convert
+     * @param table            the parameter for choosing how many tables to create
+     * @param parsingMethod the conversion method choosing from RDF4J/STREAMING/BIGFILESTREAMING
+     * @param firstNormalForm  if true, the final tables will be in first normal form
+     * @return the response entity returning CSV string
      */
     @Operation(summary = "Get converted CSV file as string", description = "Get the contents of generated rdf-data.csv as string, that was created by conversion of the given RDF file. If the option to generate more tables is chosen and the output produces more tables, all the CSV files string outputs will be in one file, visually separated in vertical succession.")
     @ApiResponses(value = {
@@ -180,13 +182,13 @@ public class RDFtoCSVWController {
     }
 
     /**
-     * Convert rdf to csv file response entity.
+     * Convert rdf to csv file .
      *
-     * @param file            the file
-     * @param table           the table
-     * @param parsingMethod          the param 2
-     * @param firstNormalForm the first normal form
-     * @return the response entity
+     * @param file            the RDF file to convert
+     * @param table            the parameter for choosing how many tables to create
+     * @param parsingMethod the conversion method choosing from RDF4J/STREAMING/BIGFILESTREAMING
+     * @param firstNormalForm  if true, the final tables will be in first normal form
+     * @return the response entity returning CSV file
      */
     @Operation(summary = "Get converted CSV file as file", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF file")
     @ApiResponses(value = {
@@ -212,6 +214,9 @@ public class RDFtoCSVWController {
         try {
             // Assuming getCSVString method can handle file and URL as needed
             byte[] generatedFile = rdFtoCSVWService.getCSVFileFromFile(file, config);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=yourfilename.ext");
+            headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
             // Return response with appropriate status
             return ResponseEntity.ok(generatedFile);
         } catch (IOException ex) {
@@ -222,11 +227,11 @@ public class RDFtoCSVWController {
     /**
      * Convert rdf to csv file response entity.
      *
-     * @param url             the url
-     * @param table           the table
-     * @param parsingMethod          the param 2
-     * @param firstNormalForm the first normal form
-     * @return the response entity
+     * @param url              the url of RDF file for conversion
+     * @param table            the parameter for choosing how many tables to create
+     * @param parsingMethod the conversion method choosing from RDF4J/STREAMING/BIGFILESTREAMING
+     * @param firstNormalForm  if true, the final tables will be in first normal form
+     * @return the Response entity returning CSV file
      */
     @Operation(summary = "Get converted CSV file as file", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF data URL")
     @ApiResponses(value = {
@@ -259,11 +264,11 @@ public class RDFtoCSVWController {
     /**
      * Convert rdf to csvw metadata file response entity.
      *
-     * @param file            the file
-     * @param table           the table
-     * @param parsingMethod          the param 2
-     * @param firstNormalForm the first normal form
-     * @return the response entity
+     * @param file            the RDF file to convert
+     * @param table            the parameter for choosing how many tables to create
+     * @param parsingMethod the conversion method choosing from RDF4J/STREAMING/BIGFILESTREAMING
+     * @param firstNormalForm  if true, the final tables will be in first normal form
+     * @return the response entity returning metadata file
      */
     @Operation(summary = "Get created metadata as file", description = "Get the contents of generated metadata.json as file, that was created by conversion of the given RDF file in the body of the request")
     @ApiResponses(value = {
@@ -299,11 +304,11 @@ public class RDFtoCSVWController {
     /**
      * Convert rdf to csvw metadata file response entity.
      *
-     * @param url             the url
-     * @param table           the table
-     * @param parsingMethod          the param 2
-     * @param firstNormalForm the first normal form
-     * @return the response entity
+     * @param url              the url of RDF file for conversion
+     * @param table            the parameter for choosing how many tables to create
+     * @param parsingMethod the conversion method choosing from RDF4J/STREAMING/BIGFILESTREAMING
+     * @param firstNormalForm  if true, the final tables will be in first normal form
+     * @return the Response entity returning metadata file
      */
     @Operation(summary = "Get metadata.json as file", description = "Get the contents of generated metadata.json as file, that was created by conversion of the given RDF data URL")
     @ApiResponses(value = {
@@ -339,11 +344,11 @@ public class RDFtoCSVWController {
     /**
      * Convert rdf to csvw metadata response entity.
      *
-     * @param url             the url
-     * @param table           the table
-     * @param parsingMethod          the param 2
-     * @param firstNormalForm the first normal form
-     * @return the response entity
+     * @param url              the url of RDF file for conversion
+     * @param table            the parameter for choosing how many tables to create
+     * @param parsingMethod the conversion method choosing from RDF4J/STREAMING/BIGFILESTREAMING
+     * @param firstNormalForm  if true, the final tables will be in first normal form
+     * @return the Response entity returning metadata as string in response
      */
     @Operation(summary = "Get  created metadata as string response", description = "Get the contents of generated metadata.json as string, that was created by conversion of the given RDF data URL")
     @ApiResponses(value = {
@@ -377,13 +382,13 @@ public class RDFtoCSVWController {
     }
 
     /**
-     * Convert rdf to csvw metadata response entity.
+     * Convert rdf to csvw metadata string.
      *
-     * @param file            the file
-     * @param table           the table
-     * @param parsingMethod          the param 2
-     * @param firstNormalForm the first normal form
-     * @return the response entity
+     * @param file            the RDF file to convert
+     * @param table            the parameter for choosing how many tables to create
+     * @param parsingMethod the conversion method choosing from RDF4J/STREAMING/BIGFILESTREAMING
+     * @param firstNormalForm  if true, the final tables will be in first normal form
+     * @return the response entity returning metadata string
      */
     @Operation(summary = "Get  created metadata as string response", description = "Get the contents of generated metadata.json as string, that was created by conversion of the given RDF file")
     @ApiResponses(value = {

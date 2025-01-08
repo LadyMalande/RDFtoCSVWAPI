@@ -23,15 +23,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 
+/**
+ * Test that the controller uses the OPEN API correctly to be able to respond to requests.
+ */
 @WebMvcTest(RDFtoCSVWController.class)
 @ContextConfiguration(classes = RDFtoCSVWControllerTest.RDFtoCSVWControllerBaseRockGeneratedTestConfig.class)
 class RDFtoCSVWControllerTest {
 
-    private String testContent = """
-                <http://example.org/foo> <http://example.org/bar> _:v .\n
-                _:v <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> _:c .\n
+    private final String testContent = """
+                <http://example.org/foo> <http://example.org/bar> _:v .
+                _:v <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> _:c .
                 _:c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Datatype> .""";
     
     @Autowired
@@ -57,8 +59,8 @@ class RDFtoCSVWControllerTest {
         byte[] mockResponse = "Mock CSVW content".getBytes();
         when(rdFtoCSVWService.getCSVW(any(), anyString(), anyString(), anyString(), any())).thenReturn(mockResponse);
         MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", """
-                <http://example.org/foo> <http://example.org/bar> _:v .\n
-                _:v <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> _:c .\n
+                <http://example.org/foo> <http://example.org/bar> _:v .
+                _:v <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> _:c .
                 _:c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Datatype> .""".getBytes());
         mockMvc.perform(MockMvcRequestBuilders.multipart("/rdftocsvw").file(file).param("fileURL", "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/examples/MissingDataExample.ttl").param("choice", String.valueOf(ParsingChoice.RDF4J)).param("tables", String.valueOf(TableChoice.ONE)).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().bytes(mockResponse));
     }

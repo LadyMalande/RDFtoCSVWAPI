@@ -17,19 +17,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
-//import java.util.zip.ZipEntry;
-//import java.util.zip.ZipInputStream;
-//import java.util.zip.ZipOutputStream;
-//import java.security.MessageDigest;
-//import java.nio.channels.FileChannel;
-//import java.nio.channels.FileLock;
-//import java.nio.charset.StandardCharsets;
-//import org.apache.commons.codec.binary.Hex;
 
-//import org.apache.commons.io.IOUtils;
 
 /**
- * The type Rd fto csvw service.
+ * The class methods that handles API to RDFtoCSV library communication and parameter conversion.
  */
 @Service
 public class RDFtoCSVWService {
@@ -441,12 +432,12 @@ public class RDFtoCSVWService {
         if (table != null && !table.equalsIgnoreCase("null")) {config.put("table", table);}
                 else {
             config.put("table", String.valueOf(TableChoice.ONE));
-        };
+        }
         if(conversionMethod != null && !conversionMethod.equalsIgnoreCase("null")){
             config.put("readMethod", conversionMethod);}
                 else {
             config.put("readMethod", String.valueOf(ParsingChoice.RDF4J));
-        };
+        }
         if (firstNormalForm != null) {config.put("firstNormalForm", String.valueOf(firstNormalForm));}
         else {
             config.put("firstNormalForm", "false");
