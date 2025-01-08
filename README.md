@@ -28,10 +28,10 @@
 
 <h3 align="center">RDFtoCSVWAPI</h3>
 
-  <p>
+  <p align="center"> 
     RDF to CSVW data converter web service
     <br />
-    <a href="https://github.com/LadyMalande/RDFtoCSV"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/LadyMalande/RDFtoCSV"><strong>Explore the underlying library RDFtoCSV »</strong></a>
     <br />
     <br />
     <a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">View Live Instance</a>
