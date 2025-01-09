@@ -190,7 +190,7 @@ public class RDFtoCSVWController {
      * @param firstNormalForm  if true, the final tables will be in first normal form
      * @return the response entity returning CSV file
      */
-    @Operation(summary = "Get converted CSV file as file", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF file")
+    @Operation(summary = "Get converted CSV file as file (only ONE1!)", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF file.  The contents of the file are the same as you would get from /csv/string response. That means that if you wanted to convert more tables, the tables are written in the file as 1 long document of tables, visually broken down to chain.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv file",
                     content = { @Content(mediaType = "application/octet-stream")}),
@@ -233,7 +233,7 @@ public class RDFtoCSVWController {
      * @param firstNormalForm  if true, the final tables will be in first normal form
      * @return the Response entity returning CSV file
      */
-    @Operation(summary = "Get converted CSV file as file", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF data URL")
+    @Operation(summary = "Get converted CSV file as file (only ONE1!)", description = "Get the contents of generated rdf-data.csv as file, that was created by conversion of the given RDF data URL. The contents of the file are the same as you would get from /csv/string response. That means that if you wanted to convert more tables, the tables are written in the file as 1 long document of tables, visually broken down to chain.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Generated rdf-data.csv file",
                     content = { @Content(mediaType = "application/octet-stream")}),

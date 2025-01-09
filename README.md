@@ -151,9 +151,9 @@ Available methods:
 
 Methods **/csv**, **/metadata** and **/rdftocsvw** return a file. 
 
-* **/csv returns** a .csv,
+* **/csv returns** a .csv (containing one table, or a chain of tables delimited by visual break). You will always receive 1 FILE, the only difference is in its contents. For 1 Table it is a text of 1 table. For multiple tables, the contents are the same as you would get from using /csv/string. 
 * **/metadata** returns a .json with CSV on the Web metadata
-* **/rdftocsvw** returns a .zip with both n numbers of .csv files and one .json file with metadata
+* **/rdftocsvw** returns a .zip with both n numbers of .csv files and one .json file with metadata. This is the proper RDFtoCSVW experience.
 
 Methods **/csv/string** and **/metadata/string** return text responses of the dat that would be in their file counterparts.
 
