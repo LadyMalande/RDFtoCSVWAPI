@@ -126,7 +126,7 @@ public class RDFtoCSVWController {
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
 
         // Log the incoming request
-        System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
+        System.out.println("Received GET request for /csv/string with URL: " + url);
 
         Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(conversionMethod), firstNormalForm);
 
@@ -137,7 +137,7 @@ public class RDFtoCSVWController {
             // Return response with appropriate status
             return ResponseEntity.ok(responseMessage);
         } catch(IOException ex){
-            return ResponseEntity.badRequest().body("There has been a problem with parsing your request");
+            return ResponseEntity.badRequest().body("There has been a problem with parsing your request.");
         }
     }
 
@@ -166,7 +166,7 @@ public class RDFtoCSVWController {
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
 
         // Log the incoming request
-        System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());
+        System.out.println("Received POST request for /csv/string with file: " + file.getName());
 
         Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
 
@@ -366,7 +366,7 @@ public class RDFtoCSVWController {
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
 
         // Log the incoming request
-        System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
+        System.out.println("Received GET request for /metadata/string with URL: " + url);
 
         Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
 
@@ -407,9 +407,9 @@ public class RDFtoCSVWController {
             @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
 
         // Log the incoming request
-        System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());
+        System.out.println("Received POST request for /metadata/string with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(String.valueOf(table)).toLowerCase(), String.valueOf(parsingMethod).toLowerCase(), firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(String.valueOf(table)), String.valueOf(parsingMethod), firstNormalForm);
 
         // Example of using the parameters
         try {

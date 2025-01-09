@@ -160,20 +160,29 @@ public class RDFtoCSVWService {
                 System.out.println("Directory " + directory + " has been created ");
             } catch (FileAlreadyExistsException ex) {
                 // File already exists, continue.
+                System.out.println("Directory " + directory + " ALREADY EXISTS ");
             }
         }
         // Now create the file in the 'lib' directory
         Path filePath = directory.resolve(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         try (InputStream inputStream = multipartFile.getInputStream()) {
+            System.out.println("Bfore Directory " + filePath + " Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING); ");
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-
+            System.out.println("after Directory " + filePath + " Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING); ");
         } catch (FileAlreadyExistsException | DirectoryNotEmptyException ex) {
             try (InputStream inputStreamInException = multipartFile.getInputStream()) {
+                System.out.println("after Directory " + filePath + " adjustDirectoryPathWithRandomNumber ");
                 Path newDirectoryPath = adjustDirectoryPathWithRandomNumber(filePath);
+                System.out.println("after Directory " + filePath + " adjustDirectoryPathWithRandomNumber ");
                 Path newFilePath = adjustFilePathWithRandomNumber(newDirectoryPath);
+                System.out.println("after Directory " + filePath + " aFilePathWithRandomNumber(newDirectoryPath); ");
                 Files.copy(inputStreamInException, newFilePath, StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("after Directory " + filePath + " Files.copy(inputStreamInException, newFilePath, StandardCopyOption.REPLACE_EXISTING); ");
             }
 
+        } catch(IOException ex){
+            System.out.println("something else happened");
+            ex.printStackTrace();
         }
         return filePath.toFile();
     }
@@ -411,7 +420,7 @@ public class RDFtoCSVWService {
      * @return the configuration map of parameters for the conversion
      */
     public Map<String, String> prepareConfigParameter(String table, String conversionMethod, Boolean firstNormalForm) {
-        System.out.println("conversionMethod" + conversionMethod);
+        System.out.println("conversionMethod " + conversionMethod);
         // Prepare map for config parameters
         Map<String, String> config = new HashMap<>();
         // Log optional parameters if they are present
@@ -430,7 +439,10 @@ public class RDFtoCSVWService {
         } else {
             config.put("firstNormalForm", "false");
         }
-
+        System.out.println("Set configMap to: \n");
+        System.out.println("table: " + config.get("table") );
+        System.out.println("readMethod: " + config.get("readMethod"));
+        System.out.println("firstNormalForm: " + config.get("firstNormalForm"));
         return config;
     }
 
