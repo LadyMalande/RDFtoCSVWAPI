@@ -157,7 +157,7 @@ Methods **/csv**, **/metadata** and **/rdftocsvw** return a file.
 
 Methods **/csv/string** and **/metadata/string** return text responses of the dat that would be in their file counterparts.
 
-**Parameters** shared among all methods:
+**Parameters** shared among all methods (except /rdftocsvw):
 
 * table (optional): choice of ONE of MORE tables to be made. DEFAULT: ONE
 * conversionMethod (optional): choice of RDF4J, STREAMING and BIGFILESTREAMING. More about these methods in library RDFtoCSV documentation. DEFAULT: RDF4J.
@@ -168,6 +168,12 @@ Parameters for **GET**:
 
 Parameters for **POST**: 
 * file (required): a file object. For trying out the POST methods with a file, it is recommended to use some kind of UI, for example Postman, to create the correct file representation for the user when sending the request.
+
+Parameters for **POST /rdftocsvw**
+* tables (optional): choice of ONE of MORE tables to be made. DEFAULT: ONE
+* choice (optional): choice of RDF4J, STREAMING and BIGFILESTREAMING. More about these methods in library RDFtoCSV documentation. DEFAULT: RDF4J.
+* firstNormalForm (optional): true/false. If true, if a cell would contain a list of values, it is instead made into multiple lines in the CSV. Each cell contains only atomic value. DEFAULT: false.
+
 
 <a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">
 <img src="images/GETparameters.png" alt="GET parameters" >
