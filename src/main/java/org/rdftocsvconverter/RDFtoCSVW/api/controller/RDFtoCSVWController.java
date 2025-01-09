@@ -83,7 +83,7 @@ public class RDFtoCSVWController {
                           @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm){
         System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
         try {
-            if(file != null && !fileURL.isEmpty()){
+            if(file != null && fileURL != null && !fileURL.isEmpty()){
                 System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null && !fileURL.isEmpty()");
 
                 return rdFtoCSVWService.getCSVW(null, fileURL, String.valueOf(choice), String.valueOf(tables), firstNormalForm);

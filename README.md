@@ -149,21 +149,50 @@ Available methods:
     <img src="images/swaggerUIRDFtoCSVWAPI.png" alt="Swagger UI" >
   </a>
 
-Parameters shared among all methods:
+Methods **/csv**, **/metadata** and **/rdftocsvw** return a file. 
+
+* **/csv returns** a .csv,
+* **/metadata** returns a .json with CSV on the Web metadata
+* **/rdftocsvw** returns a .zip with both n numbers of .csv files and one .json file with metadata
+
+Methods **/csv/string** and **/metadata/string** return text responses of the dat that would be in their file counterparts.
+
+**Parameters** shared among all methods:
 
 * table (optional): choice of ONE of MORE tables to be made. DEFAULT: ONE
 * conversionMethod (optional): choice of RDF4J, STREAMING and BIGFILESTREAMING. More about these methods in library RDFtoCSV documentation. DEFAULT: RDF4J.
 * firstNormalForm (optional): true/false. If true, if a cell would contain a list of values, it is instead made into multiple lines in the CSV. Each cell contains only atomic value. DEFAULT: false.
 
-Parameters for GET:
+Parameters for **GET**:
 * url (required): a URL of an RDF file for conversion
 
-Parameters for POST: 
+Parameters for **POST**: 
 * file (required): a file object. For trying out the POST methods with a file, it is recommended to use some kind of UI, for example Postman, to create the correct file representation for the user when sending the request.
 
 <a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">
 <img src="images/GETparameters.png" alt="GET parameters" >
 </a>
+
+If you send both a file and fileURL to POST /rdftocsvw method, the fileURL will be used for th conversion.
+
+The default setting of parameters is:
+* 1 CSV table
+* RDF4J conversion method
+* Cells can contain multiple values
+
+### Test data
+Here are links to some test data that you can use for trying out the web service:
+
+* [Simpsons family (Turtle)](https://w3c.github.io/csvw/tests/test005.ttl)
+* [Events in Brno](https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/performance_tests_RDF_data/events_Brno.nt)
+* [Lombardy's Payment Portal Tickets](https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/performance_tests_RDF_data/lombardia.rdf)
+* [Museums in Würzburg](https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/performance_tests_RDF_data/museen.n3)
+* [Sexes Code List](https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/performance_tests_RDF_data/pohlav%C3%AD.nt)
+* [Types of trees Code List](https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/performance_tests_RDF_data/typy-d%C5%99evin.nt)
+* [Types of Work agreement Code List](https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/test_scenarios_data/typy-pracovn%C3%ADch-vztah%C5%AF.nt)
+* [Dissesto - places, curriencies, sparse data](https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/test_scenarios_data/dissesto_2k_triples.nt)
+* [Parking Data](https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/evaluation/1E%2B-GaragesGeo/parkovaci_garaze_r_n1_t1.rdf)
+
 
 Project Link for this web service: [https://github.com/LadyMalande/RDFtoCSVWAPI](https://github.com/LadyMalande/RDFtoCSVWAPI)
 
@@ -194,10 +223,38 @@ You can download it by clicking on the link.
 
 If you choose to try out one of the /csv/string or /metadata/string, your response will look similar to this:
 
-Here the dataset of Payment portal from Lombardia: https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/performance_tests_RDF_data/lombardia.rdf
+Here the dataset of Payment portal from Lombardy: https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/performance_tests_RDF_data/lombardia.rdf
 <a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">
 <img src="images/metadata_string_response.png" alt="string response" >
 </a>
+
+#### POST methods
+With current setting of the template, it is not possible to send load the files from swagger directly. 
+
+To try out the **POST** methods, use your favourite API testing tool. Here is an example how to call the POST method using **Postman**:
+
+1. Set up the endpoint with **http://localhost:8080/rdftocsvw**. 
+2. Choose the **POST** method.
+3. Set up query parameters:
+    * **fileUrl** - the URL of the RDF file you want to convert (leave empty if you want to use the uploaded RDF file)
+    * **choice** - Specific string "RDF4J", "STREAMING" or "BIGFILESTREAMING"
+    * **tables** - Specific string "ONE" or "MORE"
+    * **firstNormalForm** (boolean - true or false)
+   
+      <a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">
+      <img src="images/postman_parameters.png" alt="Postman POST parameters" >
+      </a>
+    
+4. Set up **body** of type **"form-data"**:
+   * **file** - choose **File** for this input. It can be chosen in the dropdown right to the name of the parameter. 
+   The dropdown is only shown when hovered over with a mouse.
+
+<a href="https://rdf-to-csvw.onrender.com/swagger-ui/index.html">
+<img src="images/postman_form.png" alt="Postman POST form parameters" >
+</a>
+
+5. **Send** the request. It should return binary data that is not directly readable in the preview window. 
+But you can download the file at the **"Save Response" -> Save to a File** button at the green status code in the bottom right corner. 
 
 ### cURL
 To call the web service, it is also possible to use cURL. You can either use one of your own making or get one generated 
@@ -207,7 +264,7 @@ when using Swagger UI.
 <img src="images/onlycURL.png" alt="curl usage in cmd line" >
 </a>
 
-Generated cURL is located under the parameters of method. You need to first click on Try it out, fill in the desired parameters 
+Generated cURL is located under the parameters of method in Swagger UI. You need to first click on Try it out, fill in the desired parameters 
 and then click on Execute. Then the cURL is generated:
 ```sh
 curl -X 'GET' 'http://localhost:8080/csv?url=https%3A%2F%2Fw3c.github.io%2Fcsvw%2Ftests%2Ftest005.ttl' -H 'accept: application/octet-stream'
@@ -235,7 +292,10 @@ curl -X GET "http://localhost:8080/csv?url=https%3A%2F%2Fw3c.github.io%2Fcsvw%2F
 
 After this the fetched CSV is saved as "simpsons.csv" in the same active directory as the command was executed.
 
-
+To get the metadata string of Lombardy's Payment Portal transactions, use this command:   
+```shell
+curl -X GET "http://localhost:8080/metadata/string?url=https%3A%2F%2Fraw.githubusercontent.com%2FLadyMalande%2FRDFtoCSVNotes%2Frefs%2Fheads%2Fmain%2Fperformance_tests_RDF_data%2Flombardia.rdf&table=ONE&conversionMethod=RDF4J&firstNormalForm=false" -H "accept: text/plain;charset=UTF-8"
+```
 
 
 <!-- CONTACT -->
@@ -243,7 +303,7 @@ After this the fetched CSV is saved as "simpsons.csv" in the same active directo
 
 Tereza Miklóšová
 
-Project Link for RDFtoCSV library depended in this project: [https://github.com/LadyMalande/RDFtoCSV](https://github.com/LadyMalande/RDFtoCSV)
+Project Link for RDFtoCSV library depended on in this project: [https://github.com/LadyMalande/RDFtoCSV](https://github.com/LadyMalande/RDFtoCSV)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
