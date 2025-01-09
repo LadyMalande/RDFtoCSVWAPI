@@ -50,13 +50,11 @@ public class RDFtoCSVWService {
         }
 
         Map<String, String> configMap = null;
-        if (table != null) {
             configMap = new HashMap<>();
             configMap.put("table", table);
             configMap.put("readMethod", choice);
             configMap.put("firstNormalForm", String.valueOf(firstNormalForm));
 
-        }
 
         RDFtoCSV rdftocsv;
 
