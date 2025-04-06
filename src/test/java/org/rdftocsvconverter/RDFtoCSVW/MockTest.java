@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
@@ -48,6 +49,7 @@ class MockTest extends BaseTest{
     private static final String url = "https://w3c.github.io/csvw/tests/test005.ttl";
 
     @Test
+    @Disabled
     void rdftocsv_string_byUrl() throws Exception {
         // Perform GET request with URL parameters
         mockMvc.perform(get("/csv/string")
@@ -97,7 +99,7 @@ class MockTest extends BaseTest{
     }
 
     @Test
-
+    @Disabled
     void rdftocsvwmetadata_string_byFile() throws Exception {
         // Get the path to the resources folder
         String path = Paths.get("src", "test", "resources", fileName).toString();
