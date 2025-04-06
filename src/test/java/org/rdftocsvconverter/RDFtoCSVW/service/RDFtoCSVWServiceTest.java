@@ -187,7 +187,7 @@ class RDFtoCSVWServiceTest extends BaseTest {
 //BaseRock generated method id: ${testGetMetadataFileFromURL}, hash: 629543793994451CC24B0BEF8F642FB8
     @Test
     void testGetMetadataFileFromURL() throws IOException {
-        byte[] result = rdfToCSVWService.getMetadataFileFromURL("https://w3c.github.io/csvw/tests/test005.ttl", new HashMap<>());
+        byte[] result = rdfToCSVWService.getMetadataFileFromURL("https://w3c.github.io/csvw/tests/test005.ttl", configCreator(null, null, null));
         assertNotNull(result);
     }
 

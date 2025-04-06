@@ -1,5 +1,11 @@
 package org.rdftocsvconverter.RDFtoCSVW;
 
+import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
+import org.rdftocsvconverter.RDFtoCSVW.enums.TableChoice;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The Base class for tests offering common field.
  */
@@ -136,4 +142,29 @@ public class BaseTest {
                 ]
              ] .
             """;
+
+    public Map<String, String> configCreator(String table, String conversionMethod, Boolean firstNormalForm){
+        Map<String, String> config = new HashMap<>();
+        // Log optional parameters if they are present
+        if (table != null && !table.equalsIgnoreCase("null")) {
+            config.put("table", table);
+        } else {
+            config.put("table", String.valueOf(TableChoice.ONE));
+        }
+        if (conversionMethod != null && !conversionMethod.equalsIgnoreCase("null")) {
+            config.put("readMethod", conversionMethod);
+        } else {
+            config.put("readMethod", String.valueOf(ParsingChoice.RDF4J));
+        }
+        if (firstNormalForm != null) {
+            config.put("firstNormalForm", String.valueOf(firstNormalForm));
+        } else {
+            config.put("firstNormalForm", "false");
+        }
+        System.out.println("Set configMap to: \n");
+        System.out.println("table: " + config.get("table") );
+        System.out.println("readMethod: " + config.get("readMethod"));
+        System.out.println("firstNormalForm: " + config.get("firstNormalForm"));
+        return config;
+    }
 }

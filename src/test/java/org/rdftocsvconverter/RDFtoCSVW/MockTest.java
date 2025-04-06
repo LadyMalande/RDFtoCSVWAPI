@@ -53,7 +53,7 @@ class MockTest extends BaseTest{
         mockMvc.perform(get("/csv/string")
                         .param("url", url)
                         .param("table", table)
-                        .param("conversionMethod", String.valueOf(ParsingChoice.BIGFILESTREAMING)))
+                        .param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)))
 
                 .andExpect(status().isOk())  // Check that status is OK
                 .andExpect(content().string(simpsons));
@@ -97,7 +97,7 @@ class MockTest extends BaseTest{
     }
 
     @Test
-
+    // TODO test not passing
     void rdftocsvwmetadata_string_byFile() throws Exception {
         // Get the path to the resources folder
         String path = Paths.get("src", "test", "resources", fileName).toString();

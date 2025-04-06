@@ -23,6 +23,7 @@ import java.util.Map;
  */
 @Tag(name = "RDF to CSV", description = "API for calling available parts of the output for conversion of RDF data to CSV on the Web")
 @RestController
+@RequestMapping("/")
 public class RDFtoCSVWController {
 
     private final RDFtoCSVWService rdFtoCSVWService;
