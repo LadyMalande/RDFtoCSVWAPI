@@ -6,6 +6,7 @@ import com.miklosova.rdftocsvw.converter.RDFtoCSV;
 import com.miklosova.rdftocsvw.output_processor.FinalizedOutput;
 import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
 import org.rdftocsvconverter.RDFtoCSVW.enums.TableChoice;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 
 
 /**
@@ -35,7 +37,8 @@ public class RDFtoCSVWService {
      * @return the byte [ ]
      * @throws IOException the io exception
      */
-    public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String choice, String table, Boolean firstNormalForm) throws IOException {
+    @Async
+    public CompletableFuture<byte[]> getCSVW(MultipartFile multipartFile, String fileURL, String choice, String table, Boolean firstNormalForm) throws IOException {
         File input = null;
         if (multipartFile != null) {
             System.out.println("multipartFile != null ");
@@ -70,7 +73,7 @@ public class RDFtoCSVWService {
 
         FinalizedOutput<byte[]> zipFileInBytes = rdftocsv.convertToZip();
 
-        return zipFileInBytes.getOutputData();
+        return CompletableFuture.completedFuture(zipFileInBytes.getOutputData());
     }
 
 //    public static int countFilesInZip(byte[] zippedBytes) throws IOException {
@@ -327,12 +330,22 @@ public class RDFtoCSVWService {
      * @return csv string
      * @throws IOException the io exception
      */
-    public String getCSVString(String url, Map<String, String> config) throws IOException {
+    @Async
+    public CompletableFuture<String> getCSVString(String url, Map<String, String> config) throws IOException {
+        try {
+            Thread.sleep(1000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Inside getCSVString, is config null? " + (config == null));
+        System.out.println("Using config on thread " + Thread.currentThread().getName());
+        System.out.println("Config hash: " + System.identityHashCode(config));
+        System.out.println("Config content: " + config);
 
         RDFtoCSV rdFtoCSV = new RDFtoCSV(url, config);
         String result = rdFtoCSV.getCSVTableAsString();
         System.out.println(result);
-        return result;
+        return CompletableFuture.completedFuture(result);
     }
 
     /**
@@ -410,7 +423,7 @@ public class RDFtoCSVWService {
      * @param firstNormalForm  the first normal form - true if first normal form is to be activated
      * @return the configuration map of parameters for the conversion
      */
-    public Map<String, String> prepareConfigParameter(String table, String conversionMethod, Boolean firstNormalForm) {
+    public CompletableFuture<Map<String, String>> prepareConfigParameter(String table, String conversionMethod, Boolean firstNormalForm) {
         System.out.println("conversionMethod" + conversionMethod);
         // Prepare map for config parameters
         Map<String, String> config = new HashMap<>();
@@ -431,7 +444,16 @@ public class RDFtoCSVWService {
             config.put("firstNormalForm", "false");
         }
 
-        return config;
+        System.out.println("Set configMap to: \n");
+        System.out.println("table: " + config.get("table") );
+        System.out.println("readMethod: " + config.get("readMethod"));
+        System.out.println("firstNormalForm: " + config.get("firstNormalForm"));
+
+        System.out.println("Thread: " + Thread.currentThread().getName());
+        System.out.println("Creating config: " + System.identityHashCode(config));
+        System.out.println("Config values: " + config);
+
+        return CompletableFuture.completedFuture(config);
     }
 
     /**

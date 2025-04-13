@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * The RDFtoCSVWController class that contains GET/POST methods to initiate conversions and get send results back.
@@ -83,22 +84,27 @@ public class RDFtoCSVWController {
                           @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm){
         System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
         try {
-            if(file != null && !fileURL.isEmpty()){
+            if(file != null && fileURL != null && !fileURL.isEmpty()){
                 System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null && !fileURL.isEmpty()");
 
-                return rdFtoCSVWService.getCSVW(null, fileURL, String.valueOf(choice), String.valueOf(tables), firstNormalForm);
+                return rdFtoCSVWService.getCSVW(null, fileURL, String.valueOf(choice), String.valueOf(tables), firstNormalForm).get();
 
             } else if(file != null){
                 System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL = " + fileURL + " choice=" + choice + " file != null branch");
-                return rdFtoCSVWService.getCSVW(file, fileURL, String.valueOf(choice), String.valueOf(tables), firstNormalForm);
+                return rdFtoCSVWService.getCSVW(file, fileURL, String.valueOf(choice), String.valueOf(tables), firstNormalForm).get();
             } else{
                 System.out.println("Got params for /rdftocsvw : file=null fileURL = " + fileURL + " choice=" + choice + " else branch");
-                return rdFtoCSVWService.getCSVW(null, fileURL, String.valueOf(choice), String.valueOf(tables), firstNormalForm);
+                return rdFtoCSVWService.getCSVW(null, fileURL, String.valueOf(choice), String.valueOf(tables), firstNormalForm).get();
             }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -123,22 +129,27 @@ public class RDFtoCSVWController {
             @RequestParam("url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false) ParsingChoice conversionMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(conversionMethod), firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(conversionMethod), firstNormalForm).get();
 
         // Example of using the parameters
         try {
-            String responseMessage = rdFtoCSVWService.getCSVString(url, config);
+            String responseMessage = rdFtoCSVWService.getCSVString(url, config).get();
 
             // Return response with appropriate status
             return ResponseEntity.ok(responseMessage);
         } catch(IOException ex){
             return ResponseEntity.badRequest().body("There has been a problem with parsing your request");
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        return ResponseEntity.internalServerError().body("There has been a problem with parsing your request");
     }
 
     /**
@@ -163,12 +174,12 @@ public class RDFtoCSVWController {
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm).get();
 
         // Example of using the parameters
         try {
@@ -203,12 +214,12 @@ public class RDFtoCSVWController {
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm).get();
 
         // Example of using the parameters
         try {
@@ -246,9 +257,9 @@ public class RDFtoCSVWController {
             @RequestParam("url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm).get();
 
         // Example of using the parameters
         try {
@@ -283,12 +294,12 @@ public class RDFtoCSVWController {
             @RequestParam(value = "file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm).get();
 
         // Example of using the parameters
         try {
@@ -323,12 +334,12 @@ public class RDFtoCSVWController {
             @RequestParam(value = "url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv with URL: " + url);
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm).get();
 
         // Example of using the parameters
         try {
@@ -363,12 +374,12 @@ public class RDFtoCSVWController {
             @RequestParam(value = "url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm).get();
 
         // Example of using the parameters
         try {
@@ -404,12 +415,12 @@ public class RDFtoCSVWController {
             @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
             //@Parameter(name = "table", description = "Number of created CSV tables", schema=@Schema(type="string", allowableValues={"one","more"}, defaultValue = "one")) TableChoice table,
             @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) {  // Optional file parameter
+            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(String.valueOf(table)).toLowerCase(), String.valueOf(parsingMethod).toLowerCase(), firstNormalForm);
+        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(String.valueOf(table)).toLowerCase(), String.valueOf(parsingMethod).toLowerCase(), firstNormalForm).get();
 
         // Example of using the parameters
         try {

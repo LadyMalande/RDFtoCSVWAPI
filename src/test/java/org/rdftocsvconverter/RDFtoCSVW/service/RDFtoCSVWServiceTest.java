@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -51,7 +53,7 @@ class RDFtoCSVWServiceTest extends BaseTest {
     void testGetCSVW_WithMultipartFile() throws IOException {
         when(mockMultipartFile.getInputStream()).thenReturn(new ByteArrayInputStream(fileContents.getBytes()));
         when(mockMultipartFile.getOriginalFilename()).thenReturn("simpsons.ttl");
-        byte[] result = rdfToCSVWService.getCSVW(mockMultipartFile, "", "RDF4J", "ONE", true);
+        CompletableFuture<byte[]> result = rdfToCSVWService.getCSVW(mockMultipartFile, "", "RDF4J", "ONE", true);
         assertNotNull(result);
     }
 
@@ -62,7 +64,7 @@ class RDFtoCSVWServiceTest extends BaseTest {
      */
     @Test
     void testGetCSVW_WithFileURL() throws IOException {
-        byte[] result = rdfToCSVWService.getCSVW(null, "https://w3c.github.io/csvw/tests/test005.ttl", "RDF4J", "ONE", true);
+        CompletableFuture<byte[]> result = rdfToCSVWService.getCSVW(null, "https://w3c.github.io/csvw/tests/test005.ttl", "RDF4J", "ONE", true);
         assertNotNull(result);
     }
 
@@ -90,8 +92,8 @@ class RDFtoCSVWServiceTest extends BaseTest {
      */
 //BaseRock generated method id: ${testGetCSVString}, hash: 7B7AA477011631A3D581B6E8E7E43250
     @Test
-    void testGetCSVString() throws IOException {
-        String result = rdfToCSVWService.getCSVString("https://w3c.github.io/csvw/tests/test005.ttl", new HashMap<>());
+    void testGetCSVString() throws IOException, ExecutionException, InterruptedException {
+        String result = rdfToCSVWService.getCSVString("https://w3c.github.io/csvw/tests/test005.ttl", new HashMap<>()).get();
         assertNotNull(result);
     }
 
@@ -144,8 +146,8 @@ class RDFtoCSVWServiceTest extends BaseTest {
 //BaseRock generated method id: ${testPrepareConfigParameter}, hash: FE0CDBCBF7950EBE1AB4EA6A46495AE1
     @ParameterizedTest
     @CsvSource({"ONE,RDF4J,true", "TWO,JENA,false", ",,"})
-    void testPrepareConfigParameter(String table, String conversionMethod, Boolean firstNormalForm) {
-        Map<String, String> result = rdfToCSVWService.prepareConfigParameter(table, conversionMethod, firstNormalForm);
+    void testPrepareConfigParameter(String table, String conversionMethod, Boolean firstNormalForm) throws ExecutionException, InterruptedException {
+        Map<String, String> result = rdfToCSVWService.prepareConfigParameter(table, conversionMethod, firstNormalForm).get();
         assertNotNull(result);
         assertEquals(table != null ? table : TableChoice.ONE.toString(), result.get("table"));
         assertEquals(conversionMethod != null ? conversionMethod : ParsingChoice.RDF4J.toString(), result.get("readMethod"));
@@ -214,7 +216,7 @@ class RDFtoCSVWServiceTest extends BaseTest {
     void testGetCSVWFromFile() throws IOException {
         MockMultipartFile mockMultipartFile = new MockMultipartFile("file", "simpsons10.ttl", "text/plain", fileContents.getBytes());
 
-        byte[] result = rdfToCSVWService.getCSVW(mockMultipartFile, null, String.valueOf(ParsingChoice.RDF4J), String.valueOf(TableChoice.ONE), true);
+        CompletableFuture<byte[]> result = rdfToCSVWService.getCSVW(mockMultipartFile, null, String.valueOf(ParsingChoice.RDF4J), String.valueOf(TableChoice.ONE), true);
         assertNotNull(result);
     }
 
@@ -227,7 +229,7 @@ class RDFtoCSVWServiceTest extends BaseTest {
     void testGetCSVWFromFileAndURL() throws IOException {
         MockMultipartFile mockMultipartFile = new MockMultipartFile("file", "simpsons11.ttl", "text/plain", fileContents.getBytes());
 
-        byte[] result = rdfToCSVWService.getCSVW(mockMultipartFile, "https://w3c.github.io/csvw/tests/test005.ttl", String.valueOf(ParsingChoice.RDF4J), String.valueOf(TableChoice.ONE), true);
+        CompletableFuture<byte[]> result = rdfToCSVWService.getCSVW(mockMultipartFile, "https://w3c.github.io/csvw/tests/test005.ttl", String.valueOf(ParsingChoice.RDF4J), String.valueOf(TableChoice.ONE), true);
         assertNotNull(result);
     }
 
@@ -240,7 +242,7 @@ class RDFtoCSVWServiceTest extends BaseTest {
     void testGetCSVWFromFileAndEmptyURL() throws IOException {
         MockMultipartFile mockMultipartFile = new MockMultipartFile("file", "simpsons3.ttl", "text/plain", fileContents.getBytes());
 
-        byte[] result = rdfToCSVWService.getCSVW(mockMultipartFile, "", String.valueOf(ParsingChoice.RDF4J), String.valueOf(TableChoice.ONE), true);
+        CompletableFuture<byte[]> result = rdfToCSVWService.getCSVW(mockMultipartFile, "", String.valueOf(ParsingChoice.RDF4J), String.valueOf(TableChoice.ONE), true);
         assertNotNull(result);
     }
 
@@ -252,7 +254,7 @@ class RDFtoCSVWServiceTest extends BaseTest {
     @Test
     void testGetCSVWFromURL() throws IOException {
 
-        byte[] result = rdfToCSVWService.getCSVW(null, "https://w3c.github.io/csvw/tests/test005.ttl", String.valueOf(ParsingChoice.RDF4J), String.valueOf(TableChoice.ONE), true);
+        CompletableFuture<byte[]> result = rdfToCSVWService.getCSVW(null, "https://w3c.github.io/csvw/tests/test005.ttl", String.valueOf(ParsingChoice.RDF4J), String.valueOf(TableChoice.ONE), true);
         assertNotNull(result);
     }
 
