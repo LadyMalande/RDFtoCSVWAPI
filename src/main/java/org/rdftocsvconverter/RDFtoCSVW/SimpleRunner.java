@@ -13,6 +13,6 @@ public class SimpleRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.error(">>> org.rdftocsvconverter.RDFtoCSVW.SimpleRunner ran!");
+        log.error(">>> org.rdftocsvconverter.RDFtoCSVW.SimpleRunner ran! From log.error");
     }
 }

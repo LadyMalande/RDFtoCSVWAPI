@@ -1,0 +1,71 @@
+{
+  "@context" : "http://www.w3.org/ns/csvw",
+  "@type" : "TableGroup",
+  "tables" : [ {
+    "@type" : "Table",
+    "url" : "museen.n3.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "museen-record",
+        "valueUrl" : "{+museen-record}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "geopunkt",
+        "name" : "geopunkt",
+        "propertyUrl" : "https://opendata.wuerzburg.de/ld/ontologies/museen/geopunkt",
+        "valueUrl" : "{+geopunkt}",
+        "aboutUrl" : "{+museen-record}"
+      }, {
+        "@type" : "Column",
+        "titles" : "museum",
+        "name" : "museum",
+        "propertyUrl" : "https://opendata.wuerzburg.de/ld/ontologies/museen/museum",
+        "valueUrl" : "{+museum}",
+        "aboutUrl" : "{+museen-record}"
+      }, {
+        "@type" : "Column",
+        "titles" : "breite",
+        "name" : "breite",
+        "propertyUrl" : "https://opendata.wuerzburg.de/ld/ontologies/museen/breite",
+        "valueUrl" : "{+breite}",
+        "datatype" : "double",
+        "aboutUrl" : "{+museen-record}"
+      }, {
+        "@type" : "Column",
+        "titles" : "laenge",
+        "name" : "laenge",
+        "propertyUrl" : "https://opendata.wuerzburg.de/ld/ontologies/museen/laenge",
+        "valueUrl" : "{+laenge}",
+        "datatype" : "double",
+        "aboutUrl" : "{+museen-record}"
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "https://opendata.wuerzburg.de/ld/ontologies/museen/{+type}",
+        "aboutUrl" : "{+museen-record}"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "https://opendata.wuerzburg.de/ld/ontologies/museen/museen-record",
+        "aboutUrl" : "{+museen-record}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "museen-record",
+      "rowTitles" : [ "museen-record", "geopunkt", "museum", "breite", "laenge", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  } ]
+}

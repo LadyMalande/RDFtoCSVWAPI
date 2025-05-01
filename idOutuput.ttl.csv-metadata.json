@@ -1,0 +1,106 @@
+{
+  "@context" : "http://www.w3.org/ns/csvw",
+  "@type" : "TableGroup",
+  "tables" : [ {
+    "@type" : "Table",
+    "url" : "idOutuput.ttl0.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "{+type}",
+        "aboutUrl" : "{+Subject}",
+        "separator" : ","
+      }, {
+        "@type" : "Column",
+        "titles" : "alternative label (cs)",
+        "name" : "altLabel_cs",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#altLabel",
+        "aboutUrl" : "https://obchodn%C3%AD-rejst%C5%99%C3%ADk.stirdata.opendata.cz/zdroj/%C4%8D%C3%ADseln%C3%ADky/nace-cz/polo%C5%BEky/{+Subject}",
+        "lang" : "cs"
+      }, {
+        "@type" : "Column",
+        "titles" : "has broader",
+        "name" : "broader",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#broader",
+        "valueUrl" : "https://obchodní-rejstřík.stirdata.opendata.cz/zdroj/číselníky/nace-cz/položky/{+broader}",
+        "aboutUrl" : "https://obchodn%C3%AD-rejst%C5%99%C3%ADk.stirdata.opendata.cz/zdroj/%C4%8D%C3%ADseln%C3%ADky/nace-cz/polo%C5%BEky/{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "has exact match",
+        "name" : "exactMatch",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#exactMatch",
+        "valueUrl" : "http://data.europa.eu/ux2/nace2/{+exactMatch}",
+        "aboutUrl" : "https://obchodn%C3%AD-rejst%C5%99%C3%ADk.stirdata.opendata.cz/zdroj/%C4%8D%C3%ADseln%C3%ADky/nace-cz/polo%C5%BEky/{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "is in scheme",
+        "name" : "inScheme",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#inScheme",
+        "valueUrl" : "https://obchodní-rejstřík.stirdata.opendata.cz/zdroj/číselníky/{+inScheme}",
+        "aboutUrl" : "https://obchodn%C3%AD-rejst%C5%99%C3%ADk.stirdata.opendata.cz/zdroj/%C4%8D%C3%ADseln%C3%ADky/nace-cz/polo%C5%BEky/{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "has narrower",
+        "name" : "narrower",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#narrower",
+        "valueUrl" : "https://obchodní-rejstřík.stirdata.opendata.cz/zdroj/číselníky/nace-cz/položky/{+narrower}",
+        "aboutUrl" : "https://obchodn%C3%AD-rejst%C5%99%C3%ADk.stirdata.opendata.cz/zdroj/%C4%8D%C3%ADseln%C3%ADky/nace-cz/polo%C5%BEky/{+Subject}",
+        "separator" : ","
+      }, {
+        "@type" : "Column",
+        "titles" : "notation",
+        "name" : "notation",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#notation",
+        "aboutUrl" : "https://obchodn%C3%AD-rejst%C5%99%C3%ADk.stirdata.opendata.cz/zdroj/%C4%8D%C3%ADseln%C3%ADky/nace-cz/polo%C5%BEky/{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "preferred label (cs)",
+        "name" : "prefLabel_cs",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#prefLabel",
+        "aboutUrl" : "{+Subject}",
+        "lang" : "cs"
+      }, {
+        "@type" : "Column",
+        "titles" : "is top concept in scheme",
+        "name" : "topConceptOf",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#topConceptOf",
+        "valueUrl" : "https://obchodní-rejstřík.stirdata.opendata.cz/zdroj/číselníky/{+topConceptOf}",
+        "aboutUrl" : "https://obchodn%C3%AD-rejst%C5%99%C3%ADk.stirdata.opendata.cz/zdroj/%C4%8D%C3%ADseln%C3%ADky/nace-cz/polo%C5%BEky/{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "label",
+        "name" : "hasTopConcept",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#hasTopConcept",
+        "valueUrl" : "https://obchodní-rejstřík.stirdata.opendata.cz/zdroj/číselníky/nace-cz/položky/{+hasTopConcept}",
+        "aboutUrl" : "https://obchodní-rejstřík.stirdata.opendata.cz/zdroj/číselníky/{+Subject}",
+        "separator" : ","
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "{+type}",
+        "aboutUrl" : "{+Concept}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "type", "altLabel_cs", "broader", "exactMatch", "inScheme", "narrower", "notation", "prefLabel_cs", "topConceptOf", "hasTopConcept" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  } ]
+}

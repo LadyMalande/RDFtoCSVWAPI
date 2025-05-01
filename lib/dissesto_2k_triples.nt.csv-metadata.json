@@ -1,0 +1,1806 @@
+{
+  "@context" : "http://www.w3.org/ns/csvw",
+  "@type" : "TableGroup",
+  "tables" : [ {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt0.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "EconomicIndicator",
+        "valueUrl" : "{+EconomicIndicator}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#{+type}",
+        "aboutUrl" : "{+EconomicIndicator}"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#EconomicIndicator",
+        "aboutUrl" : "{+EconomicIndicator}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "EconomicIndicator",
+      "rowTitles" : [ "EconomicIndicator", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt1.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "AuthorityKind",
+        "valueUrl" : "{+AuthorityKind}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#{+type}",
+        "aboutUrl" : "{+AuthorityKind}"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#AuthorityKind",
+        "aboutUrl" : "{+AuthorityKind}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "AuthorityKind",
+      "rowTitles" : [ "AuthorityKind", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt2.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "LotStep",
+        "valueUrl" : "{+LotStep}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#{+type}",
+        "aboutUrl" : "{+LotStep}"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#LotStep",
+        "aboutUrl" : "{+LotStep}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "LotStep",
+      "rowTitles" : [ "LotStep", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt3.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "FrameworkAgreement",
+        "valueUrl" : "{+FrameworkAgreement}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "http://purl.org/procurement/public-contracts#{+type}",
+        "aboutUrl" : "{+FrameworkAgreement}"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "http://purl.org/procurement/public-contracts#FrameworkAgreement",
+        "aboutUrl" : "{+FrameworkAgreement}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "FrameworkAgreement",
+      "rowTitles" : [ "FrameworkAgreement", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt4.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Intervention",
+        "valueUrl" : "{+Intervention}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#{+type}",
+        "aboutUrl" : "{+Intervention}"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#Intervention",
+        "aboutUrl" : "{+Intervention}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "Intervention",
+      "rowTitles" : [ "Intervention", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt5.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Contract",
+        "valueUrl" : "{+Contract}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#{+type}",
+        "aboutUrl" : "{+Contract}"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#Contract",
+        "aboutUrl" : "{+Contract}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "Contract",
+      "rowTitles" : [ "Contract", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt6.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Repair",
+        "valueUrl" : "{+Repair}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#{+type}",
+        "aboutUrl" : "{+Repair}"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#Repair",
+        "aboutUrl" : "{+Repair}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "Repair",
+      "rowTitles" : [ "Repair", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt7.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "BusinessEntity",
+        "valueUrl" : "https://w3id.org/italia/env/ld/ihi/businessentity/{+BusinessEntity}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "http://purl.org/goodrelations/v1#{+type}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/businessentity/{+BusinessEntity}"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "http://purl.org/goodrelations/v1#BusinessEntity",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/businessentity/{+BusinessEntity}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "BusinessEntity",
+      "rowTitles" : [ "BusinessEntity", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt8.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Lithology",
+        "valueUrl" : "{+Lithology}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#{+type}",
+        "aboutUrl" : "{+Lithology}"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#Lithology",
+        "aboutUrl" : "{+Lithology}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "Lithology",
+      "rowTitles" : [ "Lithology", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt9.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Instability",
+        "valueUrl" : "{+Instability}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#{+type}",
+        "aboutUrl" : "{+Instability}"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "https://w3id.org/italia/env/onto/core#Instability",
+        "aboutUrl" : "{+Instability}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "Instability",
+      "rowTitles" : [ "Instability", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt10.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "hasIter",
+        "name" : "hasIter",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#hasIter",
+        "valueUrl" : "https://w3id.org/italia/env/ld/skos/ihi/itertype/{+hasIter}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/lot/lt029a/{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "label",
+        "name" : "label",
+        "propertyUrl" : "http://www.w3.org/2000/01/rdf-schema#label",
+        "valueUrl" : "{+label}",
+        "aboutUrl" : "{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "repairRelatedTo",
+        "name" : "repairRelatedTo",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#repairRelatedTo",
+        "valueUrl" : "https://w3id.org/italia/env/ld/ihi/lot/431/{+repairRelatedTo}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/repair/431/{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "hasIter", "label", "repairRelatedTo" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt11.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "Type",
+        "name" : "type",
+        "propertyUrl" : "http://purl.org/dc/terms/type",
+        "valueUrl" : "{+type}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt12.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "hasStep",
+        "name" : "hasStep",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#hasStep",
+        "valueUrl" : "https://w3id.org/italia/env/ld/skos/ihi/steptype/{+hasStep}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/lotstep/01ira50/{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "Date",
+        "name" : "date",
+        "propertyUrl" : "http://purl.org/dc/elements/1.1/date",
+        "valueUrl" : "{+date}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "hasStep", "date" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt13.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "unit",
+        "name" : "unit",
+        "propertyUrl" : "http://qudt.org/vocab/unit#unit",
+        "valueUrl" : "{+unit}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "unit" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt14.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "hasEconomicIndicator",
+        "name" : "hasEconomicIndicator",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#hasEconomicIndicator",
+        "valueUrl" : "{+hasEconomicIndicator}",
+        "aboutUrl" : "{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "isLotOf",
+        "name" : "isLotOf",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#isLotOf",
+        "valueUrl" : "https://w3id.org/italia/env/ld/ihi/intervention/03ir052/{+isLotOf}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/lot/03ir052/{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "cup",
+        "name" : "cup",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#cup",
+        "valueUrl" : "{+cup}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/lot/cn098a/{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "contractingAuthority",
+        "name" : "contractingAuthority",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#contractingAuthority",
+        "valueUrl" : "https://w3id.org/italia/env/ld/ihi/authkind/esec/cb026a/{+contractingAuthority}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/lot/cb026a/{+Subject}"
+      } ],
+      "foreignKeys" : [ {
+        "columnReference" : "isLotOf",
+        "reference" : {
+          "resource" : "dissesto_2k_triples.nt53.csv",
+          "columnReference" : "label"
+        }
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "hasEconomicIndicator", "isLotOf", "cup", "contractingAuthority" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt15.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "value",
+        "name" : "value",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+        "valueUrl" : "{+value}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "value" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt16.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "hasStep",
+        "name" : "hasStep",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#hasStep",
+        "valueUrl" : "{+hasStep}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "hasStep" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt17.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "Is Referenced By",
+        "name" : "isReferencedBy",
+        "propertyUrl" : "http://purl.org/dc/terms/isReferencedBy",
+        "valueUrl" : "{+isReferencedBy}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "isReferencedBy" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt18.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "entity",
+        "name" : "entity",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#entity",
+        "valueUrl" : "{+entity}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "foreignKeys" : [ {
+        "columnReference" : "entity",
+        "reference" : {
+          "resource" : "dissesto_2k_triples.nt44.csv",
+          "columnReference" : "type"
+        }
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "entity" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt19.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "lot",
+        "name" : "lot",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#lot",
+        "valueUrl" : "{+lot}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "foreignKeys" : [ {
+        "columnReference" : "lot",
+        "reference" : {
+          "resource" : "dissesto_2k_triples.nt51.csv",
+          "columnReference" : "hasEconomicIndicator"
+        }
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "lot" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt20.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "officialInstabilityType",
+        "name" : "officialInstabilityType",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#officialInstabilityType",
+        "valueUrl" : "{+officialInstabilityType}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/intervention/dait@23_0652/{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "contractingAuthority",
+        "name" : "contractingAuthority",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#contractingAuthority",
+        "valueUrl" : "{+contractingAuthority}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "officialInstabilityType", "contractingAuthority" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt21.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "role",
+        "name" : "role",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#role",
+        "valueUrl" : "{+role}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "role" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt22.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "location",
+        "name" : "location",
+        "propertyUrl" : "http://www.w3.org/2003/01/geo/wgs84_pos#location",
+        "valueUrl" : "{+location}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "location" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt23.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "Description",
+        "name" : "description",
+        "propertyUrl" : "http://purl.org/dc/elements/1.1/description",
+        "valueUrl" : "{+description}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "description" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt24.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "primaryGeographicalFeature",
+        "name" : "primaryGeographicalFeature",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#primaryGeographicalFeature",
+        "valueUrl" : "{+primaryGeographicalFeature}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "primaryGeographicalFeature" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt25.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "procedureType",
+        "name" : "procedureType",
+        "propertyUrl" : "http://purl.org/procurement/public-contracts#procedureType",
+        "valueUrl" : "{+procedureType}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "procedureType" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt26.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "amountFinanced",
+        "name" : "amountFinanced",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#amountFinanced",
+        "valueUrl" : "{+amountFinanced}",
+        "datatype" : "Euro",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "amountFinanced" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt27.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "cup",
+        "name" : "cup",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#cup",
+        "valueUrl" : "{+cup}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "cup" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt28.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "hasIter",
+        "name" : "hasIter",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#hasIter",
+        "valueUrl" : "{+hasIter}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "hasIter" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt29.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "subject",
+        "propertyUrl" : "http://purl.org/dc/elements/1.1/subject",
+        "valueUrl" : "{+subject}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "subject" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt30.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "isLotOf",
+        "name" : "isLotOf",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#isLotOf",
+        "valueUrl" : "https://w3id.org/italia/env/ld/ihi/intervention/485/{+isLotOf}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/lot/485/{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "Relation",
+        "name" : "relation",
+        "propertyUrl" : "http://purl.org/dc/terms/relation",
+        "valueUrl" : "{+relation}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "foreignKeys" : [ {
+        "columnReference" : "isLotOf",
+        "reference" : {
+          "resource" : "dissesto_2k_triples.nt53.csv",
+          "columnReference" : "label"
+        }
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "isLotOf", "relation" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt31.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "lat",
+        "name" : "lat",
+        "propertyUrl" : "http://www.w3.org/2003/01/geo/wgs84_pos#lat",
+        "valueUrl" : "{+lat}",
+        "aboutUrl" : "{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "point",
+        "name" : "point",
+        "propertyUrl" : "http://www.georss.org/georss/point",
+        "valueUrl" : "{+point}",
+        "aboutUrl" : "{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "long",
+        "name" : "long",
+        "propertyUrl" : "http://www.w3.org/2003/01/geo/wgs84_pos#long",
+        "valueUrl" : "{+long}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "lat", "point", "long" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt32.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "Date Modified",
+        "name" : "modified",
+        "propertyUrl" : "http://purl.org/dc/terms/modified",
+        "valueUrl" : "{+modified}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "modified" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt33.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "isLotOf",
+        "name" : "isLotOf",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#isLotOf",
+        "valueUrl" : "{+isLotOf}",
+        "aboutUrl" : "{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "note",
+        "name" : "note",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#note",
+        "valueUrl" : "{+note}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/lot/19ir174/{+Subject}"
+      } ],
+      "foreignKeys" : [ {
+        "columnReference" : "isLotOf",
+        "reference" : {
+          "resource" : "dissesto_2k_triples.nt53.csv",
+          "columnReference" : "label"
+        }
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "isLotOf", "note" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt34.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "isDistrictAuthority",
+        "name" : "isDistrictAuthority",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#isDistrictAuthority",
+        "valueUrl" : "{+isDistrictAuthority}",
+        "datatype" : "boolean",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "isDistrictAuthority" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt35.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "hasAgreement",
+        "name" : "hasAgreement",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#hasAgreement",
+        "valueUrl" : "{+hasAgreement}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "hasAgreement" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt36.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "isMemberOf",
+        "name" : "isMemberOf",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/top/isMemberOf",
+        "valueUrl" : "{+isMemberOf}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "isMemberOf" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt37.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "Source",
+        "name" : "source",
+        "propertyUrl" : "http://purl.org/dc/elements/1.1/source",
+        "valueUrl" : "{+source}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "source" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt38.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "Publisher",
+        "name" : "publisher",
+        "propertyUrl" : "http://purl.org/dc/terms/publisher",
+        "valueUrl" : "{+publisher}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "publisher" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt39.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "officialInstabilityType",
+        "name" : "officialInstabilityType",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#officialInstabilityType",
+        "valueUrl" : "{+officialInstabilityType}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "officialInstabilityType" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt40.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "repairRelatedTo",
+        "name" : "repairRelatedTo",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#repairRelatedTo",
+        "valueUrl" : "{+repairRelatedTo}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "repairRelatedTo" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt41.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "instabilityType",
+        "name" : "instabilityType",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#instabilityType",
+        "valueUrl" : "https://w3id.org/italia/env/ld/skos/ihi/instabilitytype/{+instabilityType}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/instability/bs030b/{+Subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "instabilityGroup",
+        "name" : "instabilityGroup",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#instabilityGroup",
+        "valueUrl" : "{+instabilityGroup}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "instabilityType", "instabilityGroup" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt42.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "lithologyRelatedTo",
+        "name" : "lithologyRelatedTo",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#lithologyRelatedTo",
+        "valueUrl" : "{+lithologyRelatedTo}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "lithologyRelatedTo" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt43.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "instabilityRelatedTo",
+        "name" : "instabilityRelatedTo",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#instabilityRelatedTo",
+        "valueUrl" : "{+instabilityRelatedTo}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "instabilityRelatedTo" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt44.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "https://w3id.org/italia/env/ld/ihi/businessentity/{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "Type",
+        "name" : "type",
+        "propertyUrl" : "http://purl.org/dc/elements/1.1/type",
+        "valueUrl" : "{+type}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/businessentity/{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt45.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "contact",
+        "name" : "contact",
+        "propertyUrl" : "http://purl.org/procurement/public-contracts#contact",
+        "valueUrl" : "{+contact}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "contact" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt46.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "repairType",
+        "name" : "repairType",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#repairType",
+        "valueUrl" : "{+repairType}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "repairType" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt47.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "repairCategory",
+        "name" : "repairCategory",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#repairCategory",
+        "valueUrl" : "{+repairCategory}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "repairCategory" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt48.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "lithologyType",
+        "name" : "lithologyType",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#lithologyType",
+        "valueUrl" : "{+lithologyType}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "lithologyType" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt49.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "note",
+        "name" : "note",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#note",
+        "valueUrl" : "{+note}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "note" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt50.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "instabilityType",
+        "name" : "instabilityType",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#instabilityType",
+        "valueUrl" : "{+instabilityType}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "instabilityType" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt51.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "hasEconomicIndicator",
+        "name" : "hasEconomicIndicator",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#hasEconomicIndicator",
+        "valueUrl" : "{+hasEconomicIndicator}",
+        "aboutUrl" : "{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "hasEconomicIndicator" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt52.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "https://w3id.org/italia/env/ld/ihi/intervention/09ir775/{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "secondaryGeographicalFeature",
+        "name" : "secondaryGeographicalFeature",
+        "propertyUrl" : "https://w3id.org/italia/env/onto/core#secondaryGeographicalFeature",
+        "valueUrl" : "https://w3id.org/italia/env/ld/place/municipality/{+secondaryGeographicalFeature}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/intervention/09ir775/{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "secondaryGeographicalFeature" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  }, {
+    "@type" : "Table",
+    "url" : "dissesto_2k_triples.nt53.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "https://w3id.org/italia/env/ld/ihi/intervention/dpc@19_2901/{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "label",
+        "name" : "label",
+        "propertyUrl" : "http://www.w3.org/2000/01/rdf-schema#label",
+        "valueUrl" : "{+label}",
+        "aboutUrl" : "https://w3id.org/italia/env/ld/ihi/intervention/dpc@19_2901/{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "label" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  } ]
+}
