@@ -1,0 +1,2 @@
+_:person <http://xmlns.com/foaf/0.1/name> "Unnamed Individual" .
+_:person <http://xmlns.com/foaf/0.1/age> "28"^^<http://www.w3.org/2001/XMLSchema#integer> .

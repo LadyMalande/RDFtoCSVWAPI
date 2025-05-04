@@ -158,7 +158,7 @@ class RDFtoCSVWControllerTest {
         when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(CompletableFuture.completedFuture(mockConfig));
         when(rdFtoCSVWService.getMetadataStringFromFile(any(), anyMap())).thenReturn(mockMetadataString);
         MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/metadata/string").file(file).param("table", "badParam").param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().is4xxClientError()).andExpect(content().string(""));
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/metadata/string").file(file).param("table", "badParam").param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().is4xxClientError()).andExpect(content().string("{\"error\":\"Invalid parameter\",\"message\":\"Parameter 'table' should be of type TableChoice. Provided value: 'badParam'.\"}"));
     }
 
     @SpringBootApplication(scanBasePackageClasses = RDFtoCSVWController.class)

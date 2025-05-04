@@ -79,9 +79,9 @@ public class RDFtoCSVWController {
     @PostMapping("/rdftocsvw")
     public byte[] getCSVW(@RequestParam(value = "file", required = false) MultipartFile file,
                           @RequestParam(value = "fileURL", required = false) String fileURL,
-                          @RequestParam(value = "choice", required = false) ParsingChoice choice,
-                          @RequestParam(value = "tables", required = false) TableChoice tables,
-                          @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm){
+                          @RequestParam(value = "choice", required = false, defaultValue = "RDF4J") ParsingChoice choice,
+                          @RequestParam(value = "tables", required = false, defaultValue = "ONE") TableChoice tables,
+                          @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm){
         System.out.println("Got params for /rdftocsvw : " + file + " fileURL = " + fileURL + " choice=" + choice);
         try {
             if(file != null && fileURL != null && !fileURL.isEmpty()){
@@ -127,9 +127,9 @@ public class RDFtoCSVWController {
     @GetMapping("/csv/string")
     public ResponseEntity<String> convertRDFToCSV(
             @RequestParam("url") String url,  // Required URL parameter
-            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) ParsingChoice conversionMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {
+            @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice conversionMethod,
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
@@ -172,9 +172,9 @@ public class RDFtoCSVWController {
     @PostMapping("/csv/string")
     public ResponseEntity<String> convertRDFToCSV(
             @RequestParam("file") MultipartFile file,  // Required file parameter
-            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
+            @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());
@@ -212,9 +212,9 @@ public class RDFtoCSVWController {
     @PostMapping("/csv")
     public ResponseEntity<byte[]> convertRDFToCSVFile(
             @RequestParam("file") MultipartFile file,  // Required file parameter
-            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
+            @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
@@ -255,9 +255,9 @@ public class RDFtoCSVWController {
     @GetMapping("/csv")
     public ResponseEntity<byte[]> convertRDFToCSVFile(
             @RequestParam("url") String url,  // Required URL parameter
-            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {
+            @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {
 
         Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm).get();
 
@@ -292,9 +292,9 @@ public class RDFtoCSVWController {
     @PostMapping("/metadata")
     public ResponseEntity<byte[]> convertRDFToCSVWMetadataFile(
             @RequestParam(value = "file") MultipartFile file,  // Required file parameter
-            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
+            @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
@@ -332,9 +332,9 @@ public class RDFtoCSVWController {
     @GetMapping("/metadata")
     public ResponseEntity<byte[]> convertRDFToCSVWMetadataFile(
             @RequestParam(value = "url") String url,  // Required URL parameter
-            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {
+            @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv with URL: " + url);
@@ -372,9 +372,9 @@ public class RDFtoCSVWController {
     @GetMapping("/metadata/string")
     public ResponseEntity<String> convertRDFToCSVWMetadata(
             @RequestParam(value = "url") String url,  // Required URL parameter
-            @RequestParam(value = "table", required = false) TableChoice table, // Optional parameters
-            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {
+            @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
+            @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
@@ -414,8 +414,8 @@ public class RDFtoCSVWController {
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
             //@Parameter(name = "table", description = "Number of created CSV tables", schema=@Schema(type="string", allowableValues={"one","more"}, defaultValue = "one")) TableChoice table,
-            @RequestParam(value = "conversionMethod", required = false) ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false) Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
+            @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:schema="http://schema.org/"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <schema:Review rdf:about="http://example.org/review1">
+    <schema:reviewBody>Great product!</schema:reviewBody>
+    <schema:author>
+      <foaf:Person rdf:about="http://example.org/alice">
+        <foaf:name>Alice Example</foaf:name>
+        <foaf:mbox rdf:resource="mailto:alice@example.org"/>
+        <foaf:knows rdf:resource="http://example.org/bob"/>
+      </foaf:Person>
+    </schema:author>
+  </schema:Review>
+  <owl:ObjectProperty rdf:about="http://example.org/hasPet">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="http://example.org/isPetOf">
+        <rdfs:label xml:lang="en">is pet of</rdfs:label>
+      </owl:ObjectProperty>
+    </owl:inverseOf>
+    <rdfs:label xml:lang="en">has pet</rdfs:label>
+  </owl:ObjectProperty>
+  <skos:Concept rdf:about="http://example.org/colorConcept">
+    <skos:prefLabel xml:lang="en">Color</skos:prefLabel>
+    <skos:definition xml:lang="en">A visual attribute of things.</skos:definition>
+  </skos:Concept>
+  <foaf:Person rdf:about="http://example.org/bob">
+    <foaf:name>Bob Example</foaf:name>
+  </foaf:Person>
+</rdf:RDF>

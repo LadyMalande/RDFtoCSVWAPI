@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xmlns:schema="http://schema.org/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+>
+  <skos:Concept rdf:about="http://example.org/tools">
+    <skos:prefLabel xml:lang="en">Tools</skos:prefLabel>
+    <skos:broader>
+      <skos:Concept rdf:about="http://example.org/appliances">
+        <skos:prefLabel xml:lang="en">Appliances</skos:prefLabel>
+      </skos:Concept>
+    </skos:broader>
+  </skos:Concept>
+  <schema:Review rdf:about="http://example.org/review6">
+    <schema:reviewBody xml:lang="cz">Review for Widget #6</schema:reviewBody>
+    <schema:reviewRating>
+      <schema:Rating rdf:about="http://example.org/rating6">
+        <schema:ratingValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:ratingValue>
+        <schema:bestRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:bestRating>
+        <schema:worstRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:worstRating>
+      </schema:Rating>
+    </schema:reviewRating>
+    <schema:author>
+      <foaf:Person rdf:about="http://example.org/diana">
+        <foaf:name>Diana Example</foaf:name>
+        <foaf:mbox rdf:resource="mailto:diana@example.org"/>
+        <foaf:knows rdf:resource="http://example.org/grace"/>
+        <foaf:knows rdf:resource="http://example.org/bob"/>
+      </foaf:Person>
+    </schema:author>
+    <schema:itemReviewed>
+      <schema:Product rdf:about="http://example.org/product6">
+        <schema:name>Widget</schema:name>
+        <schema:category>Electronics</schema:category>
+      </schema:Product>
+    </schema:itemReviewed>
+  </schema:Review>
+  <schema:Review rdf:about="http://example.org/review1">
+    <schema:reviewBody xml:lang="es">Review for Doohickey #1</schema:reviewBody>
+    <schema:reviewRating>
+      <schema:Rating rdf:about="http://example.org/rating1">
+        <schema:ratingValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:ratingValue>
+        <schema:bestRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:bestRating>
+        <schema:worstRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:worstRating>
+      </schema:Rating>
+    </schema:reviewRating>
+    <schema:author rdf:resource="http://example.org/diana"/>
+    <schema:itemReviewed>
+      <schema:Product rdf:about="http://example.org/product1">
+        <schema:name>Doohickey</schema:name>
+        <schema:category>Electronics</schema:category>
+      </schema:Product>
+    </schema:itemReviewed>
+  </schema:Review>
+  <schema:Review rdf:about="http://example.org/review2">
+    <schema:reviewBody xml:lang="en">Review for Thingamajig #2</schema:reviewBody>
+    <schema:reviewRating>
+      <schema:Rating rdf:about="http://example.org/rating2">
+        <schema:ratingValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:ratingValue>
+        <schema:bestRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:bestRating>
+        <schema:worstRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:worstRating>
+      </schema:Rating>
+    </schema:reviewRating>
+    <schema:author>
+      <foaf:Person rdf:about="http://example.org/frank">
+        <foaf:name>Frank Example</foaf:name>
+        <foaf:mbox rdf:resource="mailto:frank@example.org"/>
+        <foaf:knows rdf:resource="http://example.org/grace"/>
+        <foaf:knows rdf:resource="http://example.org/bob"/>
+      </foaf:Person>
+    </schema:author>
+    <schema:itemReviewed>
+      <schema:Product rdf:about="http://example.org/product2">
+        <schema:name>Thingamajig</schema:name>
+        <schema:category>Electronics</schema:category>
+      </schema:Product>
+    </schema:itemReviewed>
+  </schema:Review>
+  <schema:Review rdf:about="http://example.org/review7">
+    <schema:reviewBody xml:lang="cz">Review for Gadget #7</schema:reviewBody>
+    <schema:reviewRating>
+      <schema:Rating rdf:about="http://example.org/rating7">
+        <schema:ratingValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:ratingValue>
+        <schema:bestRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:bestRating>
+        <schema:worstRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:worstRating>
+      </schema:Rating>
+    </schema:reviewRating>
+    <schema:author>
+      <foaf:Person rdf:about="http://example.org/eve">
+        <foaf:name>Eve Example</foaf:name>
+        <foaf:mbox rdf:resource="mailto:eve@example.org"/>
+        <foaf:knows rdf:resource="http://example.org/frank"/>
+        <foaf:knows rdf:resource="http://example.org/alice"/>
+      </foaf:Person>
+    </schema:author>
+    <schema:itemReviewed>
+      <schema:Product rdf:about="http://example.org/product7">
+        <schema:name>Gadget</schema:name>
+        <schema:category>Electronics</schema:category>
+      </schema:Product>
+    </schema:itemReviewed>
+  </schema:Review>
+  <schema:Review rdf:about="http://example.org/review4">
+    <schema:reviewBody xml:lang="de">Review for Thingamajig #4</schema:reviewBody>
+    <schema:reviewRating>
+      <schema:Rating rdf:about="http://example.org/rating4">
+        <schema:ratingValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:ratingValue>
+        <schema:bestRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:bestRating>
+        <schema:worstRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:worstRating>
+      </schema:Rating>
+    </schema:reviewRating>
+    <schema:author rdf:resource="http://example.org/frank"/>
+    <schema:itemReviewed>
+      <schema:Product rdf:about="http://example.org/product4">
+        <schema:name>Thingamajig</schema:name>
+        <schema:category>Electronics</schema:category>
+      </schema:Product>
+    </schema:itemReviewed>
+  </schema:Review>
+  <schema:Review rdf:about="http://example.org/review9">
+    <schema:reviewBody xml:lang="en">Review for Widget #9</schema:reviewBody>
+    <schema:reviewRating>
+      <schema:Rating rdf:about="http://example.org/rating9">
+        <schema:ratingValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:ratingValue>
+        <schema:bestRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:bestRating>
+        <schema:worstRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:worstRating>
+      </schema:Rating>
+    </schema:reviewRating>
+    <schema:author rdf:resource="http://example.org/eve"/>
+    <schema:itemReviewed>
+      <schema:Product rdf:about="http://example.org/product9">
+        <schema:name>Widget</schema:name>
+        <schema:category>Electronics</schema:category>
+      </schema:Product>
+    </schema:itemReviewed>
+  </schema:Review>
+  <schema:Review rdf:about="http://example.org/review10">
+    <schema:reviewBody xml:lang="fr">Review for Gizmo #10</schema:reviewBody>
+    <schema:reviewRating>
+      <schema:Rating rdf:about="http://example.org/rating10">
+        <schema:ratingValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:ratingValue>
+        <schema:bestRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:bestRating>
+        <schema:worstRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:worstRating>
+      </schema:Rating>
+    </schema:reviewRating>
+    <schema:author>
+      <foaf:Person rdf:about="http://example.org/grace">
+        <foaf:name>Grace Example</foaf:name>
+        <foaf:mbox rdf:resource="mailto:grace@example.org"/>
+        <foaf:knows rdf:resource="http://example.org/alice"/>
+        <foaf:knows rdf:resource="http://example.org/eve"/>
+      </foaf:Person>
+    </schema:author>
+    <schema:itemReviewed>
+      <schema:Product rdf:about="http://example.org/product10">
+        <schema:name>Gizmo</schema:name>
+        <schema:category>Electronics</schema:category>
+      </schema:Product>
+    </schema:itemReviewed>
+  </schema:Review>
+  <schema:Review rdf:about="http://example.org/review3">
+    <schema:reviewBody xml:lang="es">Review for Gadget #3</schema:reviewBody>
+    <schema:reviewRating>
+      <schema:Rating rdf:about="http://example.org/rating3">
+        <schema:ratingValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:ratingValue>
+        <schema:bestRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:bestRating>
+        <schema:worstRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:worstRating>
+      </schema:Rating>
+    </schema:reviewRating>
+    <schema:author>
+      <foaf:Person rdf:about="http://example.org/charlie">
+        <foaf:name>Charlie Example</foaf:name>
+        <foaf:mbox rdf:resource="mailto:charlie@example.org"/>
+        <foaf:knows rdf:resource="http://example.org/diana"/>
+        <foaf:knows rdf:resource="http://example.org/alice"/>
+      </foaf:Person>
+    </schema:author>
+    <schema:itemReviewed>
+      <schema:Product rdf:about="http://example.org/product3">
+        <schema:name>Gadget</schema:name>
+        <schema:category>Electronics</schema:category>
+      </schema:Product>
+    </schema:itemReviewed>
+  </schema:Review>
+  <schema:Review rdf:about="http://example.org/review5">
+    <schema:reviewBody xml:lang="en">Review for Gizmo #5</schema:reviewBody>
+    <schema:reviewRating>
+      <schema:Rating rdf:about="http://example.org/rating5">
+        <schema:ratingValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:ratingValue>
+        <schema:bestRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:bestRating>
+        <schema:worstRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:worstRating>
+      </schema:Rating>
+    </schema:reviewRating>
+    <schema:author rdf:resource="http://example.org/frank"/>
+    <schema:itemReviewed>
+      <schema:Product rdf:about="http://example.org/product5">
+        <schema:name>Gizmo</schema:name>
+        <schema:category>Electronics</schema:category>
+      </schema:Product>
+    </schema:itemReviewed>
+  </schema:Review>
+  <schema:Review rdf:about="http://example.org/review8">
+    <schema:reviewBody xml:lang="en">Review for Thingamajig #8</schema:reviewBody>
+    <schema:reviewRating>
+      <schema:Rating rdf:about="http://example.org/rating8">
+        <schema:ratingValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:ratingValue>
+        <schema:bestRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:bestRating>
+        <schema:worstRating rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:worstRating>
+      </schema:Rating>
+    </schema:reviewRating>
+    <schema:author rdf:resource="http://example.org/frank"/>
+    <schema:itemReviewed>
+      <schema:Product rdf:about="http://example.org/product8">
+        <schema:name>Thingamajig</schema:name>
+        <schema:category>Electronics</schema:category>
+      </schema:Product>
+    </schema:itemReviewed>
+  </schema:Review>
+  <skos:Concept rdf:about="http://example.org/electronics">
+    <skos:prefLabel xml:lang="en">Electronics</skos:prefLabel>
+    <skos:narrower>
+      <skos:Concept rdf:about="http://example.org/wearables">
+        <skos:prefLabel xml:lang="en">Wearables</skos:prefLabel>
+      </skos:Concept>
+    </skos:narrower>
+    <skos:narrower rdf:resource="http://example.org/appliances"/>
+  </skos:Concept>
+  <foaf:Person rdf:about="http://example.org/bob">
+    <foaf:name>Bob Example</foaf:name>
+    <foaf:mbox rdf:resource="mailto:bob@example.org"/>
+    <foaf:knows rdf:resource="http://example.org/frank"/>
+    <foaf:knows>
+      <foaf:Person rdf:about="http://example.org/alice">
+        <foaf:name>Alice Example</foaf:name>
+        <foaf:mbox rdf:resource="mailto:alice@example.org"/>
+        <foaf:knows rdf:resource="http://example.org/charlie"/>
+        <foaf:knows rdf:resource="http://example.org/eve"/>
+      </foaf:Person>
+    </foaf:knows>
+  </foaf:Person>
+</rdf:RDF>

@@ -1,0 +1,2 @@
+_:bnode1 <http://example.org/hasName> "Anonymous" .
+<http://example.org/person2> <http://example.org/knows> _:bnode1 .
