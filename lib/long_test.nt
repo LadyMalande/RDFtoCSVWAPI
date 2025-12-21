@@ -1,0 +1,167 @@
+<http://example.org/rating7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Rating> .
+<http://example.org/tools> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://example.org/product5> <http://schema.org/category> "Electronics" .
+<http://example.org/review6> <http://schema.org/author> <http://example.org/diana> .
+<http://example.org/eve> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/review1> <http://schema.org/reviewBody> "Review for Doohickey #1"@es .
+<http://example.org/wearables> <http://www.w3.org/2004/02/skos/core#prefLabel> "Wearables"@en .
+<http://example.org/review2> <http://schema.org/reviewBody> "Review for Thingamajig #2"@en .
+<http://example.org/product5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Product> .
+<http://example.org/review7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Review> .
+<http://example.org/appliances> <http://www.w3.org/2004/02/skos/core#prefLabel> "Appliances"@en .
+<http://example.org/bob> <http://xmlns.com/foaf/0.1/mbox> <mailto:bob@example.org> .
+<http://example.org/review4> <http://schema.org/reviewRating> <http://example.org/rating4> .
+<http://example.org/rating6> <http://schema.org/worstRating> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/rating3> <http://schema.org/ratingValue> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/tools> <http://www.w3.org/2004/02/skos/core#broader> <http://example.org/appliances> .
+<http://example.org/review9> <http://schema.org/author> <http://example.org/eve> .
+<http://example.org/product6> <http://schema.org/category> "Electronics" .
+<http://example.org/rating7> <http://schema.org/bestRating> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/tools> <http://www.w3.org/2004/02/skos/core#prefLabel> "Tools"@en .
+<http://example.org/eve> <http://xmlns.com/foaf/0.1/mbox> <mailto:eve@example.org> .
+<http://example.org/review9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Review> .
+<http://example.org/grace> <http://xmlns.com/foaf/0.1/knows> <http://example.org/alice> .
+<http://example.org/review1> <http://schema.org/reviewRating> <http://example.org/rating1> .
+<http://example.org/rating3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Rating> .
+<http://example.org/review9> <http://schema.org/itemReviewed> <http://example.org/product9> .
+<http://example.org/alice> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/rating7> <http://schema.org/worstRating> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/product3> <http://schema.org/category> "Electronics" .
+<http://example.org/product1> <http://schema.org/name> "Doohickey" .
+<http://example.org/rating5> <http://schema.org/worstRating> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/wearables> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://example.org/review4> <http://schema.org/author> <http://example.org/frank> .
+<http://example.org/product1> <http://schema.org/category> "Electronics" .
+<http://example.org/rating4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Rating> .
+<http://example.org/review10> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Review> .
+<http://example.org/product7> <http://schema.org/category> "Electronics" .
+<http://example.org/review1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Review> .
+<http://example.org/diana> <http://xmlns.com/foaf/0.1/knows> <http://example.org/grace> .
+<http://example.org/rating1> <http://schema.org/worstRating> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/product7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Product> .
+<http://example.org/product2> <http://schema.org/name> "Thingamajig" .
+<http://example.org/product9> <http://schema.org/name> "Widget" .
+<http://example.org/review10> <http://schema.org/reviewBody> "Review for Gizmo #10"@fr .
+<http://example.org/rating4> <http://schema.org/bestRating> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/rating6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Rating> .
+<http://example.org/review3> <http://schema.org/reviewRating> <http://example.org/rating3> .
+<http://example.org/review1> <http://schema.org/author> <http://example.org/diana> .
+<http://example.org/diana> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/product4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Product> .
+<http://example.org/rating7> <http://schema.org/ratingValue> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/review10> <http://schema.org/itemReviewed> <http://example.org/product10> .
+<http://example.org/rating10> <http://schema.org/bestRating> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/product4> <http://schema.org/name> "Thingamajig" .
+<http://example.org/frank> <http://xmlns.com/foaf/0.1/knows> <http://example.org/grace> .
+<http://example.org/rating10> <http://schema.org/worstRating> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/bob> <http://xmlns.com/foaf/0.1/name> "Bob Example" .
+<http://example.org/bob> <http://xmlns.com/foaf/0.1/knows> <http://example.org/alice> .
+<http://example.org/review2> <http://schema.org/reviewRating> <http://example.org/rating2> .
+<http://example.org/diana> <http://xmlns.com/foaf/0.1/knows> <http://example.org/bob> .
+<http://example.org/review5> <http://schema.org/reviewRating> <http://example.org/rating5> .
+<http://example.org/review8> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Review> .
+<http://example.org/grace> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/alice> <http://xmlns.com/foaf/0.1/name> "Alice Example" .
+<http://example.org/rating1> <http://schema.org/ratingValue> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/rating4> <http://schema.org/ratingValue> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/charlie> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/product6> <http://schema.org/name> "Widget" .
+<http://example.org/review7> <http://schema.org/reviewBody> "Review for Gadget #7"@cz .
+<http://example.org/review4> <http://schema.org/reviewBody> "Review for Thingamajig #4"@de .
+<http://example.org/review8> <http://schema.org/itemReviewed> <http://example.org/product8> .
+<http://example.org/rating8> <http://schema.org/worstRating> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/rating10> <http://schema.org/ratingValue> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/rating8> <http://schema.org/bestRating> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/rating9> <http://schema.org/worstRating> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/rating6> <http://schema.org/bestRating> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/frank> <http://xmlns.com/foaf/0.1/knows> <http://example.org/bob> .
+<http://example.org/review10> <http://schema.org/reviewRating> <http://example.org/rating10> .
+<http://example.org/diana> <http://xmlns.com/foaf/0.1/name> "Diana Example" .
+<http://example.org/review3> <http://schema.org/author> <http://example.org/charlie> .
+<http://example.org/rating2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Rating> .
+<http://example.org/product2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Product> .
+<http://example.org/grace> <http://xmlns.com/foaf/0.1/mbox> <mailto:grace@example.org> .
+<http://example.org/rating9> <http://schema.org/ratingValue> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/product4> <http://schema.org/category> "Electronics" .
+<http://example.org/review4> <http://schema.org/itemReviewed> <http://example.org/product4> .
+<http://example.org/review4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Review> .
+<http://example.org/rating8> <http://schema.org/ratingValue> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/charlie> <http://xmlns.com/foaf/0.1/name> "Charlie Example" .
+<http://example.org/frank> <http://xmlns.com/foaf/0.1/mbox> <mailto:frank@example.org> .
+<http://example.org/rating8> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Rating> .
+<http://example.org/rating3> <http://schema.org/bestRating> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/bob> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/product10> <http://schema.org/name> "Gizmo" .
+<http://example.org/review7> <http://schema.org/itemReviewed> <http://example.org/product7> .
+<http://example.org/rating1> <http://schema.org/bestRating> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/electronics> <http://www.w3.org/2004/02/skos/core#prefLabel> "Electronics"@en .
+<http://example.org/review7> <http://schema.org/reviewRating> <http://example.org/rating7> .
+<http://example.org/charlie> <http://xmlns.com/foaf/0.1/knows> <http://example.org/diana> .
+<http://example.org/diana> <http://xmlns.com/foaf/0.1/mbox> <mailto:diana@example.org> .
+<http://example.org/frank> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/review1> <http://schema.org/itemReviewed> <http://example.org/product1> .
+<http://example.org/rating2> <http://schema.org/worstRating> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/review6> <http://schema.org/reviewRating> <http://example.org/rating6> .
+<http://example.org/rating2> <http://schema.org/bestRating> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/rating5> <http://schema.org/ratingValue> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/eve> <http://xmlns.com/foaf/0.1/knows> <http://example.org/alice> .
+<http://example.org/product5> <http://schema.org/name> "Gizmo" .
+<http://example.org/frank> <http://xmlns.com/foaf/0.1/name> "Frank Example" .
+<http://example.org/review8> <http://schema.org/author> <http://example.org/frank> .
+<http://example.org/appliances> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://example.org/grace> <http://xmlns.com/foaf/0.1/name> "Grace Example" .
+<http://example.org/review8> <http://schema.org/reviewBody> "Review for Thingamajig #8"@en .
+<http://example.org/eve> <http://xmlns.com/foaf/0.1/name> "Eve Example" .
+<http://example.org/rating5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Rating> .
+<http://example.org/review3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Review> .
+<http://example.org/alice> <http://xmlns.com/foaf/0.1/mbox> <mailto:alice@example.org> .
+<http://example.org/product3> <http://schema.org/name> "Gadget" .
+<http://example.org/product2> <http://schema.org/category> "Electronics" .
+<http://example.org/electronics> <http://www.w3.org/2004/02/skos/core#narrower> <http://example.org/wearables> .
+<http://example.org/review8> <http://schema.org/reviewRating> <http://example.org/rating8> .
+<http://example.org/product7> <http://schema.org/name> "Gadget" .
+<http://example.org/rating2> <http://schema.org/ratingValue> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/rating1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Rating> .
+<http://example.org/rating10> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Rating> .
+<http://example.org/electronics> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://example.org/rating5> <http://schema.org/bestRating> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/electronics> <http://www.w3.org/2004/02/skos/core#narrower> <http://example.org/appliances> .
+<http://example.org/review5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Review> .
+<http://example.org/review6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Review> .
+<http://example.org/review5> <http://schema.org/reviewBody> "Review for Gizmo #5"@en .
+<http://example.org/grace> <http://xmlns.com/foaf/0.1/knows> <http://example.org/eve> .
+<http://example.org/review6> <http://schema.org/reviewBody> "Review for Widget #6"@cz .
+<http://example.org/product9> <http://schema.org/category> "Electronics" .
+<http://example.org/rating9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Rating> .
+<http://example.org/product9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Product> .
+<http://example.org/review7> <http://schema.org/author> <http://example.org/eve> .
+<http://example.org/review9> <http://schema.org/reviewBody> "Review for Widget #9"@en .
+<http://example.org/review3> <http://schema.org/itemReviewed> <http://example.org/product3> .
+<http://example.org/product8> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Product> .
+<http://example.org/review10> <http://schema.org/author> <http://example.org/grace> .
+<http://example.org/product8> <http://schema.org/name> "Thingamajig" .
+<http://example.org/review9> <http://schema.org/reviewRating> <http://example.org/rating9> .
+<http://example.org/alice> <http://xmlns.com/foaf/0.1/knows> <http://example.org/charlie> .
+<http://example.org/charlie> <http://xmlns.com/foaf/0.1/knows> <http://example.org/alice> .
+<http://example.org/rating9> <http://schema.org/bestRating> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/eve> <http://xmlns.com/foaf/0.1/knows> <http://example.org/frank> .
+<http://example.org/rating6> <http://schema.org/ratingValue> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/bob> <http://xmlns.com/foaf/0.1/knows> <http://example.org/frank> .
+<http://example.org/review3> <http://schema.org/reviewBody> "Review for Gadget #3"@es .
+<http://example.org/review2> <http://schema.org/itemReviewed> <http://example.org/product2> .
+<http://example.org/product3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Product> .
+<http://example.org/product6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Product> .
+<http://example.org/review5> <http://schema.org/itemReviewed> <http://example.org/product5> .
+<http://example.org/review5> <http://schema.org/author> <http://example.org/frank> .
+<http://example.org/review2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Review> .
+<http://example.org/product10> <http://schema.org/category> "Electronics" .
+<http://example.org/product8> <http://schema.org/category> "Electronics" .
+<http://example.org/product1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Product> .
+<http://example.org/alice> <http://xmlns.com/foaf/0.1/knows> <http://example.org/eve> .
+<http://example.org/rating3> <http://schema.org/worstRating> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/product10> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Product> .
+<http://example.org/review6> <http://schema.org/itemReviewed> <http://example.org/product6> .
+<http://example.org/review2> <http://schema.org/author> <http://example.org/frank> .
+<http://example.org/rating4> <http://schema.org/worstRating> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.org/charlie> <http://xmlns.com/foaf/0.1/mbox> <mailto:charlie@example.org> .
+

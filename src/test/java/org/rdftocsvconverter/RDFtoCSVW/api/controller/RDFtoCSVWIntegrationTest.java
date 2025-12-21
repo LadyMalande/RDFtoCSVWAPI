@@ -6,11 +6,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.rdftocsvconverter.RDFtoCSVW.BaseTest;
-import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -31,16 +29,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.rdftocsvconverter.RDFtoCSVW.RDFToCSVWApiApplication;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = RDFToCSVWApiApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RDFtoCSVWIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
-
-    @MockBean
-    private RDFtoCSVWService rdFtoCSVWService;
 
     private final Path inputDir = Paths.get("src/test/resources/RDFFeatures");
     private final Path expectedDir = Paths.get("src/test/resources/integration/expected");

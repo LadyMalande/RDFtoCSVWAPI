@@ -1,0 +1,27 @@
+{
+  "@context" : "http://www.w3.org/ns/csvw",
+  "@type" : "TableGroup",
+  "tables" : [ {
+    "@type" : "Table",
+    "url" : "basic_triple.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Subject",
+        "valueUrl" : "http://example.org/{+Subject}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "predicate1",
+        "name" : "predicate1",
+        "propertyUrl" : "http://example.org/predicate1",
+        "valueUrl" : "http://example.org/{+predicate1}",
+        "aboutUrl" : "http://example.org/{+Subject}"
+      } ],
+      "primaryKey" : "Subject",
+      "rowTitles" : [ "Subject", "predicate1" ]
+    }
+  } ]
+}

@@ -1,0 +1,3 @@
+Subject,name,knows,name (en),age
+http://example.org/Alice,,0,Alice,
+0,Bob,,,34

@@ -1,0 +1,9 @@
+@prefix ex: <http://example.org/> .
+
+ex:graph1 {
+  ex:Alice ex:knows ex:Bob .
+}
+
+ex:graph2 {
+  ex:Carol ex:dislikes ex:Dave .
+}

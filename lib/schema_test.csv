@@ -1,0 +1,4 @@
+Subject,bestRating,author,name,reviewRating,worstRating,reviewBody,ratingValue,type
+http://example.org/review1,,alice,,rating1,,Great product!,,Review
+http://example.org/rating1,5,,,,1,,5,Rating
+http://example.org/alice,,,Alice Reviewer,,,,,Person

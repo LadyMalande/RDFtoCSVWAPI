@@ -1,5 +1,6 @@
 package org.rdftocsvconverter.RDFtoCSVW.api.controller;
 
+import com.miklosova.rdftocsvw.support.AppConfig;
 import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
 import org.rdftocsvconverter.RDFtoCSVW.enums.TableChoice;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -11,11 +12,8 @@ import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.mockito.ArgumentMatchers.*;
 
-import java.util.HashMap;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.test.context.ContextConfiguration;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -71,9 +69,9 @@ class RDFtoCSVWControllerTest {
     @Test
     void testConvertRDFToCSVGet() throws Exception {
         String mockCSVString = "id,name\n1,John";
-        Map<String, String> mockConfig = new HashMap<>();
-        when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(CompletableFuture.completedFuture(mockConfig));
-        when(rdFtoCSVWService.getCSVString(anyString(), anyMap())).thenReturn(CompletableFuture.completedFuture(mockCSVString));
+        AppConfig mockConfig = new AppConfig.Builder("https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/examples/MissingDataExample.ttl").build();
+        when(rdFtoCSVWService.buildAppConfig(anyString(), anyString(), anyString(), any(), anyString(), anyString())).thenReturn(mockConfig);
+        when(rdFtoCSVWService.getCSVString(any(AppConfig.class))).thenReturn(mockCSVString);
         mockMvc.perform(MockMvcRequestBuilders.get("/csv/string").param("url", "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/examples/MissingDataExample.ttl").param("table", String.valueOf(TableChoice.ONE)).param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().string(mockCSVString));
     }
 
@@ -81,9 +79,9 @@ class RDFtoCSVWControllerTest {
     @Test
     void testConvertRDFToCSVPost() throws Exception {
         String mockCSVString = "id,name\n1,John";
-        Map<String, String> mockConfig = new HashMap<>();
-        when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(CompletableFuture.completedFuture(mockConfig));
-        when(rdFtoCSVWService.getCSVStringFromFile(any(), anyMap())).thenReturn(mockCSVString);
+        AppConfig mockConfig = new AppConfig.Builder("test.nt").build();
+        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), any(), anyString(), anyString())).thenReturn(mockConfig);
+        when(rdFtoCSVWService.getCSVStringFromFile(any(AppConfig.class))).thenReturn(mockCSVString);
         MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
         mockMvc.perform(MockMvcRequestBuilders.multipart("/csv/string").file(file).param("table", String.valueOf(TableChoice.ONE)).param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().string(mockCSVString));
     }
@@ -92,9 +90,9 @@ class RDFtoCSVWControllerTest {
     @Test
     void testConvertRDFToCSVFilePost() throws Exception {
         byte[] mockCSVFile = "id,name\n1,John".getBytes();
-        Map<String, String> mockConfig = new HashMap<>();
-        when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(CompletableFuture.completedFuture(mockConfig));
-        when(rdFtoCSVWService.getCSVFileFromFile(any(), anyMap())).thenReturn(mockCSVFile);
+        AppConfig mockConfig = new AppConfig.Builder("test.nt").build();
+        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), any(), anyString(), anyString())).thenReturn(mockConfig);
+        when(rdFtoCSVWService.getCSVFileFromFile(any(AppConfig.class))).thenReturn(mockCSVFile);
         MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
         mockMvc.perform(MockMvcRequestBuilders.multipart("/csv").file(file).param("table", String.valueOf(TableChoice.MORE)).param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().bytes(mockCSVFile));
     }
@@ -103,9 +101,9 @@ class RDFtoCSVWControllerTest {
     @Test
     void testConvertRDFToCSVFileGet() throws Exception {
         byte[] mockCSVFile = "id,name\n1,John".getBytes();
-        Map<String, String> mockConfig = new HashMap<>();
-        when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(CompletableFuture.completedFuture(mockConfig));
-        when(rdFtoCSVWService.getCSVFileFromURL(anyString(), anyMap())).thenReturn(mockCSVFile);
+        AppConfig mockConfig = new AppConfig.Builder("https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/examples/MissingDataExample.ttl").build();
+        when(rdFtoCSVWService.buildAppConfig(anyString(), anyString(), anyString(), any(), anyString(), anyString())).thenReturn(mockConfig);
+        when(rdFtoCSVWService.getCSVFileFromURL(any(AppConfig.class))).thenReturn(mockCSVFile);
         mockMvc.perform(MockMvcRequestBuilders.get("/csv").param("url", "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/examples/MissingDataExample.ttl").param("table", String.valueOf(TableChoice.MORE)).param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().bytes(mockCSVFile));
     }
 
@@ -113,9 +111,9 @@ class RDFtoCSVWControllerTest {
     @Test
     void testConvertRDFToCSVWMetadataFilePost() throws Exception {
         byte[] mockMetadataFile = "{\"@context\": \"http://www.w3.org/ns/csvw\"}".getBytes();
-        Map<String, String> mockConfig = new HashMap<>();
-        when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(CompletableFuture.completedFuture(mockConfig));
-        when(rdFtoCSVWService.getMetadataFileFromFile(any(), anyMap())).thenReturn(mockMetadataFile);
+        AppConfig mockConfig = new AppConfig.Builder("test.nt").build();
+        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), any(), anyString(), anyString())).thenReturn(mockConfig);
+        when(rdFtoCSVWService.getMetadataFileFromFile(any(AppConfig.class))).thenReturn(mockMetadataFile);
         MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
         mockMvc.perform(MockMvcRequestBuilders.multipart("/metadata").file(file).param("table", String.valueOf(TableChoice.MORE)).param("conversionMethod", String.valueOf(ParsingChoice.STREAMING) ).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().bytes(mockMetadataFile));
     }
@@ -124,9 +122,9 @@ class RDFtoCSVWControllerTest {
     @Test
     void testConvertRDFToCSVWMetadataFileGet() throws Exception {
         byte[] mockMetadataFile = "{\"@context\": \"http://www.w3.org/ns/csvw\"}".getBytes();
-        Map<String, String> mockConfig = new HashMap<>();
-        when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(CompletableFuture.completedFuture(mockConfig));
-        when(rdFtoCSVWService.getMetadataFileFromURL(anyString(), anyMap())).thenReturn(mockMetadataFile);
+        AppConfig mockConfig = new AppConfig.Builder("https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/examples/MissingDataExample.ttl").build();
+        when(rdFtoCSVWService.buildAppConfig(anyString(), anyString(), anyString(), any(), anyString(), anyString())).thenReturn(mockConfig);
+        when(rdFtoCSVWService.getMetadataFileFromURL(any(AppConfig.class))).thenReturn(mockMetadataFile);
         mockMvc.perform(MockMvcRequestBuilders.get("/metadata").param("url", "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/examples/MissingDataExample.ttl").param("table", String.valueOf(TableChoice.ONE)).param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().bytes(mockMetadataFile));
     }
 
@@ -134,9 +132,9 @@ class RDFtoCSVWControllerTest {
     @Test
     void testConvertRDFToCSVWMetadataStringGet() throws Exception {
         String mockMetadataString = "{\"@context\": \"http://www.w3.org/ns/csvw\"}";
-        Map<String, String> mockConfig = new HashMap<>();
-        when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(CompletableFuture.completedFuture(mockConfig));
-        when(rdFtoCSVWService.getMetadataString(anyString(), anyMap())).thenReturn(mockMetadataString);
+        AppConfig mockConfig = new AppConfig.Builder("https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/examples/MissingDataExample.ttl").build();
+        when(rdFtoCSVWService.buildAppConfig(anyString(), anyString(), anyString(), any(), anyString(), anyString())).thenReturn(mockConfig);
+        when(rdFtoCSVWService.getMetadataString(any(AppConfig.class))).thenReturn(mockMetadataString);
         mockMvc.perform(MockMvcRequestBuilders.get("/metadata/string").param("url", "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/refs/heads/main/examples/MissingDataExample.ttl").param("table", String.valueOf(TableChoice.ONE)).param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().string(mockMetadataString));
     }
 
@@ -144,9 +142,9 @@ class RDFtoCSVWControllerTest {
     @Test
     void testConvertRDFToCSVWMetadataStringPost() throws Exception {
         String mockMetadataString = "{\"@context\": \"http://www.w3.org/ns/csvw\"}";
-        Map<String, String> mockConfig = new HashMap<>();
-        when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(CompletableFuture.completedFuture(mockConfig));
-        when(rdFtoCSVWService.getMetadataStringFromFile(any(), anyMap())).thenReturn(mockMetadataString);
+        AppConfig mockConfig = new AppConfig.Builder("test.nt").build();
+        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), any(), anyString(), anyString())).thenReturn(mockConfig);
+        when(rdFtoCSVWService.getMetadataStringFromFile(any(AppConfig.class))).thenReturn(mockMetadataString);
         MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
         mockMvc.perform(MockMvcRequestBuilders.multipart("/metadata/string").file(file).param("table", String.valueOf(TableChoice.ONE)).param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().isOk()).andExpect(content().string(mockMetadataString));
     }
@@ -154,9 +152,9 @@ class RDFtoCSVWControllerTest {
     @Test
     void testConvertRDFToCSVWMetadataStringPostNOK() throws Exception {
         String mockMetadataString = "{\"@context\": \"http://www.w3.org/ns/csvw\"}";
-        Map<String, String> mockConfig = new HashMap<>();
-        when(rdFtoCSVWService.prepareConfigParameter(anyString(), anyString(), any())).thenReturn(CompletableFuture.completedFuture(mockConfig));
-        when(rdFtoCSVWService.getMetadataStringFromFile(any(), anyMap())).thenReturn(mockMetadataString);
+        AppConfig mockConfig = new AppConfig.Builder("test.nt").build();
+        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), any(), anyString(), anyString())).thenReturn(mockConfig);
+        when(rdFtoCSVWService.getMetadataStringFromFile(any(AppConfig.class))).thenReturn(mockMetadataString);
         MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
         mockMvc.perform(MockMvcRequestBuilders.multipart("/metadata/string").file(file).param("table", "badParam").param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().is4xxClientError()).andExpect(content().string("{\"error\":\"Invalid parameter\",\"message\":\"Parameter 'table' should be of type TableChoice. Provided value: 'badParam'.\"}"));
     }

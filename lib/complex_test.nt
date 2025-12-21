@@ -1,0 +1,18 @@
+<http://example.org/review1> <http://schema.org/reviewBody> "Great product!" .
+<http://example.org/isPetOf> <http://www.w3.org/2000/01/rdf-schema#label> "is pet of"@en .
+<http://example.org/hasPet> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://example.org/bob> <http://xmlns.com/foaf/0.1/name> "Bob Example" .
+<http://example.org/hasPet> <http://www.w3.org/2000/01/rdf-schema#label> "has pet"@en .
+<http://example.org/colorConcept> <http://www.w3.org/2004/02/skos/core#definition> "A visual attribute of things."@en .
+<http://example.org/alice> <http://xmlns.com/foaf/0.1/name> "Alice Example" .
+<http://example.org/review1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Review> .
+<http://example.org/review1> <http://schema.org/author> <http://example.org/alice> .
+<http://example.org/colorConcept> <http://www.w3.org/2004/02/skos/core#prefLabel> "Color"@en .
+<http://example.org/alice> <http://xmlns.com/foaf/0.1/mbox> <mailto:alice@example.org> .
+<http://example.org/isPetOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://example.org/hasPet> <http://www.w3.org/2002/07/owl#inverseOf> <http://example.org/isPetOf> .
+<http://example.org/alice> <http://xmlns.com/foaf/0.1/knows> <http://example.org/bob> .
+<http://example.org/bob> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.org/colorConcept> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://example.org/alice> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+

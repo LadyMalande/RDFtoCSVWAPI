@@ -1,11 +1,13 @@
 package org.rdftocsvconverter.RDFtoCSVW.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import com.miklosova.rdftocsvw.support.AppConfig;
 import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
 import org.rdftocsvconverter.RDFtoCSVW.enums.TableChoice;
 import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
@@ -129,27 +131,35 @@ public class RDFtoCSVWController {
             @RequestParam("url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice conversionMethod,
-            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm,
+            @Parameter(description = "Comma-separated list of preferred language codes (e.g., 'en,cs,de')", schema = @Schema(type = "string", example = "en,cs"))
+            @RequestParam(value = "preferredLanguages", required = false) String preferredLanguages,
+            @Parameter(description = "Naming convention for CSV headers", schema = @Schema(type = "string", allowableValues = {
+                    "camelCase",
+                    "PascalCase",
+                    "snake_case",
+                    "SCREAMING_SNAKE_CASE",
+                    "kebab-case",
+                    "Title Case",
+                    "dot.notation",
+                    "original"
+            }, example = "camelCase"))
+            @RequestParam(value = "namingConvention", required = false) String namingConvention) {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(conversionMethod), firstNormalForm).get();
+        AppConfig config = rdFtoCSVWService.buildAppConfig(url, String.valueOf(table), String.valueOf(conversionMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
         try {
-            String responseMessage = rdFtoCSVWService.getCSVString(url, config).get();
+            String responseMessage = rdFtoCSVWService.getCSVString(config);
 
             // Return response with appropriate status
             return ResponseEntity.ok(responseMessage);
         } catch(IOException ex){
             return ResponseEntity.badRequest().body("There has been a problem with parsing your request");
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
-        return ResponseEntity.internalServerError().body("There has been a problem with parsing your request");
     }
 
     /**
@@ -160,6 +170,7 @@ public class RDFtoCSVWController {
      * @param parsingMethod the conversion method choosing from RDF4J/STREAMING/BIGFILESTREAMING
      * @param firstNormalForm  if true, the final tables will be in first normal form
      * @return the response entity returning CSV string
+     * @throws IOException 
      */
     @Operation(summary = "Get converted CSV file as string", description = "Get the contents of generated rdf-data.csv as string, that was created by conversion of the given RDF file. If the option to generate more tables is chosen and the output produces more tables, all the CSV files string outputs will be in one file, visually separated in vertical succession.")
     @ApiResponses(value = {
@@ -174,17 +185,31 @@ public class RDFtoCSVWController {
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm,
+            @Parameter(description = "Comma-separated list of preferred language codes (e.g., 'en,cs,de')", schema = @Schema(type = "string", example = "en,cs"))
+            @RequestParam(value = "preferredLanguages", required = false) String preferredLanguages,
+            @Parameter(description = "Naming convention for CSV headers", schema = @Schema(type = "string", allowableValues = {
+                    "camelCase",
+                    "PascalCase",
+                    "snake_case",
+                    "SCREAMING_SNAKE_CASE",
+                    "kebab-case",
+                    "Title Case",
+                    "dot.notation",
+                    "original"
+            }, example = "camelCase"))
+            @RequestParam(value = "namingConvention", required = false) String namingConvention) throws ExecutionException, InterruptedException, IOException {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm).get();
+        AppConfig config = rdFtoCSVWService.buildAppConfig(file, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
+        //Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention).get();
 
         // Example of using the parameters
         try {
             // Assuming getCSVString method can handle file and URL as needed
-            String responseMessage = rdFtoCSVWService.getCSVStringFromFile(file, config);
+            String responseMessage = rdFtoCSVWService.getCSVStringFromFile(config);
             // Return response with appropriate status
             return ResponseEntity.ok(responseMessage);
         } catch (IOException ex) {
@@ -214,17 +239,30 @@ public class RDFtoCSVWController {
             @RequestParam("file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm,
+            @Parameter(description = "Comma-separated list of preferred language codes (e.g., 'en,cs,de')", schema = @Schema(type = "string", example = "en,cs"))
+            @RequestParam(value = "preferredLanguages", required = false) String preferredLanguages,
+            @Parameter(description = "Naming convention for CSV headers", schema = @Schema(type = "string", allowableValues = {
+                    "camelCase",
+                    "PascalCase",
+                    "snake_case",
+                    "SCREAMING_SNAKE_CASE",
+                    "kebab-case",
+                    "Title Case",
+                    "dot.notation",
+                    "original"
+            }, example = "camelCase"))
+            @RequestParam(value = "namingConvention", required = false) String namingConvention) throws IOException {
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm).get();
+        AppConfig config = rdFtoCSVWService.buildAppConfig(file, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
         try {
             // Assuming getCSVString method can handle file and URL as needed
-            byte[] generatedFile = rdFtoCSVWService.getCSVFileFromFile(file, config);
+            byte[] generatedFile = rdFtoCSVWService.getCSVFileFromFile(config);
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=yourfilename.ext");
             headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
@@ -257,14 +295,27 @@ public class RDFtoCSVWController {
             @RequestParam("url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm,
+            @Parameter(description = "Comma-separated list of preferred language codes (e.g., 'en,cs,de')", schema = @Schema(type = "string", example = "en,cs"))
+            @RequestParam(value = "preferredLanguages", required = false) String preferredLanguages,
+            @Parameter(description = "Naming convention for CSV headers", schema = @Schema(type = "string", allowableValues = {
+                    AppConfig.COLUMN_NAMING_CAMEL_CASE,
+                    AppConfig.COLUMN_NAMING_PASCAL_CASE,
+                    AppConfig.COLUMN_NAMING_SNAKE_CASE,
+                    AppConfig.COLUMN_NAMING_SCREAMING_SNAKE_CASE,
+                    AppConfig.COLUMN_NAMING_KEBAB_CASE,
+                    AppConfig.COLUMN_NAMING_TITLE_CASE,
+                    AppConfig.COLUMN_NAMING_DOT_NOTATION,
+                    AppConfig.ORIGINAL_NAMING_NOTATION
+            }, example = AppConfig.COLUMN_NAMING_CAMEL_CASE))
+            @RequestParam(value = "namingConvention", required = false) String namingConvention) throws ExecutionException, InterruptedException {
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm).get();
+        AppConfig config = rdFtoCSVWService.buildAppConfig(url, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
         try {
             // Assuming getCSVString method can handle file and URL as needed
-            byte[] generatedFile = rdFtoCSVWService.getCSVFileFromURL(url, config);
+            byte[] generatedFile = rdFtoCSVWService.getCSVFileFromURL(config);
             // Return response with appropriate status
             return ResponseEntity.ok(generatedFile);
         } catch (IOException ex) {
@@ -294,17 +345,30 @@ public class RDFtoCSVWController {
             @RequestParam(value = "file") MultipartFile file,  // Required file parameter
             @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm,
+            @Parameter(description = "Comma-separated list of preferred language codes (e.g., 'en,cs,de')", schema = @Schema(type = "string", example = "en,cs"))
+            @RequestParam(value = "preferredLanguages", required = false) String preferredLanguages,
+            @Parameter(description = "Naming convention for CSV headers", schema = @Schema(type = "string", allowableValues = {
+                    AppConfig.COLUMN_NAMING_CAMEL_CASE,
+                    AppConfig.COLUMN_NAMING_PASCAL_CASE,
+                    AppConfig.COLUMN_NAMING_SNAKE_CASE,
+                    AppConfig.COLUMN_NAMING_SCREAMING_SNAKE_CASE,
+                    AppConfig.COLUMN_NAMING_KEBAB_CASE,
+                    AppConfig.COLUMN_NAMING_TITLE_CASE,
+                    AppConfig.COLUMN_NAMING_DOT_NOTATION,
+                    AppConfig.ORIGINAL_NAMING_NOTATION
+            }, example = AppConfig.COLUMN_NAMING_CAMEL_CASE))
+            @RequestParam(value = "namingConvention", required = false) String namingConvention) throws IOException {
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm).get();
+        AppConfig config = rdFtoCSVWService.buildAppConfig(file, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
         try {
             // Assuming getCSVString method can handle file and URL as needed
-            byte[] generatedFile = rdFtoCSVWService.getMetadataFileFromFile(file, config);
+            byte[] generatedFile = rdFtoCSVWService.getMetadataFileFromFile(config);
             // Return response with appropriate status
             return ResponseEntity.ok(generatedFile);
         } catch (IOException ex) {
@@ -334,17 +398,30 @@ public class RDFtoCSVWController {
             @RequestParam(value = "url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm,
+            @Parameter(description = "Comma-separated list of preferred language codes (e.g., 'en,cs,de')", schema = @Schema(type = "string", example = "en,cs"))
+            @RequestParam(value = "preferredLanguages", required = false) String preferredLanguages,
+            @Parameter(description = "Naming convention for CSV headers", schema = @Schema(type = "string", allowableValues = {
+                    AppConfig.COLUMN_NAMING_CAMEL_CASE,
+                    AppConfig.COLUMN_NAMING_PASCAL_CASE,
+                    AppConfig.COLUMN_NAMING_SNAKE_CASE,
+                    AppConfig.COLUMN_NAMING_SCREAMING_SNAKE_CASE,
+                    AppConfig.COLUMN_NAMING_KEBAB_CASE,
+                    AppConfig.COLUMN_NAMING_TITLE_CASE,
+                    AppConfig.COLUMN_NAMING_DOT_NOTATION,
+                    AppConfig.ORIGINAL_NAMING_NOTATION
+            }, example = AppConfig.COLUMN_NAMING_CAMEL_CASE))
+            @RequestParam(value = "namingConvention", required = false) String namingConvention) throws ExecutionException, InterruptedException {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv with URL: " + url);
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm).get();
+        AppConfig config = rdFtoCSVWService.buildAppConfig(url, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
         try {
             // Assuming getCSVString method can handle file and URL as needed
-            byte[] generatedFile = rdFtoCSVWService.getMetadataFileFromURL(url, config);
+            byte[] generatedFile = rdFtoCSVWService.getMetadataFileFromURL(config);
             // Return response with appropriate status
             return ResponseEntity.ok(generatedFile);
         } catch (IOException ex) {
@@ -374,16 +451,29 @@ public class RDFtoCSVWController {
             @RequestParam(value = "url") String url,  // Required URL parameter
             @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
             @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm,
+            @Parameter(description = "Comma-separated list of preferred language codes (e.g., 'en,cs,de')", schema = @Schema(type = "string", example = "en,cs"))
+            @RequestParam(value = "preferredLanguages", required = false) String preferredLanguages,
+            @Parameter(description = "Naming convention for CSV headers", schema = @Schema(type = "string", allowableValues = {
+                    AppConfig.COLUMN_NAMING_CAMEL_CASE,
+                    AppConfig.COLUMN_NAMING_PASCAL_CASE,
+                    AppConfig.COLUMN_NAMING_SNAKE_CASE,
+                    AppConfig.COLUMN_NAMING_SCREAMING_SNAKE_CASE,
+                    AppConfig.COLUMN_NAMING_KEBAB_CASE,
+                    AppConfig.COLUMN_NAMING_TITLE_CASE,
+                    AppConfig.COLUMN_NAMING_DOT_NOTATION,
+                    AppConfig.ORIGINAL_NAMING_NOTATION
+            }, example = AppConfig.COLUMN_NAMING_CAMEL_CASE))
+            @RequestParam(value = "namingConvention", required = false) String namingConvention) throws ExecutionException, InterruptedException {
 
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm).get();
+        AppConfig config = rdFtoCSVWService.buildAppConfig(url, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
         try {
-            String responseMessage = rdFtoCSVWService.getMetadataString(url, config);
+            String responseMessage = rdFtoCSVWService.getMetadataString(config);
 
             // Return response with appropriate status
             return ResponseEntity.ok(responseMessage);
@@ -415,17 +505,30 @@ public class RDFtoCSVWController {
             @RequestParam(value = "table", required = false, defaultValue = "ONE") TableChoice table, // Optional parameters
             //@Parameter(name = "table", description = "Number of created CSV tables", schema=@Schema(type="string", allowableValues={"one","more"}, defaultValue = "one")) TableChoice table,
             @RequestParam(value = "conversionMethod", required = false, defaultValue = "RDF4J") ParsingChoice parsingMethod,
-            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm) throws ExecutionException, InterruptedException {  // Optional file parameter
+            @RequestParam(value = "firstNormalForm", required = false, defaultValue = "false") Boolean firstNormalForm,
+            @Parameter(description = "Comma-separated list of preferred language codes (e.g., 'en,cs,de')", schema = @Schema(type = "string", example = "en,cs"))
+            @RequestParam(value = "preferredLanguages", required = false) String preferredLanguages,
+            @Parameter(description = "Naming convention for CSV headers", schema = @Schema(type = "string", allowableValues = {
+                    AppConfig.COLUMN_NAMING_CAMEL_CASE,
+                    AppConfig.COLUMN_NAMING_PASCAL_CASE,
+                    AppConfig.COLUMN_NAMING_SNAKE_CASE,
+                    AppConfig.COLUMN_NAMING_SCREAMING_SNAKE_CASE,
+                    AppConfig.COLUMN_NAMING_KEBAB_CASE,
+                    AppConfig.COLUMN_NAMING_TITLE_CASE,
+                    AppConfig.COLUMN_NAMING_DOT_NOTATION,
+                    AppConfig.ORIGINAL_NAMING_NOTATION
+            }, example = AppConfig.COLUMN_NAMING_CAMEL_CASE))
+            @RequestParam(value = "namingConvention", required = false) String namingConvention) throws ExecutionException, InterruptedException, IOException {  // Optional file parameter
 
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());
 
-        Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(String.valueOf(table)).toLowerCase(), String.valueOf(parsingMethod).toLowerCase(), firstNormalForm).get();
+        AppConfig config = rdFtoCSVWService.buildAppConfig(file, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
         try {
             // Assuming getCSVString method can handle file and URL as needed
-            String responseMessage = rdFtoCSVWService.getMetadataStringFromFile(file, config);
+            String responseMessage = rdFtoCSVWService.getMetadataStringFromFile(config);
             // Return response with appropriate status
             return ResponseEntity.ok(responseMessage);
         } catch (IOException ex) {

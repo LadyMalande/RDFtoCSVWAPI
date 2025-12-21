@@ -5,13 +5,14 @@ WORKDIR /app
 # Copy the pom.xml and the project files to the container
 COPY pom.xml .
 COPY src ./src
+COPY lib/extracted-pom.xml /app/libs/
 
 # Copy the local JAR into the container
-COPY lib/RDFtoCSV.jar /app/libs/
+COPY lib/RDFtoCSV-1.0-SNAPSHOT.jar /app/libs/
 
 # Install the local JAR into the Maven repository inside the container
 RUN mvn install:install-file \
-    -Dfile=/app/libs/RDFtoCSV.jar \
+    -Dfile=/app/libs/RDFtoCSV-1.0-SNAPSHOT.jar \
     -DgroupId=com.miklosova.rdftocsvw \
     -DartifactId=RDFtoCSV \
     -Dversion=1.0-SNAPSHOT \

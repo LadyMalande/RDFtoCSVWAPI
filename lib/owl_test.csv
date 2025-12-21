@@ -1,0 +1,3 @@
+ObjectProperty,label (en),inverseOf,type
+http://example.org/hasPet,has pet,isPetOf,ObjectProperty
+http://example.org/isPetOf,is pet of,,ObjectProperty

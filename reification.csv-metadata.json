@@ -1,0 +1,64 @@
+{
+  "@context" : "http://www.w3.org/ns/csvw",
+  "@type" : "TableGroup",
+  "tables" : [ {
+    "@type" : "Table",
+    "url" : "reification.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Statement",
+        "name" : "Statement",
+        "valueUrl" : "https://blank_Nodes_IRI.org/{+Statement}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "assertedBy",
+        "name" : "assertedBy",
+        "propertyUrl" : "http://example.org/assertedBy",
+        "valueUrl" : "http://example.org/{+assertedBy}"
+      }, {
+        "@type" : "Column",
+        "titles" : "subject",
+        "name" : "subject",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject",
+        "valueUrl" : "http://example.org/{+subject}"
+      }, {
+        "@type" : "Column",
+        "titles" : "object",
+        "name" : "object",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#object",
+        "valueUrl" : "http://example.org/{+object}"
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#{+type}"
+      }, {
+        "@type" : "Column",
+        "titles" : "predicate",
+        "name" : "predicate",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate",
+        "valueUrl" : "http://example.org/{+predicate}"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement",
+        "aboutUrl" : "https://blank_Nodes_IRI.org/{+Statement}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "Statement",
+      "rowTitles" : [ "Statement", "assertedBy", "subject", "object", "type", "predicate" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  } ]
+}

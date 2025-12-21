@@ -1,18 +1,20 @@
 package org.rdftocsvconverter.RDFtoCSVW.redis;
 
 import org.junit.jupiter.api.Test;
-import org.rdftocsvconverter.RDFtoCSVW.api.controller.ComputationController;
 import org.rdftocsvconverter.RDFtoCSVW.service.ExpensiveComputationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
+import org.rdftocsvconverter.RDFtoCSVW.RDFToCSVWApiApplication;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
-@WebMvcTest(ComputationController.class)
+@SpringBootTest(classes = RDFToCSVWApiApplication.class)
+@AutoConfigureMockMvc
 class ComputationControllerIntegrationTest {
 
     @Autowired

@@ -1,0 +1,5 @@
+_:stmt1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement> .
+_:stmt1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <http://example.org/Alice> .
+_:stmt1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> <http://example.org/knows> .
+_:stmt1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <http://example.org/Bob> .
+_:stmt1 <http://example.org/assertedBy> <http://example.org/Carol> .
