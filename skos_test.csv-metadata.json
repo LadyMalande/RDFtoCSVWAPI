@@ -1,0 +1,64 @@
+{
+  "@context" : "http://www.w3.org/ns/csvw",
+  "@type" : "TableGroup",
+  "tables" : [ {
+    "@type" : "Table",
+    "url" : "skos_test.csv",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Concept",
+        "name" : "Concept",
+        "valueUrl" : "http://example.org/{+Concept}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "alternative label (en)",
+        "name" : "altLabel_en",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#altLabel",
+        "valueUrl" : "{+altLabel_en}",
+        "aboutUrl" : "http://example.org/{+Concept}",
+        "lang" : "en"
+      }, {
+        "@type" : "Column",
+        "titles" : "definition (en)",
+        "name" : "definition_en",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#definition",
+        "valueUrl" : "{+definition_en}",
+        "aboutUrl" : "http://example.org/{+Concept}",
+        "lang" : "en"
+      }, {
+        "@type" : "Column",
+        "titles" : "has broader",
+        "name" : "broader",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#broader",
+        "valueUrl" : "http://example.org/{+broader}",
+        "aboutUrl" : "http://example.org/{+Concept}"
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "http://www.w3.org/2004/02/skos/core#{+type}",
+        "aboutUrl" : "http://example.org/{+Concept}"
+      }, {
+        "@type" : "Column",
+        "titles" : "preferred label (en)",
+        "name" : "prefLabel_en",
+        "propertyUrl" : "http://www.w3.org/2004/02/skos/core#prefLabel",
+        "valueUrl" : "{+prefLabel_en}",
+        "aboutUrl" : "http://example.org/{+Concept}",
+        "lang" : "en"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "http://www.w3.org/2004/02/skos/core#Concept",
+        "aboutUrl" : "http://example.org/{+Concept}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "Concept",
+      "rowTitles" : [ "Concept", "altLabel_en", "definition_en", "broader", "type", "prefLabel_en" ]
+    }
+  } ]
+}

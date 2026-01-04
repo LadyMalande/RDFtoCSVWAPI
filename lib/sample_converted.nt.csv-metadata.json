@@ -1,0 +1,50 @@
+{
+  "@context" : "http://www.w3.org/ns/csvw",
+  "@type" : "TableGroup",
+  "tables" : [ {
+    "@type" : "Table",
+    "url" : "lombardia.rdf0.csv,,,,,",
+    "tableSchema" : {
+      "@type" : "Schema",
+      "columns" : [ {
+        "@type" : "Column",
+        "titles" : "Subject",
+        "name" : "Person",
+        "valueUrl" : "https://blank_Nodes_IRI.org/{+Person}",
+        "suppressOutput" : true
+      }, {
+        "@type" : "Column",
+        "titles" : "name",
+        "name" : "name",
+        "propertyUrl" : "http://schema.org/name"
+      }, {
+        "@type" : "Column",
+        "titles" : "jobTitle",
+        "name" : "jobTitle",
+        "propertyUrl" : "http://schema.org/jobTitle"
+      }, {
+        "@type" : "Column",
+        "titles" : "type",
+        "name" : "type",
+        "propertyUrl" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "valueUrl" : "http://schema.org/{+type}"
+      }, {
+        "@type" : "Column",
+        "propertyUrl" : "rdf:type",
+        "valueUrl" : "http://schema.org/Person",
+        "aboutUrl" : "https://blank_Nodes_IRI.org/{+Person}",
+        "virtual" : true
+      } ],
+      "primaryKey" : "Person",
+      "rowTitles" : [ "Person", "name", "jobTitle", "type" ]
+    },
+    "transformations" : [ {
+      "@type" : "Template",
+      "url" : "https://raw.githubusercontent.com/LadyMalande/RDFtoCSVNotes/main/scripts/transformationForBlankNodesStreamed.js",
+      "scriptFormat" : "http://www.iana.org/assignments/media-types/application/javascript",
+      "targetFormat" : "http://www.iana.org/assignments/media-types/turtle",
+      "source" : "rdf",
+      "titles" : "RDF format used as the output format in the transformation from CSV to RDF"
+    } ]
+  } ]
+}

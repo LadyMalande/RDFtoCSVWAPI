@@ -1,0 +1,30 @@
+@prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+ex:colorConcept a skos:Concept ;
+    skos:definition "A visual attribute of things."@en ;
+    skos:prefLabel "Color"@en .
+
+ex:hasPet a owl:ObjectProperty ;
+    rdfs:label "has pet"@en ;
+    owl:inverseOf ex:isPetOf .
+
+ex:review1 a schema:Review ;
+    schema:author ex:alice ;
+    schema:reviewBody "Great product!" .
+
+ex:alice a foaf:Person ;
+    foaf:knows ex:bob ;
+    foaf:mbox <mailto:alice@example.org> ;
+    foaf:name "Alice Example" .
+
+ex:bob a foaf:Person ;
+    foaf:name "Bob Example" .
+
+ex:isPetOf a owl:ObjectProperty ;
+    rdfs:label "is pet of"@en .
+

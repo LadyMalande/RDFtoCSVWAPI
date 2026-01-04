@@ -1,0 +1,2 @@
+<http://example.org/document1> <http://example.org/created> "2023-09-01"^^<http://www.w3.org/2001/XMLSchema#date> .
+<http://example.org/document1> <http://example.org/title> "Einführung in RDF"@de .

@@ -1,0 +1,8 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix ex: <http://example.org/> .
+
+ex:colorConcept a skos:Concept ;
+  skos:prefLabel "Color"@en ;
+  skos:altLabel "Hue"@en ;
+  skos:definition "A visual attribute of things that results from the light they emit or transmit."@en ;
+  skos:broader ex:visualAttribute .

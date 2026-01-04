@@ -1,0 +1,147 @@
+@prefix ns1: <https://opendata.wuerzburg.de/ld/ontologies/museen/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/06bb734ca55d3c3c96fd441716ac9187916e1890/> a ns1:museen-record ;
+    ns1:breite 4.980133e+01 ;
+    ns1:geopunkt "49.801333385,9.92241274438"^^xsd:string ;
+    ns1:laenge 9.922413e+00 ;
+    ns1:museum "Kulturspeicher"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/191c0e26ee376fd637429f58238be60ef9ddcfcf/> a ns1:museen-record ;
+    ns1:breite 4.979369e+01 ;
+    ns1:geopunkt "49.793686674,9.93155614504"^^xsd:string ;
+    ns1:laenge 9.931556e+00 ;
+    ns1:museum "Museum am Dom"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/249a935cc29d0c118f06048a6f60a7b764e96815/> a ns1:museen-record ;
+    ns1:breite 4.976347e+01 ;
+    ns1:geopunkt "49.7634718948,9.93940113276"^^xsd:string ;
+    ns1:laenge 9.939401e+00 ;
+    ns1:museum "Galerie Ilka Klose"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/2619b52a0611da72501dd3aa6fd9386655d9e198/> a ns1:museen-record ;
+    ns1:breite 4.980075e+01 ;
+    ns1:geopunkt "49.8007507409,9.92196359496"^^xsd:string ;
+    ns1:laenge 9.921964e+00 ;
+    ns1:museum "Arte Noah"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/28b05645583b9eb258b325f3f5a0adce000f610d/> a ns1:museen-record ;
+    ns1:breite 4.979754e+01 ;
+    ns1:geopunkt "49.7975413914,9.93746270288"^^xsd:string ;
+    ns1:laenge 9.937463e+00 ;
+    ns1:museum "Galerie am Bäckerbrunnen"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/2915f7bfeb267df1a283205be06f6cd2bedcd942/> a ns1:museen-record ;
+    ns1:breite 4.978995e+01 ;
+    ns1:geopunkt "49.789950389,9.91768997081"^^xsd:string ;
+    ns1:laenge 9.91769e+00 ;
+    ns1:museum "Mainfränkisches Museum"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/2ad669f3ecc1c0a33b019fa8f33d27027edec563/> a ns1:museen-record ;
+    ns1:breite 4.979165e+01 ;
+    ns1:geopunkt "49.7916485936,9.92770257788"^^xsd:string ;
+    ns1:laenge 9.927703e+00 ;
+    ns1:museum "Galerie Kelim"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/2f434408f6b50192a7ec3303499f7516aa59118c/> a ns1:museen-record ;
+    ns1:breite 4.979989e+01 ;
+    ns1:geopunkt "49.7998853715,9.90951861822"^^xsd:string ;
+    ns1:laenge 9.909519e+00 ;
+    ns1:museum "Galerie Arte"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/3d49d99d808b85fc216e66748f9b2116ff71b7f5/> a ns1:museen-record ;
+    ns1:breite 4.978998e+01 ;
+    ns1:geopunkt "49.7899789982,9.94582049277"^^xsd:string ;
+    ns1:laenge 9.94582e+00 ;
+    ns1:museum "Jüdisches Dokumentationszentrum"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/404ece273df028e4e5467b949deec54781913e46/> a ns1:museen-record ;
+    ns1:breite 4.97938e+01 ;
+    ns1:geopunkt "49.7937970862,9.89442863586"^^xsd:string ;
+    ns1:laenge 9.894429e+00 ;
+    ns1:museum "Siebold-Museum"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/61566c0c9d2ee188a1e40fb8c92650a09da8ca3d/> a ns1:museen-record ;
+    ns1:breite 4.978836e+01 ;
+    ns1:geopunkt "49.7883610926,9.9299149079"^^xsd:string ;
+    ns1:laenge 9.929915e+00 ;
+    ns1:museum "Galerie Sundermann"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/6471974ca70228fea96b66a0dad887be15632d52/> a ns1:museen-record ;
+    ns1:breite 4.978688e+01 ;
+    ns1:geopunkt "49.7868820774,9.95153109604"^^xsd:string ;
+    ns1:laenge 9.951531e+00 ;
+    ns1:museum "Kunstpädagogik"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/817bb8c707e728af8abda801b3ced091b1392179/> a ns1:museen-record ;
+    ns1:breite 4.979525e+01 ;
+    ns1:geopunkt "49.7952502485,9.92010649231"^^xsd:string ;
+    ns1:laenge 9.920106e+00 ;
+    ns1:museum "Galerie des Würzburger Schwulenzentrums"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/839fc25d6d9ff05a8deebbd1a58c3343b626ed0b/> a ns1:museen-record ;
+    ns1:breite 4.979736e+01 ;
+    ns1:geopunkt "49.7973594447,9.92774414101"^^xsd:string ;
+    ns1:laenge 9.927744e+00 ;
+    ns1:museum "Galerie für zeitgemäßen Schmuck und Kunst"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/851ea89d8a39eb0d5fd11795ec571b08c98f58f2/> a ns1:museen-record ;
+    ns1:breite 4.979386e+01 ;
+    ns1:geopunkt "49.7938626435,9.93313421039"^^xsd:string ;
+    ns1:laenge 9.933134e+00 ;
+    ns1:museum "Ehem. Städtische Galerie"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/9010260804a0ba3c0bfe4b06722b410bfc97dc5b/> a ns1:museen-record ;
+    ns1:breite 4.979642e+01 ;
+    ns1:geopunkt "49.7964185756,9.96243435189"^^xsd:string ;
+    ns1:laenge 9.962434e+00 ;
+    ns1:museum "Atelier & Kunsttreff 26"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/b13bca179c00b12f2b4eb442a5a810bf712077ad/> a ns1:museen-record ;
+    ns1:breite 4.979277e+01 ;
+    ns1:geopunkt "49.7927688435,9.9389894403"^^xsd:string ;
+    ns1:laenge 9.938989e+00 ;
+    ns1:museum "Martin von Wagner-Museum"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/b999cfc2adab70fb1b05524fcf5468dc7cb793af/> a ns1:museen-record ;
+    ns1:breite 4.979926e+01 ;
+    ns1:geopunkt "49.7992579761,9.96005936166"^^xsd:string ;
+    ns1:laenge 9.960059e+00 ;
+    ns1:museum "Galerie im Malerfürstentum Wredanien"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/bb55d1ebe7cd7a840a94731c220c9daa3c0943c4/> a ns1:museen-record ;
+    ns1:breite 4.978845e+01 ;
+    ns1:geopunkt "49.7884495289,9.93108897216"^^xsd:string ;
+    ns1:laenge 9.931089e+00 ;
+    ns1:museum "Galerie Kunststück"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/d33c57453d7012bbed7c734b588bddf845f29a19/> a ns1:museen-record ;
+    ns1:breite 4.979291e+01 ;
+    ns1:geopunkt "49.7929079895,9.92407338272"^^xsd:string ;
+    ns1:laenge 9.924073e+00 ;
+    ns1:museum "VKU-Galerie Spitäle"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/d956ae0aa20e2a57716ebec1775f21bbaed4f567/> a ns1:museen-record ;
+    ns1:breite 4.980138e+01 ;
+    ns1:geopunkt "49.8013836599,9.95127520946"^^xsd:string ;
+    ns1:laenge 9.951275e+00 ;
+    ns1:museum "Galerie Senefelder 7"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/dff64450f4baf8fc65d50b74e1709610d1873e77/> a ns1:museen-record ;
+    ns1:breite 4.97826e+01 ;
+    ns1:geopunkt "49.7826022181,9.97010683248"^^xsd:string ;
+    ns1:laenge 9.970107e+00 ;
+    ns1:museum "Mineralogisches Museum"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/ebddb03b5f865da37c25b17866a8c51690e448ba/> a ns1:museen-record ;
+    ns1:breite 4.979998e+01 ;
+    ns1:geopunkt "49.7999798988,9.93197661472"^^xsd:string ;
+    ns1:laenge 9.931977e+00 ;
+    ns1:museum "Röntgen-Gedächnisstätte"^^xsd:string .
+
+<https://opendata.wuerzburg.de/ld/resources/museen/museen-record/fd8b418e5d05acc91419a3d40a0217ae3d37ae3e/> a ns1:museen-record ;
+    ns1:breite 4.979249e+01 ;
+    ns1:geopunkt "49.7924851158,9.93119414591"^^xsd:string ;
+    ns1:laenge 9.931194e+00 ;
+    ns1:museum "Museum d. Diözese Würzburg \"Würzburger Domschatz\""^^xsd:string .
+

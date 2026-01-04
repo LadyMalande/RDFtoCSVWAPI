@@ -1,0 +1,10 @@
+<rdf:RDF xmlns:ex="http://example.org/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <rdf:subject rdf:resource="http://example.org/Alice"/>
+    <rdf:predicate rdf:resource="http://example.org/knows"/>
+    <rdf:object rdf:resource="http://example.org/Bob"/>
+    <ex:assertedBy rdf:resource="http://example.org/Carol"/>
+  </rdf:Description>
+</rdf:RDF>

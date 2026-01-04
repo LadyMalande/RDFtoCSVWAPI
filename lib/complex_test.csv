@@ -1,0 +1,7 @@
+Subject,knows,name,author,definition (en),label (en),reviewBody,inverseOf,mbox,type,preferred label (en)
+colorConcept,,,,A visual attribute of things.,,,,,http://www.w3.org/2004/02/skos/core#Concept,Color
+hasPet,,,,,has pet,,isPetOf,,http://www.w3.org/2002/07/owl#ObjectProperty,
+review1,,,alice,,,Great product!,,,http://schema.org/Review,
+alice,bob,Alice Example,,,,,,alice@example.org,http://xmlns.com/foaf/0.1/Person,
+bob,,Bob Example,,,,,,,http://xmlns.com/foaf/0.1/Person,
+isPetOf,,,,,is pet of,,,,http://www.w3.org/2002/07/owl#ObjectProperty,

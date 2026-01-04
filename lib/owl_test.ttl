@@ -1,0 +1,9 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix ex: <http://example.org/> .
+
+ex:hasPet a owl:ObjectProperty ;
+  owl:inverseOf ex:isPetOf ;
+  rdfs:label "has pet"@en .
+
+ex:isPetOf a owl:ObjectProperty ;
+  rdfs:label "is pet of"@en .

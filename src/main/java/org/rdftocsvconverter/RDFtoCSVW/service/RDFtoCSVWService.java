@@ -3,9 +3,12 @@ package org.rdftocsvconverter.RDFtoCSVW.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.miklosova.rdftocsvw.converter.RDFtoCSV;
+import com.miklosova.rdftocsvw.support.AppConfig;
 import com.miklosova.rdftocsvw.output_processor.FinalizedOutput;
 import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
 import org.rdftocsvconverter.RDFtoCSVW.enums.TableChoice;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,10 +16,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 
 /**
@@ -24,6 +25,10 @@ import java.util.Random;
  */
 @Service
 public class RDFtoCSVWService {
+
+    @Autowired
+    private TaskService taskService;
+
     /**
      * Get csvw byte [ ].
      *
@@ -35,7 +40,8 @@ public class RDFtoCSVWService {
      * @return the byte [ ]
      * @throws IOException the io exception
      */
-    public byte[] getCSVW(MultipartFile multipartFile, String fileURL, String choice, String table, Boolean firstNormalForm) throws IOException {
+    @Async
+    public CompletableFuture<byte[]> getCSVW(MultipartFile multipartFile, String fileURL, String choice, String table, Boolean firstNormalForm) throws IOException {
         File input = null;
         if (multipartFile != null) {
             System.out.println("multipartFile != null ");
@@ -50,11 +56,13 @@ public class RDFtoCSVWService {
         }
 
         Map<String, String> configMap = null;
+        if (table != null) {
             configMap = new HashMap<>();
             configMap.put("table", table);
             configMap.put("readMethod", choice);
             configMap.put("firstNormalForm", String.valueOf(firstNormalForm));
 
+        }
 
         RDFtoCSV rdftocsv;
 
@@ -68,7 +76,7 @@ public class RDFtoCSVWService {
 
         FinalizedOutput<byte[]> zipFileInBytes = rdftocsv.convertToZip();
 
-        return zipFileInBytes.getOutputData();
+        return CompletableFuture.completedFuture(zipFileInBytes.getOutputData());
     }
 
 //    public static int countFilesInZip(byte[] zippedBytes) throws IOException {
@@ -158,29 +166,20 @@ public class RDFtoCSVWService {
                 System.out.println("Directory " + directory + " has been created ");
             } catch (FileAlreadyExistsException ex) {
                 // File already exists, continue.
-                System.out.println("Directory " + directory + " ALREADY EXISTS ");
             }
         }
         // Now create the file in the 'lib' directory
         Path filePath = directory.resolve(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         try (InputStream inputStream = multipartFile.getInputStream()) {
-            System.out.println("Bfore Directory " + filePath + " Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING); ");
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("after Directory " + filePath + " Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING); ");
+
         } catch (FileAlreadyExistsException | DirectoryNotEmptyException ex) {
             try (InputStream inputStreamInException = multipartFile.getInputStream()) {
-                System.out.println("after Directory " + filePath + " adjustDirectoryPathWithRandomNumber ");
                 Path newDirectoryPath = adjustDirectoryPathWithRandomNumber(filePath);
-                System.out.println("after Directory " + filePath + " adjustDirectoryPathWithRandomNumber ");
                 Path newFilePath = adjustFilePathWithRandomNumber(newDirectoryPath);
-                System.out.println("after Directory " + filePath + " aFilePathWithRandomNumber(newDirectoryPath); ");
                 Files.copy(inputStreamInException, newFilePath, StandardCopyOption.REPLACE_EXISTING);
-                System.out.println("after Directory " + filePath + " Files.copy(inputStreamInException, newFilePath, StandardCopyOption.REPLACE_EXISTING); ");
             }
 
-        } catch(IOException ex){
-            System.out.println("something else happened");
-            ex.printStackTrace();
         }
         return filePath.toFile();
     }
@@ -329,14 +328,15 @@ public class RDFtoCSVWService {
      * RDF file URL. If multiple files are requested, it will put the CSVs into one string and
      * divide them with visible horizontal delimiter.
      *
-     * @param url    the url
-     * @param config the config
+     * @param config the AppConfig instance
      * @return csv string
      * @throws IOException the io exception
      */
-    public String getCSVString(String url, Map<String, String> config) throws IOException {
+    public String getCSVString(AppConfig config) throws IOException {
+        System.out.println("Inside getCSVString, is config null? " + (config == null));
+        System.out.println("Using config on thread " + Thread.currentThread().getName());
 
-        RDFtoCSV rdFtoCSV = new RDFtoCSV(url, config);
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(config);
         String result = rdFtoCSV.getCSVTableAsString();
         System.out.println(result);
         return result;
@@ -347,16 +347,12 @@ public class RDFtoCSVWService {
      * "basicQuery" aka one table creation. If multiple files are requested, it will pUt the CSVs into one string and
      * divide them with visible horizontal delimiter
      *
-     * @param multipartFile the multipart file
-     * @param config        the config
+     * @param config        the AppConfig instance
      * @return csv string from file
      * @throws IOException the io exception
      */
-    public String getCSVStringFromFile(MultipartFile multipartFile, Map<String, String> config) throws IOException {
-
-        File input = saveFile(multipartFile);
-
-        RDFtoCSV rdFtoCSV = new RDFtoCSV(input.getAbsolutePath(), config);
+    public String getCSVStringFromFile(AppConfig config) throws IOException {
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(config);
         String result = rdFtoCSV.getCSVTableAsString();
         System.out.println(result);
         return result;
@@ -365,14 +361,12 @@ public class RDFtoCSVWService {
     /**
      * This method returns only CSVW Metadata string given RDF file URL, it returns no CSV, and it is not in .zip.
      *
-     * @param url    the url
-     * @param config the config
+     * @param config the AppConfig instance
      * @return metadata string
      * @throws IOException the io exception
      */
-    public String getMetadataString(String url, Map<String, String> config) throws IOException {
-
-        RDFtoCSV rdFtoCSV = new RDFtoCSV(url, config);
+    public String getMetadataString(AppConfig config) throws IOException {
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(config);
         String result = rdFtoCSV.getMetadataAsString();
         System.out.println(result);
         return prettyPrintStringFromLibrary(result);
@@ -381,17 +375,14 @@ public class RDFtoCSVWService {
     /**
      * This method returns only CSVW Metadata string given RDF file, it returns no CSV, and it is not in .zip.
      *
-     * @param multipartFile the multipart file
-     * @param config        the config
+     * @param config        the AppConfig instance
      * @return metadata string from file
      * @throws IOException the io exception
      */
-    public String getMetadataStringFromFile(MultipartFile multipartFile, Map<String, String> config) throws IOException {
-
-        File input = saveFile(multipartFile);
-
-        RDFtoCSV rdFtoCSV = new RDFtoCSV(input.getAbsolutePath(), config);
+    public String getMetadataStringFromFile(AppConfig config) throws IOException {
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(config);
         String result = rdFtoCSV.getMetadataAsString();
+        
         //System.out.println(result);
         return prettyPrintStringFromLibrary(result);
     }
@@ -408,97 +399,258 @@ public class RDFtoCSVWService {
 //        }
 //
 
+    /**
+     * Build AppConfig instance from endpoint parameters with URL/file path.
+     *
+     * @param filePathOrUrl the file path or URL to the RDF file
+     * @param table the table parameter - how many tables to create (ONE/MORE)
+     * @param conversionMethod the conversion method parameter (RDF4J/STREAMING/BIGFILESTREAMING)
+     * @param firstNormalForm  the first normal form - true if first normal form is to be activated
+     * @param preferredLanguages comma-separated list of preferred language codes (e.g., "en,cs,de")
+     * @param namingConvention the naming convention for CSV headers
+     * @return the AppConfig instance configured with the provided parameters
+     */
+    public AppConfig buildAppConfig(
+            String filePathOrUrl,
+            String table,
+            String conversionMethod,
+            Boolean firstNormalForm,
+            String preferredLanguages,
+            String namingConvention) {
+
+        System.out.println("Building AppConfig with parameters:");
+        System.out.println("filePathOrUrl: " + filePathOrUrl);
+        System.out.println("table: " + table);
+        System.out.println("conversionMethod: " + conversionMethod);
+        System.out.println("firstNormalForm: " + firstNormalForm);
+        System.out.println("preferredLanguages: " + preferredLanguages);
+        System.out.println("namingConvention: " + namingConvention);
+
+        // Create AppConfig builder
+        AppConfig.Builder builder = new AppConfig.Builder(filePathOrUrl);
+
+        // Set table parameter (ONE/MORE)
+        if (table != null && !table.equalsIgnoreCase("null")) {
+            builder.multipleTables(table.equalsIgnoreCase("MORE") || table.equalsIgnoreCase("more"));
+        } else {
+            builder.multipleTables(false); // Default to ONE table
+        }
+
+        // Set conversion method (readMethod)
+        if (conversionMethod != null && !conversionMethod.equalsIgnoreCase("null")) {
+            builder.parsing(conversionMethod.toUpperCase());
+        } else {
+            builder.parsing(String.valueOf(ParsingChoice.RDF4J));
+        }
+
+        // Set first normal form
+        if (firstNormalForm != null) {
+            builder.firstNormalForm(firstNormalForm);
+        } else {
+            builder.firstNormalForm(false);
+        }
+
+        // Set preferred languages
+        if (preferredLanguages != null && !preferredLanguages.trim().isEmpty()) {
+            builder.preferredLanguages(preferredLanguages);
+        }
+
+        // Set naming convention
+        if (namingConvention != null && !namingConvention.isEmpty()) {
+            builder.columnNamingConvention(namingConvention);
+        }
+
+        AppConfig config = builder.build();
+        System.out.println("AppConfig built successfully");
+        System.out.println("Thread: " + Thread.currentThread().getName());
+
+        return config;
+    }
+
+    /**
+     * Build AppConfig instance from endpoint parameters with MultipartFile.
+     *
+     * @param multipartFile the multipart file containing the RDF data
+     * @param table the table parameter - how many tables to create (ONE/MORE)
+     * @param conversionMethod the conversion method parameter (RDF4J/STREAMING/BIGFILESTREAMING)
+     * @param firstNormalForm  the first normal form - true if first normal form is to be activated
+     * @param preferredLanguages comma-separated list of preferred language codes (e.g., "en,cs,de")
+     * @param namingConvention the naming convention for CSV headers
+     * @return the AppConfig instance configured with the provided parameters
+     * @throws IOException if file saving fails
+     */
+    public AppConfig buildAppConfig (
+            MultipartFile multipartFile,
+            String table,
+            String conversionMethod,
+            Boolean firstNormalForm,
+            String preferredLanguages,
+            String namingConvention) throws IOException {
+
+        // Save the multipart file to local filesystem
+        File input = saveFile(multipartFile);
+        
+        // Use the overloaded method with the file path
+        return buildAppConfig(
+                input.getAbsolutePath(),
+                table,
+                conversionMethod,
+                firstNormalForm,
+                preferredLanguages,
+                namingConvention
+        );
+    }
 
     /**
      * Prepare config parameter map to initialize RDFtoCSV from the depended on library.
+     * @deprecated Use {@link #buildAppConfig(String, String, Boolean, String, String)} instead
      *
      * @param table            the table parameter (ONE/MORE)
      * @param conversionMethod the conversion method parameter (RDF4J/STREAMING/BIGFILESTREAMING)
      * @param firstNormalForm  the first normal form - true if first normal form is to be activated
+     * @param preferredLanguages comma-separated list of preferred language codes (e.g., "en,cs,de")
+     * @param namingConvention the naming convention for CSV headers
      * @return the configuration map of parameters for the conversion
      */
-    public Map<String, String> prepareConfigParameter(String table, String conversionMethod, Boolean firstNormalForm) {
-        System.out.println("conversionMethod " + conversionMethod);
+    @Deprecated
+    public CompletableFuture<Map<String, String>> prepareConfigParameter(
+            String table, 
+            String conversionMethod, 
+            Boolean firstNormalForm,
+            String preferredLanguages,
+            String namingConvention) {
+        
+        System.out.println("conversionMethod: " + conversionMethod);
+        System.out.println("preferredLanguages: " + preferredLanguages);
+        System.out.println("namingConvention: " + namingConvention);
+        
         // Prepare map for config parameters
         Map<String, String> config = new HashMap<>();
-        // Log optional parameters if they are present
+        
+        // Table parameter
         if (table != null && !table.equalsIgnoreCase("null")) {
             config.put("table", table);
         } else {
             config.put("table", String.valueOf(TableChoice.ONE));
         }
+        
+        // Conversion method parameter
         if (conversionMethod != null && !conversionMethod.equalsIgnoreCase("null")) {
             config.put("readMethod", conversionMethod);
         } else {
             config.put("readMethod", String.valueOf(ParsingChoice.RDF4J));
         }
+        
+        // First normal form parameter
         if (firstNormalForm != null) {
             config.put("firstNormalForm", String.valueOf(firstNormalForm));
         } else {
             config.put("firstNormalForm", "false");
         }
+        
+        // Preferred languages parameter
+        if (preferredLanguages != null && !preferredLanguages.trim().isEmpty()) {
+            config.put("preferredLanguages", preferredLanguages);
+        }
+        
+        // Naming convention parameter
+        if (namingConvention != null && !namingConvention.isEmpty()) {
+            config.put("namingConvention", namingConvention);
+        }
+
         System.out.println("Set configMap to: \n");
-        System.out.println("table: " + config.get("table") );
+        System.out.println("table: " + config.get("table"));
         System.out.println("readMethod: " + config.get("readMethod"));
         System.out.println("firstNormalForm: " + config.get("firstNormalForm"));
-        return config;
+        System.out.println("preferredLanguages: " + config.get("preferredLanguages"));
+        System.out.println("namingConvention: " + config.get("namingConvention"));
+
+        System.out.println("Thread: " + Thread.currentThread().getName());
+        System.out.println("Creating config: " + System.identityHashCode(config));
+        System.out.println("Config values: " + config);
+
+        return CompletableFuture.completedFuture(config);
     }
 
     /**
      * Get csv file from url byte [ ].
      *
-     * @param url    the url
-     * @param config the config
+     * @param config the AppConfig instance
      * @return the byte [ ]
      * @throws IOException the io exception
      */
-    public byte[] getCSVFileFromURL(String url, Map<String, String> config) throws IOException {
-        RDFtoCSV rdFtoCSV = new RDFtoCSV(url, config);
+    public byte[] getCSVFileFromURL(AppConfig config) throws IOException {
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(config);
         return rdFtoCSV.getCSVTableAsFile().getOutputData();
     }
 
     /**
      * Get csv file from file byte [ ].
      *
-     * @param multipartFile the multipart file
-     * @param config        the config
+     * @param config        the AppConfig instance
      * @return the byte [ ]
      * @throws IOException the io exception
      */
-    public byte[] getCSVFileFromFile(MultipartFile multipartFile, Map<String, String> config) throws IOException {
-        File input = saveFile(multipartFile);
-
-        RDFtoCSV rdFtoCSV = new RDFtoCSV(input.getAbsolutePath(), config);
+    public byte[] getCSVFileFromFile(AppConfig config) throws IOException {
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(config);
         return rdFtoCSV.getCSVTableAsFile().getOutputData();
     }
 
     /**
      * Get metadata file from url byte [ ].
      *
-     * @param url    the url
-     * @param config the config
+     * @param config the AppConfig instance
      * @return the byte [ ]
      * @throws IOException the io exception
      */
-    public byte[] getMetadataFileFromURL(String url, Map<String, String> config) throws IOException {
-        System.out.println("url " + url + config.toString());
-        RDFtoCSV rdFtoCSV = new RDFtoCSV(url, config);
+    public byte[] getMetadataFileFromURL(AppConfig config) throws IOException {
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(config);
         return rdFtoCSV.getMetadataAsFile().getOutputData();
     }
 
     /**
      * Get metadata file from file byte [ ].
      *
-     * @param multipartFile the multipart file
-     * @param config        the config
+     * @param config        the AppConfig instance
      * @return the byte [ ]
      * @throws IOException the io exception
      */
-    public byte[] getMetadataFileFromFile(MultipartFile multipartFile, Map<String, String> config) throws IOException {
-        File input = saveFile(multipartFile);
-
-        RDFtoCSV rdFtoCSV = new RDFtoCSV(input.getAbsolutePath(), config);
+    public byte[] getMetadataFileFromFile(AppConfig config) throws IOException {
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(config);
         return rdFtoCSV.getMetadataAsFile().getOutputData();
+    }
+
+    /**
+     * Get ZIP file containing both CSV and metadata files.
+     *
+     * @param config the AppConfig instance
+     * @return the byte array of the ZIP file
+     * @throws IOException the io exception
+     */
+    public byte[] getZipFile(AppConfig config) throws IOException {
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(config);
+        FinalizedOutput<byte[]> zipFileInBytes = rdFtoCSV.convertToZip();
+        return zipFileInBytes.getOutputData();
+    }
+
+    /**
+     * Asynchronously compute CSVW and store result in Redis by session ID.
+     *
+     * @param sessionId the session ID for tracking this computation
+     * @param config    the AppConfig instance
+     */
+    @Async
+    public void computeAsyncAndStore(String sessionId, AppConfig config) {
+        try {
+            System.out.println("Starting async computation for session: " + sessionId);
+            byte[] result = getZipFile(config);
+            taskService.markTaskAsCompleted(sessionId, result);
+            System.out.println("Completed async computation for session: " + sessionId);
+        } catch (Exception e) {
+            System.err.println("Failed async computation for session: " + sessionId + " - " + e.getMessage());
+            e.printStackTrace();
+            taskService.markTaskAsFailed(sessionId, e.getMessage());
+        }
     }
 
     /**

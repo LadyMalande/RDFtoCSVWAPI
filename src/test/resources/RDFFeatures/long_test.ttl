@@ -1,0 +1,213 @@
+@prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix schema: <http://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:electronics a skos:Concept ;
+    skos:narrower ex:appliances,
+        ex:wearables ;
+    skos:prefLabel "Electronics"@en .
+
+ex:review1 a schema:Review ;
+    schema:author ex:diana ;
+    schema:itemReviewed ex:product1 ;
+    schema:reviewBody "Review for Doohickey #1"@es ;
+    schema:reviewRating ex:rating1 .
+
+ex:review10 a schema:Review ;
+    schema:author ex:grace ;
+    schema:itemReviewed ex:product10 ;
+    schema:reviewBody "Review for Gizmo #10"@fr ;
+    schema:reviewRating ex:rating10 .
+
+ex:review2 a schema:Review ;
+    schema:author ex:frank ;
+    schema:itemReviewed ex:product2 ;
+    schema:reviewBody "Review for Thingamajig #2"@en ;
+    schema:reviewRating ex:rating2 .
+
+ex:review3 a schema:Review ;
+    schema:author ex:charlie ;
+    schema:itemReviewed ex:product3 ;
+    schema:reviewBody "Review for Gadget #3"@es ;
+    schema:reviewRating ex:rating3 .
+
+ex:review4 a schema:Review ;
+    schema:author ex:frank ;
+    schema:itemReviewed ex:product4 ;
+    schema:reviewBody "Review for Thingamajig #4"@de ;
+    schema:reviewRating ex:rating4 .
+
+ex:review5 a schema:Review ;
+    schema:author ex:frank ;
+    schema:itemReviewed ex:product5 ;
+    schema:reviewBody "Review for Gizmo #5"@en ;
+    schema:reviewRating ex:rating5 .
+
+ex:review6 a schema:Review ;
+    schema:author ex:diana ;
+    schema:itemReviewed ex:product6 ;
+    schema:reviewBody "Review for Widget #6"@cz ;
+    schema:reviewRating ex:rating6 .
+
+ex:review7 a schema:Review ;
+    schema:author ex:eve ;
+    schema:itemReviewed ex:product7 ;
+    schema:reviewBody "Review for Gadget #7"@cz ;
+    schema:reviewRating ex:rating7 .
+
+ex:review8 a schema:Review ;
+    schema:author ex:frank ;
+    schema:itemReviewed ex:product8 ;
+    schema:reviewBody "Review for Thingamajig #8"@en ;
+    schema:reviewRating ex:rating8 .
+
+ex:review9 a schema:Review ;
+    schema:author ex:eve ;
+    schema:itemReviewed ex:product9 ;
+    schema:reviewBody "Review for Widget #9"@en ;
+    schema:reviewRating ex:rating9 .
+
+ex:tools a skos:Concept ;
+    skos:broader ex:appliances ;
+    skos:prefLabel "Tools"@en .
+
+ex:product1 a schema:Product ;
+    schema:category "Electronics" ;
+    schema:name "Doohickey" .
+
+ex:product10 a schema:Product ;
+    schema:category "Electronics" ;
+    schema:name "Gizmo" .
+
+ex:product2 a schema:Product ;
+    schema:category "Electronics" ;
+    schema:name "Thingamajig" .
+
+ex:product3 a schema:Product ;
+    schema:category "Electronics" ;
+    schema:name "Gadget" .
+
+ex:product4 a schema:Product ;
+    schema:category "Electronics" ;
+    schema:name "Thingamajig" .
+
+ex:product5 a schema:Product ;
+    schema:category "Electronics" ;
+    schema:name "Gizmo" .
+
+ex:product6 a schema:Product ;
+    schema:category "Electronics" ;
+    schema:name "Widget" .
+
+ex:product7 a schema:Product ;
+    schema:category "Electronics" ;
+    schema:name "Gadget" .
+
+ex:product8 a schema:Product ;
+    schema:category "Electronics" ;
+    schema:name "Thingamajig" .
+
+ex:product9 a schema:Product ;
+    schema:category "Electronics" ;
+    schema:name "Widget" .
+
+ex:rating1 a schema:Rating ;
+    schema:bestRating 5 ;
+    schema:ratingValue 3 ;
+    schema:worstRating 1 .
+
+ex:rating10 a schema:Rating ;
+    schema:bestRating 5 ;
+    schema:ratingValue 3 ;
+    schema:worstRating 1 .
+
+ex:rating2 a schema:Rating ;
+    schema:bestRating 5 ;
+    schema:ratingValue 1 ;
+    schema:worstRating 1 .
+
+ex:rating3 a schema:Rating ;
+    schema:bestRating 5 ;
+    schema:ratingValue 1 ;
+    schema:worstRating 1 .
+
+ex:rating4 a schema:Rating ;
+    schema:bestRating 5 ;
+    schema:ratingValue 2 ;
+    schema:worstRating 1 .
+
+ex:rating5 a schema:Rating ;
+    schema:bestRating 5 ;
+    schema:ratingValue 3 ;
+    schema:worstRating 1 .
+
+ex:rating6 a schema:Rating ;
+    schema:bestRating 5 ;
+    schema:ratingValue 5 ;
+    schema:worstRating 1 .
+
+ex:rating7 a schema:Rating ;
+    schema:bestRating 5 ;
+    schema:ratingValue 1 ;
+    schema:worstRating 1 .
+
+ex:rating8 a schema:Rating ;
+    schema:bestRating 5 ;
+    schema:ratingValue 3 ;
+    schema:worstRating 1 .
+
+ex:rating9 a schema:Rating ;
+    schema:bestRating 5 ;
+    schema:ratingValue 3 ;
+    schema:worstRating 1 .
+
+ex:wearables a skos:Concept ;
+    skos:prefLabel "Wearables"@en .
+
+ex:appliances a skos:Concept ;
+    skos:prefLabel "Appliances"@en .
+
+ex:bob a foaf:Person ;
+    foaf:knows ex:alice,
+        ex:frank ;
+    foaf:mbox <mailto:bob@example.org> ;
+    foaf:name "Bob Example" .
+
+ex:charlie a foaf:Person ;
+    foaf:knows ex:alice,
+        ex:diana ;
+    foaf:mbox <mailto:charlie@example.org> ;
+    foaf:name "Charlie Example" .
+
+ex:diana a foaf:Person ;
+    foaf:knows ex:bob,
+        ex:grace ;
+    foaf:mbox <mailto:diana@example.org> ;
+    foaf:name "Diana Example" .
+
+ex:grace a foaf:Person ;
+    foaf:knows ex:alice,
+        ex:eve ;
+    foaf:mbox <mailto:grace@example.org> ;
+    foaf:name "Grace Example" .
+
+ex:alice a foaf:Person ;
+    foaf:knows ex:charlie,
+        ex:eve ;
+    foaf:mbox <mailto:alice@example.org> ;
+    foaf:name "Alice Example" .
+
+ex:eve a foaf:Person ;
+    foaf:knows ex:alice,
+        ex:frank ;
+    foaf:mbox <mailto:eve@example.org> ;
+    foaf:name "Eve Example" .
+
+ex:frank a foaf:Person ;
+    foaf:knows ex:bob,
+        ex:grace ;
+    foaf:mbox <mailto:frank@example.org> ;
+    foaf:name "Frank Example" .
+

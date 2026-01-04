@@ -1,0 +1,10 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex: <http://example.org/> .
+
+ex:Animal a rdfs:Class ;
+  rdfs:label "Animal"@en ;
+  rdfs:comment "A living organism that feeds on organic matter."@en .
+
+ex:Dog a rdfs:Class ;
+  rdfs:label "Dog"@en ;
+  rdfs:subClassOf ex:Animal .

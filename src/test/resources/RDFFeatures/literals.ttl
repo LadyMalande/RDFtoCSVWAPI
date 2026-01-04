@@ -1,0 +1,6 @@
+@prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:person1 ex:age "30"^^xsd:integer ;
+             ex:name "Alice" ;
+             ex:name "Alicia"@es .

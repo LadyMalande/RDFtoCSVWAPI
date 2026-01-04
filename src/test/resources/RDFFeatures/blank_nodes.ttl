@@ -1,0 +1,4 @@
+@prefix ex: <http://example.org/> .
+
+_:bnode1 ex:hasName "Anonymous" .
+ex:person2 ex:knows _:bnode1 .

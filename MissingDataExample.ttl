@@ -1,0 +1,233 @@
+
+<https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz> a <http://purl.org/linked-data/cube#DataSet>;
+    <http://purl.org/dc/terms/title> "Průměrný plat a medián v ČSSZ"@cs;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Průměrný plat a medián v ČSSZ"@cs;
+    <http://purl.org/dc/terms/description> "Výše průměrného platu a mediánu v ČSSZ v jednotlivých letech v Kč"@cs;
+    <http://www.w3.org/2000/01/rdf-schema#comment> "Výše průměrného platu a mediánu v ČSSZ v jednotlivých letech v Kč"@cs;
+        <http://purl.org/dc/terms/publisher> <http://www.cssz.cz>;
+        <http://purl.org/linked-data/cube#structure> <https://data.cssz.cz/resource/data-structure-definition/prumerny-plat-v-cssz> .
+
+<https://data.cssz.cz/resource/data-structure-definition/prumerny-plat-v-cssz> a <http://purl.org/linked-data/cube#DataStructureDefinition>;
+                                                                               <http://www.w3.org/2000/01/rdf-schema#label> "Definice struktury datové kostky Průměrný plat a medián v ČSSZ"@cs;
+                                                                               <http://purl.org/linked-data/cube#component> _:node1hn5nr482x467 .
+
+_:node1hn5nr482x467 <http://purl.org/linked-data/cube#dimension> <https://data.cssz.cz/ontology/dimension/rok>;
+                    <http://purl.org/linked-data/cube#order> 1;
+                    <http://www.w3.org/2000/01/rdf-schema#label> "Rok"@cs .
+
+<https://data.cssz.cz/resource/data-structure-definition/prumerny-plat-v-cssz> <http://purl.org/linked-data/cube#component>
+                                                                                       _:node1hn5nr482x468 .
+
+_:node1hn5nr482x468 <http://purl.org/linked-data/cube#measure> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+                    <http://www.w3.org/2000/01/rdf-schema#label> "Průměrný plat ČSSZ"@cs .
+
+<https://data.cssz.cz/resource/data-structure-definition/prumerny-plat-v-cssz> <http://purl.org/linked-data/cube#component>
+                                                                                       _:node1hn5nr482x469 .
+
+_:node1hn5nr482x469 <http://purl.org/linked-data/cube#measure> <https://data.cssz.cz/ontology/measure/median>;
+                    <http://www.w3.org/2000/01/rdf-schema#label> "Medián"@cs .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2006/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2006>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 20398 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2021/median> a <http://purl.org/linked-data/cube#Observation>;
+                                                                             <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+                                                                             <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2021>;
+                                                                             <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/median>;
+                                                                             <https://data.cssz.cz/ontology/measure/median> 29953 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2007/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2007>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 21727 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2022/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2022>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 35137 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2008/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2008>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 22481 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2022/median> a <http://purl.org/linked-data/cube#Observation>;
+                                                                             <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+                                                                             <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2022>;
+                                                                             <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/median>;
+                                                                             <https://data.cssz.cz/ontology/measure/median> 31228 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2009/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2009>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 23604 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2023/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2023>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 38011 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2010/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2010>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 23207 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2023/median> a <http://purl.org/linked-data/cube#Observation>;
+                                                                             <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+                                                                             <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2023>;
+                                                                             <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/median>;
+                                                                             <https://data.cssz.cz/ontology/measure/median> 33834 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2011/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2011>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 21136 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2011/median> a <http://purl.org/linked-data/cube#Observation>;
+                                                                             <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+                                                                             <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2011>;
+                                                                             <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/median>;
+                                                                             <https://data.cssz.cz/ontology/measure/median> 17420 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2012/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2012>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 20845 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2012/median> a <http://purl.org/linked-data/cube#Observation>;
+                                                                             <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+                                                                             <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2012>;
+                                                                             <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/median>;
+                                                                             <https://data.cssz.cz/ontology/measure/median> 17818 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2013/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2013>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 21144 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2013/median> a <http://purl.org/linked-data/cube#Observation>;
+                                                                             <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+                                                                             <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2013>;
+                                                                             <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/median>;
+                                                                             <https://data.cssz.cz/ontology/measure/median> 18766 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2014/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2014>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 23015 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2014/median> a <http://purl.org/linked-data/cube#Observation>;
+                                                                             <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+                                                                             <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2014>;
+                                                                             <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/median>;
+                                                                             <https://data.cssz.cz/ontology/measure/median> 19473 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2015/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2015>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 24032 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2015/median> a <http://purl.org/linked-data/cube#Observation>;
+                                                                             <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+                                                                             <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2015>;
+                                                                             <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/median>;
+                                                                             <https://data.cssz.cz/ontology/measure/median> 20803 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2016/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2016>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 25228 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2016/median> a <http://purl.org/linked-data/cube#Observation>;
+                                                                             <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+                                                                             <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2016>;
+                                                                             <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/median>;
+                                                                             <https://data.cssz.cz/ontology/measure/median> 22226 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2017/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2017>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 26557 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2017/median> a <http://purl.org/linked-data/cube#Observation>;
+                                                                             <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+                                                                             <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2017>;
+                                                                             <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/median>;
+                                                                             <https://data.cssz.cz/ontology/measure/median> 23483 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2018/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2018>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 28916 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2018/median> a <http://purl.org/linked-data/cube#Observation>;
+                                                                             <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+                                                                             <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2018>;
+                                                                             <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/median>;
+                                                                             <https://data.cssz.cz/ontology/measure/median> 25937 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2019/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2019>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 31211 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2019/median> a <http://purl.org/linked-data/cube#Observation>;
+                                                                             <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+                                                                             <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2019>;
+                                                                             <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/median>;
+                                                                             <https://data.cssz.cz/ontology/measure/median> 27432 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2020/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2020>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 33349 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2020/median> a <http://purl.org/linked-data/cube#Observation>;
+                                                                             <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+                                                                             <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2020>;
+                                                                             <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/median>;
+                                                                             <https://data.cssz.cz/ontology/measure/median> 30139 .
+
+<https://data.cssz.cz/resource/observation/prumerny-plat-v-cssz/2021/prumerny-plat-cssz>
+    a <http://purl.org/linked-data/cube#Observation>;
+    <http://purl.org/linked-data/cube#dataSet> <https://data.cssz.cz/resource/dataset/prumerny-plat-v-cssz>;
+    <https://data.cssz.cz/ontology/dimension/rok> <https://data.cssz.cz/resource/reference.data.gov.uk/id/gregorian-year/2021>;
+    <http://purl.org/linked-data/cube#measureType> <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz>;
+    <https://data.cssz.cz/ontology/measure/prumerny-plat-cssz> 34039 .
+

@@ -1,0 +1,9 @@
+<rdf:RDF xmlns:ex="http://example.org/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <rdf:Description rdf:about="http://example.org/person1">
+    <ex:age rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">30</ex:age>
+    <ex:name>Alice</ex:name>
+    <ex:name xml:lang="es">Alicia</ex:name>
+  </rdf:Description>
+</rdf:RDF>
