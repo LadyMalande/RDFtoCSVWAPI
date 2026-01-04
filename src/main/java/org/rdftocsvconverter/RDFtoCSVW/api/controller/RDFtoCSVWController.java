@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import com.miklosova.rdftocsvw.support.AppConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.rdftocsvconverter.RDFtoCSVW.enums.ComputationStatus;
 import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
 import org.rdftocsvconverter.RDFtoCSVW.enums.TableChoice;
@@ -16,6 +18,7 @@ import org.rdftocsvconverter.RDFtoCSVW.model.SessionResponse;
 import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
 import org.rdftocsvconverter.RDFtoCSVW.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,9 +37,20 @@ import java.util.concurrent.ExecutionException;
 @RestController
 public class RDFtoCSVWController {
 
+    private static final Logger logger = LoggerFactory.getLogger(RDFtoCSVWController.class);
+
     private final RDFtoCSVWService rdFtoCSVWService;
     private final TaskService taskService;
     private final RedisTemplate<String, Object> redisTemplate;
+
+    @Value("${spring.data.redis.url:NOT_SET}")
+    private String redisUrl;
+
+    @Value("${spring.redis.host:NOT_SET}")
+    private String redisHost;
+
+    @Value("${spring.redis.port:0}")
+    private int redisPort;
 
     /**
      * Instantiates a new RDFtoCSVWController with endpoints and methods to get converter results.
@@ -79,23 +93,59 @@ public class RDFtoCSVWController {
     @Operation(summary = "Check Redis connection", description = "Verify if Redis is accessible and working properly.")
     @GetMapping("/health/redis")
     public ResponseEntity<Map<String, String>> checkRedisHealth() {
+        logger.info("Health check requested for Redis");
         try {
+            logger.debug("Attempting to ping Redis...");
             // Set a shorter timeout for health checks using connection test
-            redisTemplate.getConnectionFactory().getConnection().ping();
+            String pong = redisTemplate.getConnectionFactory().getConnection().ping();
+            logger.info("Redis health check successful. Response: {}", pong);
             return ResponseEntity.ok(Map.of(
                     "status", "UP",
                     "message", "Redis is connected and accessible"
             ));
         } catch (org.springframework.data.redis.RedisConnectionFailureException e) {
+            logger.error("Redis connection failure during health check", e);
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(Map.of(
                     "status", "DOWN",
                     "message", "Cannot connect to Redis",
-                    "error", e.getMessage()
+                    "error", e.getMessage(),
+                    "errorType", e.getClass().getSimpleName()
             ));
         } catch (Exception e) {
+            logger.error("Unexpected error during Redis health check", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
                     "status", "ERROR",
                     "message", "Error checking Redis connection",
+                    "error", e.getMessage(),
+                    "errorType", e.getClass().getSimpleName()
+            ));
+        }
+    }
+
+    /**
+     * Debug endpoint to check Redis configuration.
+     *
+     * @return the response entity with Redis configuration details
+     */
+    @Operation(summary = "Debug Redis configuration", description = "Shows Redis configuration details for debugging.")
+    @GetMapping("/debug/redis-config")
+    public ResponseEntity<Map<String, String>> debugRedisConfig() {
+        try {
+            String connectionInfo = redisTemplate.getConnectionFactory().getConnection().toString();
+            
+            return ResponseEntity.ok(Map.of(
+                    "redisUrlConfigured", redisUrl != null && !redisUrl.equals("NOT_SET") ? "YES (length: " + redisUrl.length() + ")" : "NO",
+                    "redisHost", redisHost,
+                    "redisPort", String.valueOf(redisPort),
+                    "connectionFactory", connectionInfo,
+                    "note", "Check application logs for detailed Redis configuration"
+            ));
+        } catch (Exception e) {
+            logger.error("Error getting Redis debug info", e);
+            return ResponseEntity.ok(Map.of(
+                    "redisUrlConfigured", redisUrl != null && !redisUrl.equals("NOT_SET") ? "YES" : "NO",
+                    "redisHost", redisHost,
+                    "redisPort", String.valueOf(redisPort),
                     "error", e.getMessage()
             ));
         }
