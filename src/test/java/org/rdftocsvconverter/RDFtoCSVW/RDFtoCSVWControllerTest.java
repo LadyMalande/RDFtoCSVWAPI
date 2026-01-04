@@ -3,6 +3,7 @@ package org.rdftocsvconverter.RDFtoCSVW;
 import com.miklosova.rdftocsvw.support.AppConfig;
 import org.junit.jupiter.api.Test;
 import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
+import org.rdftocsvconverter.RDFtoCSVW.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.rdftocsvconverter.RDFtoCSVW.api.controller.RDFtoCSVWController;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
-@WebMvcTest(RDFtoCSVWController.class)
+@WebMvcTest(controllers = RDFtoCSVWController.class)
 class RDFtoCSVWControllerTest {
 
     @Autowired
@@ -29,6 +30,9 @@ class RDFtoCSVWControllerTest {
 
     @MockBean
     private RDFtoCSVWService rdFtoCSVWService;
+
+    @MockBean
+    private TaskService taskService;
 
     @Test
     void testGetCSVW_withFileUpload_shouldReturnZip() throws Exception {
@@ -38,8 +42,11 @@ class RDFtoCSVWControllerTest {
 
         // Mock service to return dummy ZIP bytes
         byte[] fakeZipContent = "dummy zip content".getBytes(StandardCharsets.UTF_8);
-        when(rdFtoCSVWService.getCSVW(any(), any(), any(), any(), any()))
-                .thenReturn(CompletableFuture.completedFuture(fakeZipContent));
+        AppConfig mockConfig = new AppConfig.Builder("test.ttl").build();
+        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), any(Boolean.class), nullable(String.class), nullable(String.class)))
+                .thenReturn(mockConfig);
+        when(rdFtoCSVWService.getZipFile(any(AppConfig.class)))
+                .thenReturn(fakeZipContent);
 
         // Perform request
         mockMvc.perform(multipart("/rdftocsvw")
@@ -59,8 +66,11 @@ class RDFtoCSVWControllerTest {
                 "file", "filename.ttl", "text/turtle", "<some RDF>".getBytes()
         );
         byte[] fakeZipContent = "dummy zip content".getBytes(StandardCharsets.UTF_8);
-        when(rdFtoCSVWService.getCSVW(isNull(), eq(fakeURL), any(), any(), any()))
-                .thenReturn(CompletableFuture.completedFuture(fakeZipContent));
+        AppConfig mockConfig = new AppConfig.Builder(fakeURL).build();
+        when(rdFtoCSVWService.buildAppConfig(anyString(), anyString(), anyString(), any(Boolean.class), nullable(String.class), nullable(String.class)))
+                .thenReturn(mockConfig);
+        when(rdFtoCSVWService.getZipFile(any(AppConfig.class)))
+                .thenReturn(fakeZipContent);
 
         mockMvc.perform(post("/rdftocsvw")
                         //.file(mockFile)
@@ -70,11 +80,6 @@ class RDFtoCSVWControllerTest {
                         .param("firstNormalForm", "true"))
                 .andExpect(status().isOk())
                 .andExpect(content().bytes(fakeZipContent));
-    }
-
-    @Test
-    void contextLoads() {
-        // If it fails here, the context isn't loading properly
     }
 
     // Tests for AppConfig-based endpoints
@@ -93,7 +98,7 @@ class RDFtoCSVWControllerTest {
                 .columnNamingConvention("camelCase")
                 .build();
         
-        when(rdFtoCSVWService.buildAppConfig(anyString(), anyString(), anyString(), anyBoolean(), anyString(), anyString()))
+        when(rdFtoCSVWService.buildAppConfig(anyString(), anyString(), anyString(), any(Boolean.class), nullable(String.class), nullable(String.class)))
                 .thenReturn(config);
         
         // Mock getCSVString to return expected CSV
@@ -126,7 +131,7 @@ class RDFtoCSVWControllerTest {
                 .columnNamingConvention("snake_case")
                 .build();
         
-        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), anyBoolean(), anyString(), anyString()))
+        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), any(Boolean.class), nullable(String.class), nullable(String.class)))
                 .thenReturn(config);
         
         // Mock getCSVStringFromFile to return expected CSV
@@ -158,7 +163,7 @@ class RDFtoCSVWControllerTest {
                 .columnNamingConvention("PascalCase")
                 .build();
         
-        when(rdFtoCSVWService.buildAppConfig(anyString(), anyString(), anyString(), anyBoolean(), anyString(), anyString()))
+        when(rdFtoCSVWService.buildAppConfig(anyString(), anyString(), anyString(), any(Boolean.class), nullable(String.class), nullable(String.class)))
                 .thenReturn(config);
         
         // Mock getCSVFileFromURL to return expected CSV bytes
@@ -190,7 +195,7 @@ class RDFtoCSVWControllerTest {
                 .columnNamingConvention("kebab-case")
                 .build();
         
-        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), anyBoolean(), anyString(), anyString()))
+        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), any(Boolean.class), nullable(String.class), nullable(String.class)))
                 .thenReturn(config);
         
         // Mock getCSVFileFromFile to return expected CSV bytes
@@ -221,7 +226,7 @@ class RDFtoCSVWControllerTest {
                 .columnNamingConvention("camelCase")
                 .build();
         
-        when(rdFtoCSVWService.buildAppConfig(anyString(), anyString(), anyString(), anyBoolean(), anyString(), anyString()))
+        when(rdFtoCSVWService.buildAppConfig(anyString(), anyString(), anyString(), any(Boolean.class), nullable(String.class), nullable(String.class)))
                 .thenReturn(config);
         
         // Mock getMetadataString to return expected metadata
@@ -254,7 +259,7 @@ class RDFtoCSVWControllerTest {
                 .columnNamingConvention("SCREAMING_SNAKE_CASE")
                 .build();
         
-        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), anyBoolean(), anyString(), anyString()))
+        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), any(Boolean.class), nullable(String.class), nullable(String.class)))
                 .thenReturn(config);
         
         // Mock getMetadataStringFromFile to return expected metadata
@@ -285,7 +290,7 @@ class RDFtoCSVWControllerTest {
                 .columnNamingConvention("dot.notation")
                 .build();
         
-        when(rdFtoCSVWService.buildAppConfig(anyString(), anyString(), anyString(), anyBoolean(), anyString(), anyString()))
+        when(rdFtoCSVWService.buildAppConfig(anyString(), anyString(), anyString(), any(Boolean.class), nullable(String.class), nullable(String.class)))
                 .thenReturn(config);
         
         // Mock getMetadataFileFromURL to return expected metadata bytes
@@ -317,7 +322,7 @@ class RDFtoCSVWControllerTest {
                 .columnNamingConvention("original")
                 .build();
         
-        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), anyBoolean(), anyString(), anyString()))
+        when(rdFtoCSVWService.buildAppConfig(any(org.springframework.web.multipart.MultipartFile.class), anyString(), anyString(), any(Boolean.class), nullable(String.class), nullable(String.class)))
                 .thenReturn(config);
         
         // Mock getMetadataFileFromFile to return expected metadata bytes

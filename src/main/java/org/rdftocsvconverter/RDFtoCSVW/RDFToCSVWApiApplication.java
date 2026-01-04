@@ -2,6 +2,7 @@ package org.rdftocsvconverter.RDFtoCSVW;
 
 import org.rdftocsvconverter.RDFtoCSVW.testingasz.AppRunner;
 import org.rdftocsvconverter.RDFtoCSVW.service.GithubLookupService;
+import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,12 +30,18 @@ public class RDFToCSVWApiApplication {
 
 		SpringApplication.run(RDFToCSVWApiApplication.class, args);
 	}
-
+/* 
 	@Bean
-	public CommandLineRunner appRunner(GithubLookupService gitHubLookupService) {
-		return new AppRunner(gitHubLookupService);
+	public CommandLineRunner appRunner(RDFtoCSVWService rDFtoCSVWService) {
+		return new AppRunner(rDFtoCSVWService);
 	}
 
+	
+	@Bean
+	public CommandLineRunner appRunner(GithubLookupService RDFToCSVWApiApplication) {
+		return new AppRunner(gitHubLookupService);
+	}
+*/
 /*	@Bean
 	public Executor taskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();

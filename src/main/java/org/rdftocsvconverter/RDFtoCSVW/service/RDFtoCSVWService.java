@@ -7,6 +7,7 @@ import com.miklosova.rdftocsvw.support.AppConfig;
 import com.miklosova.rdftocsvw.output_processor.FinalizedOutput;
 import org.rdftocsvconverter.RDFtoCSVW.enums.ParsingChoice;
 import org.rdftocsvconverter.RDFtoCSVW.enums.TableChoice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,10 @@ import java.util.concurrent.CompletableFuture;
  */
 @Service
 public class RDFtoCSVWService {
+
+    @Autowired
+    private TaskService taskService;
+
     /**
      * Get csvw byte [ ].
      *
@@ -613,6 +618,39 @@ public class RDFtoCSVWService {
     public byte[] getMetadataFileFromFile(AppConfig config) throws IOException {
         RDFtoCSV rdFtoCSV = new RDFtoCSV(config);
         return rdFtoCSV.getMetadataAsFile().getOutputData();
+    }
+
+    /**
+     * Get ZIP file containing both CSV and metadata files.
+     *
+     * @param config the AppConfig instance
+     * @return the byte array of the ZIP file
+     * @throws IOException the io exception
+     */
+    public byte[] getZipFile(AppConfig config) throws IOException {
+        RDFtoCSV rdFtoCSV = new RDFtoCSV(config);
+        FinalizedOutput<byte[]> zipFileInBytes = rdFtoCSV.convertToZip();
+        return zipFileInBytes.getOutputData();
+    }
+
+    /**
+     * Asynchronously compute CSVW and store result in Redis by session ID.
+     *
+     * @param sessionId the session ID for tracking this computation
+     * @param config    the AppConfig instance
+     */
+    @Async
+    public void computeAsyncAndStore(String sessionId, AppConfig config) {
+        try {
+            System.out.println("Starting async computation for session: " + sessionId);
+            byte[] result = getZipFile(config);
+            taskService.markTaskAsCompleted(sessionId, result);
+            System.out.println("Completed async computation for session: " + sessionId);
+        } catch (Exception e) {
+            System.err.println("Failed async computation for session: " + sessionId + " - " + e.getMessage());
+            e.printStackTrace();
+            taskService.markTaskAsFailed(sessionId, e.getMessage());
+        }
     }
 
     /**
