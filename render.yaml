@@ -15,20 +15,13 @@ services:
     healthCheckPath: /
     envVars:
       # Redis connection - using internal Redis URL
+      # This automatically uses the internal connection string
       - key: REDIS_URL
         fromService:
           type: redis
           name: rdftocsvw-redis
           property: connectionString
       
-      # Alternative: if using external Redis, uncomment and set these:
-      # - key: SPRING_REDIS_HOST
-      #   value: your-redis-host
-      # - key: SPRING_REDIS_PORT
-      #   value: 6379
-      # - key: SPRING_REDIS_PASSWORD
-      #   value: your-redis-password
-
       # Java options (optional)
       - key: JAVA_OPTS
         value: "-Xmx512m -Xms256m"
