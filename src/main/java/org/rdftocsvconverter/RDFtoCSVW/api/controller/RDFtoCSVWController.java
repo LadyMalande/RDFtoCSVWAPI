@@ -16,6 +16,7 @@ import org.rdftocsvconverter.RDFtoCSVW.model.SessionResponse;
 import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
 import org.rdftocsvconverter.RDFtoCSVW.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,17 +36,20 @@ public class RDFtoCSVWController {
 
     private final RDFtoCSVWService rdFtoCSVWService;
     private final TaskService taskService;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     /**
      * Instantiates a new RDFtoCSVWController with endpoints and methods to get converter results.
      *
      * @param rDFtoCSVWService the RDFtoCSVWService with methods to help the mapped endpoints to serve the conversion.
      * @param taskService      the TaskService for managing computation tasks
+     * @param redisTemplate    the RedisTemplate for direct Redis operations
      */
     @Autowired
-    public RDFtoCSVWController(RDFtoCSVWService rDFtoCSVWService, TaskService taskService){
+    public RDFtoCSVWController(RDFtoCSVWService rDFtoCSVWService, TaskService taskService, RedisTemplate<String, Object> redisTemplate){
         this.rdFtoCSVWService = rDFtoCSVWService;
         this.taskService = taskService;
+        this.redisTemplate = redisTemplate;
     }
 
     /**
@@ -76,8 +80,8 @@ public class RDFtoCSVWController {
     @GetMapping("/health/redis")
     public ResponseEntity<Map<String, String>> checkRedisHealth() {
         try {
-            String testKey = "health-check-" + System.currentTimeMillis();
-            taskService.getTask(testKey); // This will attempt to connect to Redis
+            // Set a shorter timeout for health checks using connection test
+            redisTemplate.getConnectionFactory().getConnection().ping();
             return ResponseEntity.ok(Map.of(
                     "status", "UP",
                     "message", "Redis is connected and accessible"
