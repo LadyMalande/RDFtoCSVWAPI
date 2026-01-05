@@ -742,6 +742,7 @@ public class RDFtoCSVWController {
         
         if (task == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
                     .body(Map.of("error", "Session not found", "sessionId", sessionId));
         }
         
@@ -757,6 +758,7 @@ public class RDFtoCSVWController {
                 
             case COMPUTING:
                 return ResponseEntity.status(HttpStatus.ACCEPTED)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
                         .body(Map.of(
                                 "status", "COMPUTING",
                                 "sessionId", sessionId,
@@ -765,6 +767,7 @@ public class RDFtoCSVWController {
                 
             case FAILED:
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
                         .body(Map.of(
                                 "status", "FAILED",
                                 "sessionId", sessionId,
@@ -773,6 +776,7 @@ public class RDFtoCSVWController {
                 
             default:
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
                         .body(Map.of("error", "Unknown status", "sessionId", sessionId));
         }
     }
