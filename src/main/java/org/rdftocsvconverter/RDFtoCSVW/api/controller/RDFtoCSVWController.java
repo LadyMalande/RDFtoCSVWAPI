@@ -736,7 +736,7 @@ public class RDFtoCSVWController {
             @ApiResponse(responseCode = "500", description = "Computation failed",
                     content = { @Content(mediaType = "application/json")})
     })
-    @GetMapping("/status/{sessionId}")
+    @GetMapping(value = "/status/{sessionId}", produces = {"application/octet-stream", "application/json"})
     public ResponseEntity<?> getComputationStatus(@PathVariable String sessionId) {
         ComputationTask task = taskService.getTask(sessionId);
         
