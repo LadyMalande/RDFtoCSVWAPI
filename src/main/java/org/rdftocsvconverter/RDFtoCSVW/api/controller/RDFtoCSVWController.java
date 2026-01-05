@@ -43,13 +43,13 @@ public class RDFtoCSVWController {
     private final TaskService taskService;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    @Value("${spring.data.redis.url:NOT_SET}")
+    @Value("${REDIS_URL:NOT_SET}")
     private String redisUrl;
 
-    @Value("${spring.redis.host:NOT_SET}")
+    @Value("${SPRING_REDIS_HOST:NOT_SET}")
     private String redisHost;
 
-    @Value("${spring.redis.port:0}")
+    @Value("${SPRING_REDIS_PORT:0}")
     private int redisPort;
 
     /**
