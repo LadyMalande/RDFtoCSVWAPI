@@ -1,6 +1,7 @@
 package org.rdftocsvconverter.RDFtoCSVW.service;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.rdftocsvconverter.RDFtoCSVW.enums.ComputationStatus;
 import org.rdftocsvconverter.RDFtoCSVW.model.ComputationTask;
@@ -13,7 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for TaskService using Spring Boot integration testing.
+ * REQUIRES: Redis to be running (e.g., via docker-compose up -d)
  */
+@Disabled("Requires Redis - run 'docker-compose up -d' to enable these tests")
 @SpringBootTest
 @TestPropertySource(properties = {
     "spring.data.redis.host=localhost",

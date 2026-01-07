@@ -1,5 +1,6 @@
 package org.rdftocsvconverter.RDFtoCSVW.api.controller;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,6 +32,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.rdftocsvconverter.RDFtoCSVW.RDFToCSVWApiApplication;
 
+/**
+ * Integration tests for RDF to CSVW API.
+ * REQUIRES: Redis to be running (e.g., via docker-compose up -d)
+ */
+@Disabled("Requires Redis - run 'docker-compose up -d' to enable these tests")
 @SpringBootTest(classes = RDFToCSVWApiApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
