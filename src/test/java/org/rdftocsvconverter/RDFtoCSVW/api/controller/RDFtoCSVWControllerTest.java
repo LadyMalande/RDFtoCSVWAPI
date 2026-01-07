@@ -44,6 +44,9 @@ class RDFtoCSVWControllerTest {
     @MockBean
     private TaskService taskService;
 
+    @MockBean
+    private org.springframework.data.redis.core.RedisTemplate<String, Object> redisTemplate;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);

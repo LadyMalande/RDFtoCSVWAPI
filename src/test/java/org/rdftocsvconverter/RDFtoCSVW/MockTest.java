@@ -80,7 +80,7 @@ class MockTest extends BaseTest{
                         .param("table", table))
                 .andExpect(status().isOk())  // Check that status is OK
                 .andExpect(content().contentType("text/plain;charset=UTF-8"))  // Expect JSON content type
-                .andExpect(jsonPath("$.tables[0].url").value("test005.csv"))  // Validate some JSON fields
+                .andExpect(jsonPath("$.tables[0].url").value("test005.ttl.csv"))  // Validate some JSON fields
                 .andExpect(jsonPath("$.tables[0].tableSchema.columns[0].name").value("Subject"))  // Check field in JSON
                 .andExpect(jsonPath("$.tables[0].tableSchema.columns[1].name").value("FamilyName"));  // Check another field
     }
