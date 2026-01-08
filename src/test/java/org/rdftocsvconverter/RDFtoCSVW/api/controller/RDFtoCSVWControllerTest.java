@@ -183,4 +183,56 @@ class RDFtoCSVWControllerTest {
         MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
         mockMvc.perform(MockMvcRequestBuilders.multipart("/metadata/string").file(file).param("table", "badParam").param("conversionMethod", String.valueOf(ParsingChoice.RDF4J)).param("firstNormalForm", "true")).andExpect(status().is4xxClientError()).andExpect(content().string("{\"error\":\"Invalid parameter\",\"message\":\"Parameter 'table' should be of type TableChoice. Provided value: 'badParam'.\"}"));
     }
+
+    @Test
+    void testInvalidPreferredLanguages() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/csv/string")
+                .file(file)
+                .param("preferredLanguages", "INVALID123"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testInvalidNamingConvention() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/csv/string")
+                .file(file)
+                .param("namingConvention", "invalidConvention"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testValidPreferredLanguages() throws Exception {
+        AppConfig mockConfig = new AppConfig.Builder("test.nt").build();
+        when(rdFtoCSVWService.buildAppConfig(any(MultipartFile.class), anyString(), anyString(), any(), nullable(String.class), nullable(String.class))).thenReturn(mockConfig);
+        when(rdFtoCSVWService.getCSVStringFromFile(any(AppConfig.class))).thenReturn("csv,data");
+        
+        MockMultipartFile file = new MockMultipartFile("file", "test.nt", "text/plain", testContent.getBytes());
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/csv/string")
+                .file(file)
+                .param("preferredLanguages", "en,cs,de"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testSSRFProtection_Localhost() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/csv/string")
+                .param("url", "http://localhost:8080/malicious"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testSSRFProtection_PrivateIP() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/csv/string")
+                .param("url", "http://192.168.1.1/internal"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testSSRFProtection_FileProtocol() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/csv/string")
+                .param("url", "file:///etc/passwd"))
+                .andExpect(status().isBadRequest());
+    }
 }

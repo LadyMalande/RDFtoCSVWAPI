@@ -6,7 +6,14 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
- * The RDFtoCSVWAPI application.
+ * Main Spring Boot application class for RDF to CSVW API.
+ * Provides RESTful endpoints for converting RDF data to CSV on the Web (CSVW) format.
+ * 
+ * Features:
+ * - Asynchronous processing for long-running conversions
+ * - Redis caching for async task management
+ * - Multiple conversion methods (RDF4J, STREAMING, BIGFILESTREAMING)
+ * - Support for file upload and URL-based RDF sources
  */
 @SpringBootApplication
 @EnableAsync
@@ -14,9 +21,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class RDFToCSVWApiApplication {
 
 	/**
-	 * The entry point of application.
+	 * The entry point of the application.
+	 * Starts the Spring Boot application and initializes all configured beans and services.
 	 *
-	 * @param args the input arguments
+	 * @param args command line arguments passed to the application
 	 */
 	public static void main(String[] args) {
 

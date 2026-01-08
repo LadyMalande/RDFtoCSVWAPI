@@ -11,13 +11,24 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Service for managing computation tasks with session IDs stored in Redis.
+ * Provides task lifecycle management including creation, storage, status tracking, and expiration.
  */
 @Service
 public class TaskService {
 
+    /**
+     * Prefix for Redis keys to namespace task storage.
+     */
     private static final String TASK_KEY_PREFIX = "task:";
+    
+    /**
+     * Time in hours before a task expires and is removed from Redis.
+     */
     private static final long TASK_EXPIRATION_HOURS = 24; // Tasks expire after 24 hours
 
+    /**
+     * Redis template for interacting with Redis data store.
+     */
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 

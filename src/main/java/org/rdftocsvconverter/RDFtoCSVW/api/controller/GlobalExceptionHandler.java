@@ -9,9 +9,20 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Global exception handler for the RDFtoCSVW API.
+ * Provides centralized exception handling for all controllers.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * Handles exceptions when method argument type conversion fails.
+     * Typically occurs when enum values are provided incorrectly.
+     *
+     * @param ex the exception thrown during type conversion
+     * @return ResponseEntity with error details and BAD_REQUEST status
+     */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<?> handleEnumConversionException(MethodArgumentTypeMismatchException ex) {
         String name = ex.getName();
@@ -26,7 +37,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    // Catch-all for other exceptions (optional but useful)
+    /**
+     * Catch-all handler for any unhandled exceptions.
+     * Provides a generic error response for unexpected errors.
+     *
+     * @param ex the exception that was thrown
+     * @return ResponseEntity with error details and INTERNAL_SERVER_ERROR status
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleAllExceptions(Exception ex) {
         Map<String, String> error = new HashMap<>();
