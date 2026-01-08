@@ -123,35 +123,6 @@ public class RDFtoCSVWController {
     }
 
     /**
-     * Debug endpoint to check Redis configuration.
-     *
-     * @return the response entity with Redis configuration details
-     */
-    @Operation(summary = "Debug Redis configuration", description = "Shows Redis configuration details for debugging.")
-    @GetMapping("/debug/redis-config")
-    public ResponseEntity<Map<String, String>> debugRedisConfig() {
-        try {
-            String connectionInfo = redisTemplate.getConnectionFactory().getConnection().toString();
-            
-            return ResponseEntity.ok(Map.of(
-                    "redisUrlConfigured", redisUrl != null && !redisUrl.equals("NOT_SET") ? "YES (length: " + redisUrl.length() + ")" : "NO",
-                    "redisHost", redisHost,
-                    "redisPort", String.valueOf(redisPort),
-                    "connectionFactory", connectionInfo,
-                    "note", "Check application logs for detailed Redis configuration"
-            ));
-        } catch (Exception e) {
-            logger.error("Error getting Redis debug info", e);
-            return ResponseEntity.ok(Map.of(
-                    "redisUrlConfigured", redisUrl != null && !redisUrl.equals("NOT_SET") ? "YES" : "NO",
-                    "redisHost", redisHost,
-                    "redisPort", String.valueOf(redisPort),
-                    "error", e.getMessage()
-            ));
-        }
-    }
-
-    /**
      * Get CSVW byte [] (.zip) format containing all converted files - CSVs and .json metadata file.
      *
      * @param file               The RDF file to convert
