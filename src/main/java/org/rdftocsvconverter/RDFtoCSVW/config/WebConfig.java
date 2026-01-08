@@ -7,15 +7,21 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * The Web configuration for handling CORS.
+ * Web configuration for handling Cross-Origin Resource Sharing (CORS).
+ * Configures which origins are allowed to access the API endpoints.
  */
 @Configuration
 public class WebConfig {
 
     /**
-     * Cors configurer web mvc configurer.
+     * Creates a CORS configurer to allow requests from specific origins.
+     * Currently allows requests from:
+     * - http://localhost:4000 (local development)
+     * - https://ladymalande.github.io (production frontend)
+     * 
+     * Permits all standard HTTP methods and headers.
      *
-     * @return the web mvc configurer
+     * @return the configured WebMvcConfigurer with CORS settings
      */
     @Bean
     public WebMvcConfigurer corsConfigurer() {

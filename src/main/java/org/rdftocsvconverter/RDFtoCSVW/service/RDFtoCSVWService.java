@@ -21,11 +21,16 @@ import java.util.concurrent.CompletableFuture;
 
 
 /**
- * The class methods that handles API to RDFtoCSV library communication and parameter conversion.
+ * Service class that handles API to RDFtoCSV library communication and parameter conversion.
+ * Provides methods to convert RDF data to CSV/CSVW format in various output formats.
+ * Supports both file upload and URL-based RDF data sources.
  */
 @Service
 public class RDFtoCSVWService {
 
+    /**
+     * Service for managing asynchronous computation tasks in Redis.
+     */
     @Autowired
     private TaskService taskService;
 
@@ -184,6 +189,14 @@ public class RDFtoCSVWService {
         return filePath.toFile();
     }
 
+    /**
+     * Adjusts the file path by appending a random number to avoid naming conflicts.
+     * Uses current system time as seed for random number generation.
+     *
+     * @param filePath the original file path
+     * @return the adjusted file path with random number suffix
+     * @throws IllegalArgumentException if file name is null or empty
+     */
     private Path adjustFilePathWithRandomNumber(Path filePath) {
         long seed = System.currentTimeMillis(); // Seed can be system time or any other value
         // Get the original file name
@@ -221,6 +234,14 @@ public class RDFtoCSVWService {
     }
 
 
+    /**
+     * Adjusts the directory path by appending a random number to the directory name.
+     * Used to create unique directory paths when conflicts occur.
+     *
+     * @param filePath the file path whose parent directory should be adjusted
+     * @return the new file path in the adjusted directory
+     * @throws IllegalArgumentException if the file is at root level with no parent directory
+     */
     private Path adjustDirectoryPathWithRandomNumber(Path filePath) {
         long seed = System.currentTimeMillis(); // Seed for random number generation
 

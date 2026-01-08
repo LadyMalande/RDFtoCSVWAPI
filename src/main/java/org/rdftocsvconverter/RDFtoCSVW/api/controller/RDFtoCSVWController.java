@@ -2,6 +2,7 @@ package org.rdftocsvconverter.RDFtoCSVW.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.DiscriminatorMapping;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,6 +20,7 @@ import org.rdftocsvconverter.RDFtoCSVW.service.RDFtoCSVWService;
 import org.rdftocsvconverter.RDFtoCSVW.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,24 +33,49 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
- * The RDFtoCSVWController class that contains GET/POST methods to initiate conversions and get send results back.
+ * REST controller for RDF to CSVW conversion endpoints.
+ * Provides various endpoints to convert RDF data to CSV/CSVW format via file upload or URL.
+ * Supports synchronous and asynchronous conversion operations.
  */
 @Tag(name = "RDF to CSV", description = "API for calling available parts of the output for conversion of RDF data to CSV on the Web")
 @RestController
 public class RDFtoCSVWController {
 
+    /**
+     * Logger instance for this controller.
+     */
     private static final Logger logger = LoggerFactory.getLogger(RDFtoCSVWController.class);
 
+    /**
+     * Service handling RDF to CSV/CSVW conversion operations.
+     */
     private final RDFtoCSVWService rdFtoCSVWService;
+    
+    /**
+     * Service for managing asynchronous computation tasks.
+     */
     private final TaskService taskService;
+    
+    /**
+     * Redis template for direct Redis operations and health checks.
+     */
     private final RedisTemplate<String, Object> redisTemplate;
 
+    /**
+     * Redis connection URL from environment variable (production/Render.com).
+     */
     @Value("${REDIS_URL:NOT_SET}")
     private String redisUrl;
 
+    /**
+     * Redis host from environment variable (local development fallback).
+     */
     @Value("${SPRING_REDIS_HOST:NOT_SET}")
     private String redisHost;
 
+    /**
+     * Redis port from environment variable (local development fallback).
+     */
     @Value("${SPRING_REDIS_PORT:0}")
     private int redisPort;
 
@@ -127,8 +154,10 @@ public class RDFtoCSVWController {
      *
      * @return the response entity with Redis configuration details
      */
+    @io.swagger.v3.oas.annotations.Hidden
     @Operation(summary = "Debug Redis configuration", description = "Shows Redis configuration details for debugging.")
     @GetMapping("/debug/redis-config")
+    @Profile({"dev", "test"})  // Only active in dev and test environments, settable via 'spring.profiles.active' property in application.properties
     public ResponseEntity<Map<String, String>> debugRedisConfig() {
         try {
             String connectionInfo = redisTemplate.getConnectionFactory().getConnection().toString();
@@ -193,19 +222,31 @@ public class RDFtoCSVWController {
                           @RequestParam(value = "namingConvention", required = false) String namingConvention) throws IOException {
         System.out.println("Got params for /rdftocsvw : file=" + file + " fileURL=" + fileURL + " conversionMethod=" + parsingMethod);
         
+        // Validate input parameters
+        validatePreferredLanguages(preferredLanguages);
+        validateNamingConvention(namingConvention);
+        
         try {
             AppConfig config;
             if (file != null) {
+                // Validate file type for streaming methods
+                validateFileTypeForStreamingMethods(file.getOriginalFilename(), parsingMethod);
                 // Build config from uploaded file
                 config = rdFtoCSVWService.buildAppConfig(file, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
                 return rdFtoCSVWService.getZipFile(config);
             } else if (fileURL != null && !fileURL.isEmpty()) {
+                // Validate URL to prevent SSRF
+                validateUrl(fileURL);
+                // Validate file type for streaming methods
+                validateFileTypeForStreamingMethods(fileURL, parsingMethod);
                 // Build config from URL
                 config = rdFtoCSVWService.buildAppConfig(fileURL, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
                 return rdFtoCSVWService.getZipFile(config);
             } else {
                 throw new IllegalArgumentException("Either file or fileURL must be provided");
             }
+        } catch (IllegalArgumentException e) {
+            throw e;
         } catch (IOException e) {
             throw new RuntimeException("Error processing RDF to CSVW conversion", e);
         }
@@ -251,6 +292,13 @@ public class RDFtoCSVWController {
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
 
+        // Validate input parameters
+        validatePreferredLanguages(preferredLanguages);
+        validateNamingConvention(namingConvention);
+        validateUrl(url);
+        // Validate file type for streaming methods
+        validateFileTypeForStreamingMethods(url, conversionMethod);
+
         AppConfig config = rdFtoCSVWService.buildAppConfig(url, String.valueOf(table), String.valueOf(conversionMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
@@ -259,6 +307,8 @@ public class RDFtoCSVWController {
 
             // Return response with appropriate status
             return ResponseEntity.ok(responseMessage);
+        } catch(IllegalArgumentException ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
         } catch(IOException ex){
             return ResponseEntity.badRequest().body("There has been a problem with parsing your request");
         }
@@ -305,6 +355,9 @@ public class RDFtoCSVWController {
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());
 
+        // Validate file type for streaming methods
+        validateFileTypeForStreamingMethods(file.getOriginalFilename(), parsingMethod);
+
         AppConfig config = rdFtoCSVWService.buildAppConfig(file, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
         //Map<String, String> config = rdFtoCSVWService.prepareConfigParameter(String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention).get();
 
@@ -314,6 +367,8 @@ public class RDFtoCSVWController {
             String responseMessage = rdFtoCSVWService.getCSVStringFromFile(config);
             // Return response with appropriate status
             return ResponseEntity.ok(responseMessage);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (IOException ex) {
             return ResponseEntity.badRequest().body("There has been a problem with parsing your request");
         }
@@ -359,6 +414,12 @@ public class RDFtoCSVWController {
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
 
+        // Validate input parameters
+        validatePreferredLanguages(preferredLanguages);
+        validateNamingConvention(namingConvention);
+        // Validate file type for streaming methods
+        validateFileTypeForStreamingMethods(file.getOriginalFilename(), parsingMethod);
+
         AppConfig config = rdFtoCSVWService.buildAppConfig(file, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
@@ -370,6 +431,8 @@ public class RDFtoCSVWController {
             headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
             // Return response with appropriate status
             return ResponseEntity.ok(generatedFile);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(null);
         } catch (IOException ex) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -412,6 +475,13 @@ public class RDFtoCSVWController {
             }, example = AppConfig.COLUMN_NAMING_CAMEL_CASE))
             @RequestParam(value = "namingConvention", required = false) String namingConvention) throws ExecutionException, InterruptedException {
 
+        // Validate input parameters
+        validatePreferredLanguages(preferredLanguages);
+        validateNamingConvention(namingConvention);
+        validateUrl(url);
+        // Validate file type for streaming methods
+        validateFileTypeForStreamingMethods(url, parsingMethod);
+
         AppConfig config = rdFtoCSVWService.buildAppConfig(url, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
@@ -420,6 +490,8 @@ public class RDFtoCSVWController {
             byte[] generatedFile = rdFtoCSVWService.getCSVFileFromURL(config);
             // Return response with appropriate status
             return ResponseEntity.ok(generatedFile);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(null);
         } catch (IOException ex) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -465,6 +537,12 @@ public class RDFtoCSVWController {
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv with file: " + file.getName());
 
+        // Validate input parameters
+        validatePreferredLanguages(preferredLanguages);
+        validateNamingConvention(namingConvention);
+        // Validate file type for streaming methods
+        validateFileTypeForStreamingMethods(file.getOriginalFilename(), parsingMethod);
+
         AppConfig config = rdFtoCSVWService.buildAppConfig(file, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
@@ -473,6 +551,8 @@ public class RDFtoCSVWController {
             byte[] generatedFile = rdFtoCSVWService.getMetadataFileFromFile(config);
             // Return response with appropriate status
             return ResponseEntity.ok(generatedFile);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(null);
         } catch (IOException ex) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -518,6 +598,13 @@ public class RDFtoCSVWController {
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv with URL: " + url);
 
+        // Validate input parameters
+        validatePreferredLanguages(preferredLanguages);
+        validateNamingConvention(namingConvention);
+        validateUrl(url);
+        // Validate file type for streaming methods
+        validateFileTypeForStreamingMethods(url, parsingMethod);
+
         AppConfig config = rdFtoCSVWService.buildAppConfig(url, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
@@ -526,6 +613,8 @@ public class RDFtoCSVWController {
             byte[] generatedFile = rdFtoCSVWService.getMetadataFileFromURL(config);
             // Return response with appropriate status
             return ResponseEntity.ok(generatedFile);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(null);
         } catch (IOException ex) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -571,6 +660,13 @@ public class RDFtoCSVWController {
         // Log the incoming request
         System.out.println("Received GET request for /rdftocsv/string with URL: " + url);
 
+        // Validate input parameters
+        validatePreferredLanguages(preferredLanguages);
+        validateNamingConvention(namingConvention);
+        validateUrl(url);
+        // Validate file type for streaming methods
+        validateFileTypeForStreamingMethods(url, parsingMethod);
+
         AppConfig config = rdFtoCSVWService.buildAppConfig(url, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
@@ -579,6 +675,8 @@ public class RDFtoCSVWController {
 
             // Return response with appropriate status
             return ResponseEntity.ok(responseMessage);
+        } catch(IllegalArgumentException ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
         } catch(IOException ex){
             return ResponseEntity.badRequest().body("There has been a problem with parsing your request");
         }
@@ -625,6 +723,12 @@ public class RDFtoCSVWController {
         // Log the incoming request
         System.out.println("Received POST request for /rdftocsv/string with file: " + file.getName());
 
+        // Validate input parameters
+        validatePreferredLanguages(preferredLanguages);
+        validateNamingConvention(namingConvention);
+        // Validate file type for streaming methods
+        validateFileTypeForStreamingMethods(file.getOriginalFilename(), parsingMethod);
+
         AppConfig config = rdFtoCSVWService.buildAppConfig(file, String.valueOf(table), String.valueOf(parsingMethod), firstNormalForm, preferredLanguages, namingConvention);
 
         // Example of using the parameters
@@ -633,6 +737,8 @@ public class RDFtoCSVWController {
             String responseMessage = rdFtoCSVWService.getMetadataStringFromFile(config);
             // Return response with appropriate status
             return ResponseEntity.ok(responseMessage);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (IOException ex) {
             return ResponseEntity.badRequest().body("There has been a problem with parsing your request");
         }
@@ -682,6 +788,10 @@ public class RDFtoCSVWController {
         
         System.out.println("Received async request for /rdftocsvw/async");
         
+        // Validate input parameters
+        validatePreferredLanguages(preferredLanguages);
+        validateNamingConvention(namingConvention);
+        
         try {
             // Create a new task and get session ID
             String sessionId = taskService.createTask();
@@ -689,9 +799,15 @@ public class RDFtoCSVWController {
             // Build config
             AppConfig config;
             if (file != null) {
+                // Validate file type for streaming methods
+                validateFileTypeForStreamingMethods(file.getOriginalFilename(), parsingMethod);
                 config = rdFtoCSVWService.buildAppConfig(file, String.valueOf(table), String.valueOf(parsingMethod), 
                         firstNormalForm, preferredLanguages, namingConvention);
             } else if (fileURL != null && !fileURL.isEmpty()) {
+                // Validate URL to prevent SSRF
+                validateUrl(fileURL);
+                // Validate file type for streaming methods
+                validateFileTypeForStreamingMethods(fileURL, parsingMethod);
                 config = rdFtoCSVWService.buildAppConfig(fileURL, String.valueOf(table), String.valueOf(parsingMethod), 
                         firstNormalForm, preferredLanguages, namingConvention);
             } else {
@@ -703,6 +819,8 @@ public class RDFtoCSVWController {
             
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(new SessionResponse(sessionId));
             
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new SessionResponse(null, e.getMessage()));
         } catch (org.springframework.data.redis.RedisConnectionFailureException e) {
             System.err.println("Redis connection failed: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
@@ -778,6 +896,138 @@ public class RDFtoCSVWController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
                         .body(Map.of("error", "Unknown status", "sessionId", sessionId));
+        }
+    }
+
+    /**
+     * Validates that STREAMING and BIGFILESTREAMING methods are only used with .nt files.
+     *
+     * @param filename the name of the file or URL
+     * @param parsingMethod the parsing/conversion method
+     * @throws IllegalArgumentException if STREAMING/BIGFILESTREAMING is used with non-.nt file
+     */
+    private void validateFileTypeForStreamingMethods(String filename, ParsingChoice parsingMethod) {
+        if ((parsingMethod == ParsingChoice.STREAMING || parsingMethod == ParsingChoice.BIGFILESTREAMING)) {
+            if (filename == null || !filename.toLowerCase().endsWith(".nt")) {
+                throw new IllegalArgumentException(
+                    "STREAMING and BIGFILESTREAMING conversion methods only work with .nt files. " +
+                    "Please use RDF4J method for other file types or provide a .nt file."
+                );
+            }
+        }
+    }
+
+    /**
+     * Validates URL to prevent SSRF attacks.
+     * Only allows http/https protocols and blocks private IP ranges.
+     *
+     * @param url the URL to validate
+     * @throws IllegalArgumentException if URL is invalid or potentially malicious
+     */
+    private void validateUrl(String url) {
+        if (url == null || url.trim().isEmpty()) {
+            throw new IllegalArgumentException("URL cannot be empty");
+        }
+
+        try {
+            java.net.URI uri = new java.net.URI(url);
+            String scheme = uri.getScheme();
+            String host = uri.getHost();
+
+            // Only allow http and https protocols
+            if (scheme == null || (!scheme.equalsIgnoreCase("http") && !scheme.equalsIgnoreCase("https"))) {
+                throw new IllegalArgumentException("Only HTTP and HTTPS protocols are allowed");
+            }
+
+            // Block localhost and private IP ranges
+            if (host == null) {
+                throw new IllegalArgumentException("Invalid URL: missing host");
+            }
+
+            String hostLower = host.toLowerCase();
+            if (hostLower.equals("localhost") || 
+                hostLower.equals("127.0.0.1") ||
+                hostLower.equals("0.0.0.0") ||
+                hostLower.startsWith("192.168.") ||
+                hostLower.startsWith("10.") ||
+                hostLower.matches("172\\.(1[6-9]|2[0-9]|3[0-1])\\..*") ||
+                hostLower.equals("::1") ||
+                hostLower.startsWith("169.254.")) {
+                throw new IllegalArgumentException("Access to private IP ranges and localhost is not allowed");
+            }
+
+        } catch (java.net.URISyntaxException e) {
+            throw new IllegalArgumentException("Invalid URL format: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Sanitizes filename to prevent path traversal attacks.
+     *
+     * @param filename the filename to sanitize
+     * @return sanitized filename
+     */
+    private String sanitizeFilename(String filename) {
+        if (filename == null) {
+            return null;
+        }
+        // Remove path separators and parent directory references
+        return filename.replaceAll("[/\\\\]", "_")
+                      .replaceAll("\\.\\.", "_")
+                      .trim();
+    }
+
+    /**
+     * Validates preferred languages parameter.
+     * Accepts comma-separated language codes (2-3 lowercase letters).
+     *
+     * @param preferredLanguages comma-separated language codes
+     * @throws IllegalArgumentException if format is invalid
+     */
+    private void validatePreferredLanguages(String preferredLanguages) {
+        if (preferredLanguages == null || preferredLanguages.trim().isEmpty()) {
+            return; // Empty is allowed
+        }
+
+        // Pattern: 2-3 lowercase letters, comma-separated, optional spaces
+        // Examples: "en", "en,cs", "en, cs, de"
+        if (!preferredLanguages.matches("^[a-z]{2,3}(\\s*,\\s*[a-z]{2,3})*$")) {
+            throw new IllegalArgumentException(
+                "Invalid preferred languages format. Expected comma-separated 2-3 letter language codes (e.g., 'en,cs,de'). " +
+                "Received: " + preferredLanguages
+            );
+        }
+    }
+
+    /**
+     * Validates naming convention parameter.
+     * Only allows predefined naming conventions from AppConfig constants.
+     *
+     * @param namingConvention the naming convention to validate
+     * @throws IllegalArgumentException if naming convention is not recognized
+     */
+    private void validateNamingConvention(String namingConvention) {
+        if (namingConvention == null || namingConvention.trim().isEmpty()) {
+            return; // Empty is allowed (will use default)
+        }
+
+        // List of allowed naming conventions
+        java.util.Set<String> allowedConventions = java.util.Set.of(
+            AppConfig.COLUMN_NAMING_CAMEL_CASE,
+            AppConfig.COLUMN_NAMING_PASCAL_CASE,
+            AppConfig.COLUMN_NAMING_SNAKE_CASE,
+            AppConfig.COLUMN_NAMING_SCREAMING_SNAKE_CASE,
+            AppConfig.COLUMN_NAMING_KEBAB_CASE,
+            AppConfig.COLUMN_NAMING_TITLE_CASE,
+            AppConfig.COLUMN_NAMING_DOT_NOTATION,
+            AppConfig.ORIGINAL_NAMING_NOTATION
+        );
+
+        if (!allowedConventions.contains(namingConvention)) {
+            throw new IllegalArgumentException(
+                "Invalid naming convention. Allowed values: " + String.join(", ", allowedConventions) +
+                ". Received: " + namingConvention
+            );
         }
     }
 

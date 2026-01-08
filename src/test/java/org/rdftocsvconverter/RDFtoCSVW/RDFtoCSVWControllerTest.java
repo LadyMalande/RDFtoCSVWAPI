@@ -452,7 +452,7 @@ class RDFtoCSVWControllerTest {
 
     @Test
     void testConvertRDFToCSVWAsync_WithURL_Success() throws Exception {
-        String testURL = "https://example.org/test.ttl";
+        String testURL = "https://example.org/test.nt";
         String sessionId = "test-session-456";
         AppConfig mockConfig = new AppConfig.Builder(testURL).build();
         
